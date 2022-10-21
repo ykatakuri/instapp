@@ -11,16 +11,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LandingPageComponent } from './modules/landing/pages/landing-page/landing-page.component';
+import { LandingModule } from './modules/landing/landing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LandingPageComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    LandingModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAnalytics(() => getAnalytics()),
     provideAuth(() => getAuth()),
