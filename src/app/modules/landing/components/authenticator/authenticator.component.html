@@ -16,7 +16,8 @@
                         <label for="landingInputPassword" class="form-label">Mot de passe</label>
                         <input #loginPassword type="password" class="form-control" id="landingInputPassword">
                     </div>
-                    <button type="button" class="btn btn-primary">Se connecter</button>
+                    <button (click)="onLogin(loginEmail, loginPassword)" type="button" class="btn btn-primary">Se
+                        connecter</button>
                 </div>
                 <div *ngIf="isSignupState()">
                     <div class="mb-3">
@@ -26,7 +27,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="landingInputFullname" class="form-label">Nom complet</label>
-                        <input type="text" class="form-control" id="landingInputFullname"
+                        <input #fullname type="text" class="form-control" id="landingInputFullname"
                             aria-describedby="fullnameHelp">
                     </div>
                     <div class="mb-3">
@@ -38,7 +39,8 @@
                         <label for="landingInputPassword" class="form-label">Mot de passe</label>
                         <input #signupPassword type="password" class="form-control" id="landingInputPassword">
                     </div>
-                    <button type="button" class="btn btn-primary">S’inscrire</button>
+                    <button (click)="onSignup(signupEmail, signupPassword, fullname)" type="button"
+                        class="btn btn-primary">S’inscrire</button>
                 </div>
                 <div *ngIf="isForgotPasswordState()">
                     <div class="mb-3">

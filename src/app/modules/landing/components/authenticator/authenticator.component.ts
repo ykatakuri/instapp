@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-authenticator',
@@ -9,6 +10,34 @@ export class AuthenticatorComponent implements OnInit {
   state = AuthenticationState.LOGIN;
 
   ngOnInit(): void {
+  }
+
+  constructor(private authenticationService: AuthenticationService) { }
+
+  onLogin(loginEmail: HTMLInputElement, loginPassword: HTMLInputElement): void {
+    let email = loginEmail.value;
+    let password = loginPassword.value;
+
+    if (this.isNotEmpty(email.trim()) && this.isNotEmpty(password.trim())) {
+      this.authenticationService.signIn(
+        email,
+        password,
+      );
+    }
+  }
+
+  onSignup(signupEmail: HTMLInputElement, signupPassword: HTMLInputElement, signupFullname: HTMLInputElement): void {
+    let email = signupEmail.value;
+    let password = signupPassword.value;
+    let fullname = signupFullname.value;
+
+    if (this.isNotEmpty(email.trim()) && this.isNotEmpty(password.trim())) {
+      this.authenticationService.signUp(
+        email,
+        password,
+        fullname,
+      );
+    }
   }
 
   onLoginClick(): void {
