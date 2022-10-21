@@ -19,9 +19,10 @@ export class AuthenticationService {
     }
   }
 
-  public async signUp(email: string, password: string, firstname: string, lastname: string): Promise<UserCredential | null> {
+  public async signUp(email: string, password: string, fullname: string): Promise<UserCredential | null> {
     try {
-      const data: UserCredential = await createUserWithEmailAndPassword(this.auth, email, password); const displayName: string = `${lastname.toLocaleUpperCase()} ${firstname}`;
+      const data: UserCredential = await createUserWithEmailAndPassword(this.auth, email, password);
+      const displayName: string = fullname;
       await updateProfile(data.user, { displayName });
       return data;
     } catch (error) {
