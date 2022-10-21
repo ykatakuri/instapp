@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "instapp-16290": {
+      "hosting": {
+        "instapp": [
+          "instapp-16290"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "instapp-16290"
+  }
+}
