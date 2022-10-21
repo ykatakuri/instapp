@@ -1,0 +1,63 @@
+<div class="card">
+    <div class="card-header">
+        <span class="font-monospace fs-1">InstApp</span>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <form>
+                <div *ngIf="isLoginState()">
+                    <div class="mb-3">
+                        <label for="landingInputEmail" class="form-label">Email</label>
+                        <input #loginEmail type="email" class="form-control" id="landingInputEmail"
+                            aria-describedby="emailHelp">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="landingInputPassword" class="form-label">Mot de passe</label>
+                        <input #loginPassword type="password" class="form-control" id="landingInputPassword">
+                    </div>
+                    <button type="button" class="btn btn-primary">Se connecter</button>
+                </div>
+                <div *ngIf="isSignupState()">
+                    <div class="mb-3">
+                        <label for="landingInputEmail" class="form-label">Email</label>
+                        <input #signupEmail type="email" class="form-control" id="landingInputEmail"
+                            aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="landingInputFullname" class="form-label">Nom complet</label>
+                        <input type="text" class="form-control" id="landingInputFullname"
+                            aria-describedby="fullnameHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="landingInputUsername" class="form-label">Nom d’utilisateur</label>
+                        <input type="email" class="form-control" id="landingInputUsername"
+                            aria-describedby="usernameHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="landingInputPassword" class="form-label">Mot de passe</label>
+                        <input #signupPassword type="password" class="form-control" id="landingInputPassword">
+                    </div>
+                    <button type="button" class="btn btn-primary">S’inscrire</button>
+                </div>
+                <div *ngIf="isForgotPasswordState()">
+                    <div class="mb-3">
+                        <label for="landingInputEmail" class="form-label">Email</label>
+                        <input #resetEmail type="email" class="form-control" id="landingInputEmail"
+                            aria-describedby="emailHelp">
+                    </div>
+
+                    <button type="button" class="btn btn-primary">Réinitialiser</button>
+                </div>
+            </form>
+        </li>
+        <li class="list-group-item"><a (click)="onForgotPasswordClick()" type="button" class="link">Mot de
+                passe
+                oublié?</a></li>
+        <li (click)="onCreateAccountClick()" class="list-group-item">Vous n'avez pas de compte? <a type="button"
+                class="link">Créer
+                un compte</a></li>
+        <li (click)="onLoginClick()" class="list-group-item">Vous avez déjà un compte? <a type="button" class="link">Se
+                connecter</a></li>
+    </ul>
+</div>
