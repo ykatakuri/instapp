@@ -73,10 +73,10 @@ export class AuthenticatorComponent implements OnInit {
   }
 
   getResetEmailErrorMessage() {
-    if (this.signupForm.controls['resetEmail'].hasError('required')) {
+    if (this.resetForm.controls['resetEmail'].hasError('required')) {
       return 'Veuillez entrer votre email';
     }
-    return this.signupForm.controls['resetEmail'].hasError('email') ? 'Email incorrect' : '';
+    return this.resetForm.controls['resetEmail'].hasError('email') ? 'Email incorrect' : '';
   }
 
   ngOnInit(): void {
@@ -101,8 +101,8 @@ export class AuthenticatorComponent implements OnInit {
 
   onLogin(): void {
     this.authenticationService.signIn(this.loginForm.controls['loginEmail'].value, this.loginForm.controls['loginPassword'].value);
-    this.snackBar.open(`Bonjour ${this.signupForm.controls['signupFullname']}, Content de vous revoir :)`, 'Fermer');
-    this.router.navigateByUrl('/home');
+    this.router.navigateByUrl('home');
+    this.snackBar.open(`Bonjour ${this.loginForm.controls['loginEmail']}, Content de vous revoir :)`, 'Fermer');
   }
 
   onSignup(): void {

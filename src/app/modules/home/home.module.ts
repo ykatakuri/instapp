@@ -1,5 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatButtonModule } from '@angular/material/button';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 
 
@@ -9,7 +11,9 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
     HomePageComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FlexLayoutModule,
+    MatButtonModule,
   ]
 })
 export class HomeModule { }
