@@ -1,20 +1,21 @@
 import { NgModule } from '@angular/core';
 import { canActivate, redirectLoggedInTo, redirectUnauthorizedTo } from "@angular/fire/auth-guard";
 import { RouterModule, Routes } from '@angular/router';
+import { AuthenticationPageComponent } from './modules/authentication/pages/authentication-page/authentication-page.component';
 import { HomePageComponent } from './modules/home/pages/home-page/home-page.component';
-import { LandingPageComponent } from './modules/landing/pages/landing-page/landing-page.component';
 
-const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(["landing"]);
-const redirectLoggedInToUsers = () => redirectLoggedInTo(["home"]);
+const redirectUnauthorizedToAuth = () => redirectUnauthorizedTo([""]);
+const redirectLoggedInToHome = () => redirectLoggedInTo(["home"]);
 
 const routes: Routes = [{
-  component: LandingPageComponent,
+  component: AuthenticationPageComponent,
   path: "",
-  loadChildren: () => import("./modules/landing/landing.module").then((module) => module.LandingModule), ...canActivate(redirectLoggedInToUsers),
-}, {
+  loadChildren: () => import("./modules/authentication/authentication.module").then((module) => module.AuthenticationModule), ...canActivate(redirectLoggedInToHome),
+},
+{
   component: HomePageComponent,
   path: "home",
-  loadChildren: () => import("./modules/home/home.module").then((module) => module.HomeModule), ...canActivate(redirectUnauthorizedToLogin),
+  loadChildren: () => import("./modules/home/home.module").then((module) => module.HomeModule), ...canActivate(redirectUnauthorizedToAuth),
 },];
 
 @NgModule({

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
@@ -6,13 +7,15 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
   templateUrl: './authenticator.component.html',
   styleUrls: ['./authenticator.component.scss']
 })
+
+// TODO: Show snackbar on authentication  
 export class AuthenticatorComponent implements OnInit {
   state = AuthenticationState.LOGIN;
 
   ngOnInit(): void {
   }
 
-  constructor(private authenticationService: AuthenticationService) { }
+  constructor(private authenticationService: AuthenticationService, private router: Router) { }
 
   onLogin(loginEmail: HTMLInputElement, loginPassword: HTMLInputElement): void {
     let email = loginEmail.value;
@@ -23,6 +26,7 @@ export class AuthenticatorComponent implements OnInit {
         email,
         password,
       );
+      this.router.navigateByUrl('home');
     }
   }
 

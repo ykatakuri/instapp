@@ -9,12 +9,12 @@
                     <div class="mb-3">
                         <label for="landingInputEmail" class="form-label">Email</label>
                         <input #loginEmail type="email" class="form-control" id="landingInputEmail"
-                            aria-describedby="emailHelp">
+                            aria-describedby="emailHelp" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="landingInputPassword" class="form-label">Mot de passe</label>
-                        <input #loginPassword type="password" class="form-control" id="landingInputPassword">
+                        <input #loginPassword type="password" class="form-control" id="landingInputPassword" required>
                     </div>
                     <button (click)="onLogin(loginEmail, loginPassword)" type="button" class="btn btn-primary">Se
                         connecter</button>

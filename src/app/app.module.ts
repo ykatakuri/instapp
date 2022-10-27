@@ -11,7 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LandingModule } from './modules/landing/landing.module';
+import { AuthenticationModule } from './modules/authentication/authentication.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,7 @@ import { LandingModule } from './modules/landing/landing.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    LandingModule,
+    AuthenticationModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAnalytics(() => getAnalytics()),
     provideAuth(() => getAuth()),
