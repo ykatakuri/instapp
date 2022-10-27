@@ -34,7 +34,6 @@ export class AuthenticationService {
     try {
       return await signInWithEmailAndPassword(this.auth, email, password);
     } catch (error: unknown) {
-      alert("Echec de l'authentification !");
       console.log(error); return null;
     }
   }
