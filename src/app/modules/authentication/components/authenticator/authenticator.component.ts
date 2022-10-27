@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
@@ -17,90 +18,78 @@ export class AuthenticatorComponent implements OnInit {
   signupForm!: FormGroup;
   resetForm!: FormGroup;
 
-  // loginEmail = new FormControl('', [Validators.required, Validators.email]);
-  // loginPassword = new FormControl('', [Validators.required,]);
-  // signupEmail = new FormControl('', [Validators.required, Validators.email]);
-  // signupFullname = new FormControl('', [Validators.required,]);
-  // signupUsername = new FormControl('', [Validators.required,]);
-  // signupPassword = new FormControl('', [Validators.required,]);
-  // resetEmail = new FormControl('', [Validators.required, Validators.email]);
+  getLoginEmailErrorMessage() {
+    if (this.loginForm.controls['loginEmail'].hasError('required')) {
+      return 'Veuillez entrer votre email';
+    }
+    return this.loginForm.controls['loginEmail'].hasError('email') ? 'Email incorrect' : '';
+  }
 
-  // getLoginEmailErrorMessage() {
-  //   if (this.loginEmail.hasError('required')) {
-  //     return 'Veuillez entrer votre email';
-  //   }
-  //   return this.loginEmail.hasError('email') ? 'Email incorrect' : '';
-  // }
+  getSignupEmailErrorMessage() {
+    if (this.signupForm.controls['signupEmail'].hasError('required')) {
+      return 'Veuillez entrer votre email';
+    }
+    return this.signupForm.controls['signupEmail'].hasError('email') ? 'Email incorrect' : '';
+  }
 
-  // getSignupEmailErrorMessage() {
-  //   if (this.loginEmail.hasError('required')) {
-  //     return 'Veuillez entrer votre email';
-  //   }
-  //   return this.loginEmail.hasError('email') ? 'Email incorrect' : '';
-  // }
+  getLoginPasswordErrorMessage() {
+    if (this.loginForm.controls['loginPassword'].hasError('required')) {
+      return 'Veuillez saisir un mot de passe';
+    } else if (this.loginForm.controls['loginPassword'].hasError('minlength')) {
+      return 'Mot de passe trop court';
+    }
 
-  // getLoginPasswordErrorMessage() {
-  //   if (this.signupPassword.hasError('required')) {
-  //     return 'Veuillez entrer votre mot de passe';
-  //   }
-  //   if (this.signupPassword.value!.length < 8) {
-  //     return 'Mot de passe trop court';
-  //   }
+    return this.loginForm.controls['loginPassword'].hasError('minlength') ? 'Mot de passe trop court' : '';
+  }
 
-  //   return null;
-  // }
+  getSignupFullnameErrorMessage() {
+    if (this.signupForm.controls['signupFullname'].hasError('required')) {
+      return 'Veuillez saisir votre nom complet';
+    } else if (this.signupForm.controls['signupFullname'].hasError('minlength')) {
+      return 'Nom trop court';
+    }
 
-  // getSignupFullnameErrorMessage() {
-  //   if (this.signupFullname.hasError('required')) {
-  //     return 'Veuillez entrer votre nom complet';
-  //   }
-  //   if (this.signupFullname.value!.length < 4) {
-  //     return 'Trop court';
-  //   }
+    return this.signupForm.controls['signupFullname'].hasError('minlength') ? 'Nom trop court' : '';
+  }
 
-  //   return null;
-  // }
+  getSignupUsernameErrorMessage() {
+    if (this.signupForm.controls['signupUsername'].hasError('required')) {
+      return 'Veuillez saisir votre nom d’utilisateur';
+    } else if (this.signupForm.controls['signupUsername'].hasError('minlength')) {
+      return 'Nom trop court';
+    }
 
-  // getSignupUsernameErrorMessage() {
-  //   if (this.signupUsername.hasError('required')) {
-  //     return 'Veuillez entrer votre nom d’utilisateur';
-  //   }
-  //   if (this.signupUsername.value!.length < 3) {
-  //     return 'trop court';
-  //   }
+    return this.signupForm.controls['signupUsername'].hasError('minlength') ? 'Nom trop court' : '';
+  }
 
-  //   return null;
-  // }
+  getSignupPasswordErrorMessage() {
+    if (this.signupForm.controls['signupPassword'].hasError('required')) {
+      return 'Veuillez saisir un mot de passe';
+    } else if (this.signupForm.controls['signupPassword'].hasError('minlength')) {
+      return 'Mot de passe trop court';
+    }
 
-  // getSignupPasswordErrorMessage() {
-  //   if (this.signupPassword.hasError('required')) {
-  //     return 'Veuillez entrer votre mot de passe';
-  //   }
-  //   if (this.signupPassword.value!.length < 8) {
-  //     return 'Mot de passe trop court';
-  //   }
+    return this.signupForm.controls['signupPassword'].hasError('minlength') ? 'Mot de passe trop court' : '';
+  }
 
-  //   return null;
-  // }
-
-  // getResetEmailErrorMessage() {
-  //   if (this.loginEmail.hasError('required')) {
-  //     return 'Veuillez entrer votre email';
-  //   }
-  //   return this.loginEmail.hasError('email') ? 'Email incorrect' : '';
-  // }
+  getResetEmailErrorMessage() {
+    if (this.signupForm.controls['resetEmail'].hasError('required')) {
+      return 'Veuillez entrer votre email';
+    }
+    return this.signupForm.controls['resetEmail'].hasError('email') ? 'Email incorrect' : '';
+  }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
       loginEmail: [null, [Validators.required, Validators.email]],
-      loginPassword: [null, [Validators.required,]],
+      loginPassword: [null, [Validators.required, Validators.minLength(8)]],
     });
 
     this.signupForm = this.formBuilder.group({
       signupEmail: [null, [Validators.required, Validators.email]],
-      signupFullname: [null, [Validators.required,]],
-      signupUsername: [null, [Validators.required,]],
-      signupPassword: [null, [Validators.required,]],
+      signupFullname: [null, [Validators.required, Validators.minLength(4)]],
+      signupUsername: [null, [Validators.required, Validators.minLength(2)]],
+      signupPassword: [null, [Validators.required, Validators.minLength(8)]],
     });
 
     this.resetForm = this.formBuilder.group({
@@ -108,18 +97,18 @@ export class AuthenticatorComponent implements OnInit {
     });
   }
 
-  constructor(private formBuilder: FormBuilder, private authenticationService: AuthenticationService, private router: Router) { }
+  constructor(private snackBar: MatSnackBar, private formBuilder: FormBuilder, private authenticationService: AuthenticationService, private router: Router) { }
 
   onLogin(): void {
-    console.log(this.loginForm.value);
-    this.authenticationService.signIn(this.loginForm.value);
+    this.authenticationService.signIn(this.loginForm.controls['loginEmail'].value, this.loginForm.controls['loginPassword'].value);
+    this.snackBar.open(`Bonjour ${this.signupForm.controls['signupFullname']}, Content de vous revoir :)`, 'Fermer');
     this.router.navigateByUrl('/home');
   }
 
   onSignup(): void {
-    console.log(this.signupForm.value);
-
-    this.authenticationService.signUp(this.signupForm.value);
+    this.authenticationService.signUp(this.signupForm.controls['signupEmail'].value, this.signupForm.controls['signupPassword'].value, this.signupForm.controls['signupFullname'].value);
+    this.state = AuthenticationState.LOGIN;
+    this.snackBar.open(`Inscription terminée!`, 'Fermer');
   }
 
   onReset(): void {

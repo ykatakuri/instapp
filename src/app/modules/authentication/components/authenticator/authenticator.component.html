@@ -9,13 +9,15 @@
                 <mat-form-field class="login-email-form-field" appearance="fill">
                     <mat-label>E-mail</mat-label>
                     <input matInput placeholder="pat@example.com" formControlName="loginEmail" required>
-                    <!-- <mat-error *ngIf="loginEmail.invalid">{{getLoginEmailErrorMessage()}}</mat-error> -->
+                    <mat-error *ngIf="this.loginForm.controls['loginEmail'].invalid">{{getLoginEmailErrorMessage()}}
+                    </mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="login-password-form-field" appearance="fill">
                     <mat-label>Mot de passe</mat-label>
                     <input matInput type="password" formControlName="loginPassword" minlength="8" required>
-                    <!-- <mat-error *ngIf="loginPassword.invalid">{{getLoginPasswordErrorMessage()}}</mat-error> -->
+                    <mat-error *ngIf="this.loginForm.controls['loginPassword'].invalid">
+                        {{getLoginPasswordErrorMessage()}}</mat-error>
                 </mat-form-field>
 
                 <button (click)="onLogin()" [disabled]="loginForm.invalid" type="submit" mat-raised-button
@@ -24,7 +26,8 @@
             </div>
         </form>
 
-        <form fxLayout="column" fxLayoutGap="20px" [formGroup]="signupForm" class="signup-form" *ngIf="isSignupState()">
+        <form fxLayout="column" fxLayoutGap="20px" [formGroup]="signupForm" class="signup-form" (ngSubmit)="onSignup()"
+            *ngIf="isSignupState()">
             <mat-card-header>
                 <mat-card-title>InstApp - Inscription</mat-card-title>
             </mat-card-header>
@@ -33,29 +36,32 @@
                 <mat-form-field class="signup-email-form-field" appearance="fill">
                     <mat-label>E-mail</mat-label>
                     <input matInput placeholder="pat@example.com" formControlName="signupEmail" required>
-                    <!-- <mat-error *ngIf="signupEmail.invalid">{{getSignupEmailErrorMessage()}}</mat-error> -->
+                    <mat-error *ngIf="this.signupForm.controls['signupEmail'].invalid">{{getSignupEmailErrorMessage()}}
+                    </mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="signup-fullname-form-field" appearance="fill">
                     <mat-label>Nom complet</mat-label>
                     <input matInput placeholder="Kevin Systrom" formControlName="signupFullname" minlength="4" required>
-                    <!-- <mat-error *ngIf="signupFullname.invalid">{{getSignupFullnameErrorMessage()}}</mat-error> -->
+                    <mat-error *ngIf="this.signupForm.controls['signupFullname'].invalid">
+                        {{getSignupFullnameErrorMessage()}}</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="signup-username-form-field" appearance="fill">
                     <mat-label>Nom d’utilisateur</mat-label>
                     <input matInput placeholder="ksystrom" formControlName="signupUsername" minlength="2" required>
-                    <!-- <mat-error *ngIf="signupUsername.invalid">{{getSignupUsernameErrorMessage()}}</mat-error> -->
+                    <mat-error *ngIf="this.signupForm.controls['signupUsername'].invalid">
+                        {{getSignupUsernameErrorMessage()}}</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="signup-password-form-field" appearance="fill">
                     <mat-label>Mot de passe</mat-label>
                     <input matInput type="password" formControlName="signupPassword" minlength="8" required>
-                    <!-- <mat-error *ngIf="signupPassword.invalid">{{getSignupPasswordErrorMessage()}}</mat-error> -->
+                    <mat-error *ngIf="this.signupForm.controls['signupPassword'].invalid">
+                        {{getSignupPasswordErrorMessage()}}</mat-error>
                 </mat-form-field>
 
-                <button (click)="onSignup()" [disabled]="signupForm.invalid" mat-raised-button
-                    color="primary">S’inscrire</button>
+                <button [disabled]="signupForm.invalid" mat-raised-button color="primary">S’inscrire</button>
             </div>
         </form>
 
@@ -69,7 +75,8 @@
                 <mat-form-field class="reset-email-form-field" appearance="fill">
                     <mat-label>E-mail</mat-label>
                     <input matInput placeholder="pat@example.com" formControlName="resetEmail" required>
-                    <!-- <mat-error *ngIf="resetEmail.invalid">{{getResetEmailErrorMessage()}}</mat-error> -->
+                    <mat-error *ngIf="this.resetForm.controls['resetEmail'].invalid">{{getResetEmailErrorMessage()}}
+                    </mat-error>
                 </mat-form-field>
 
                 <button (click)="onReset()" [disabled]="resetForm.invalid" mat-raised-button

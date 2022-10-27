@@ -19,10 +19,10 @@ export class AuthenticationService {
     }
   }
 
-  public async signUp(formValue: { email: string, password: string, fullname: string }): Promise<UserCredential | null> {
+  public async signUp(email: string, password: string, fullname: string): Promise<UserCredential | null> {
     try {
-      const data: UserCredential = await createUserWithEmailAndPassword(this.auth, formValue.email, formValue.password);
-      const displayName: string = formValue.fullname;
+      const data: UserCredential = await createUserWithEmailAndPassword(this.auth, email, password);
+      const displayName: string = fullname;
       await updateProfile(data.user, { displayName });
       return data;
     } catch (error) {
@@ -30,11 +30,10 @@ export class AuthenticationService {
     }
   }
 
-  public async signIn(formValue: { email: string, password: string }): Promise<UserCredential | null> {
+  public async signIn(email: string, password: string): Promise<UserCredential | null> {
     try {
-      return await signInWithEmailAndPassword(this.auth, formValue.email, formValue.password);
+      return await signInWithEmailAndPassword(this.auth, email, password);
     } catch (error: unknown) {
-      alert("Echec de l'authentification !");
       console.log(error); return null;
     }
   }
