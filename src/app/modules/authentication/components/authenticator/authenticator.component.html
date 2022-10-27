@@ -1,65 +1,85 @@
-<div class="card">
-    <div class="card-header">
-        <span class="font-monospace fs-1">InstApp</span>
-    </div>
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-            <form>
-                <div *ngIf="isLoginState()">
-                    <div class="mb-3">
-                        <label for="landingInputEmail" class="form-label">Email</label>
-                        <input #loginEmail type="email" class="form-control" id="landingInputEmail"
-                            aria-describedby="emailHelp" required>
-                    </div>
+<mat-card class="example-card">
+    <mat-card-content>
+        <form fxLayout="column" fxLayoutGap="20px" [formGroup]="loginForm" class="login-form" *ngIf="isLoginState()">
+            <mat-card-header>
+                <mat-card-title>InstApp - Connexion</mat-card-title>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <div fxLayout="column" fxLayoutGap="10px">
+                <mat-form-field class="login-email-form-field" appearance="fill">
+                    <mat-label>E-mail</mat-label>
+                    <input matInput placeholder="pat@example.com" formControlName="loginEmail" required>
+                    <!-- <mat-error *ngIf="loginEmail.invalid">{{getLoginEmailErrorMessage()}}</mat-error> -->
+                </mat-form-field>
 
-                    <div class="mb-3">
-                        <label for="landingInputPassword" class="form-label">Mot de passe</label>
-                        <input #loginPassword type="password" class="form-control" id="landingInputPassword" required>
-                    </div>
-                    <button (click)="onLogin(loginEmail, loginPassword)" type="button" class="btn btn-primary">Se
-                        connecter</button>
-                </div>
-                <div *ngIf="isSignupState()">
-                    <div class="mb-3">
-                        <label for="landingInputEmail" class="form-label">Email</label>
-                        <input #signupEmail type="email" class="form-control" id="landingInputEmail"
-                            aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-3">
-                        <label for="landingInputFullname" class="form-label">Nom complet</label>
-                        <input #fullname type="text" class="form-control" id="landingInputFullname"
-                            aria-describedby="fullnameHelp">
-                    </div>
-                    <div class="mb-3">
-                        <label for="landingInputUsername" class="form-label">Nom d’utilisateur</label>
-                        <input type="email" class="form-control" id="landingInputUsername"
-                            aria-describedby="usernameHelp">
-                    </div>
-                    <div class="mb-3">
-                        <label for="landingInputPassword" class="form-label">Mot de passe</label>
-                        <input #signupPassword type="password" class="form-control" id="landingInputPassword">
-                    </div>
-                    <button (click)="onSignup(signupEmail, signupPassword, fullname)" type="button"
-                        class="btn btn-primary">S’inscrire</button>
-                </div>
-                <div *ngIf="isForgotPasswordState()">
-                    <div class="mb-3">
-                        <label for="landingInputEmail" class="form-label">Email</label>
-                        <input #resetEmail type="email" class="form-control" id="landingInputEmail"
-                            aria-describedby="emailHelp">
-                    </div>
+                <mat-form-field class="login-password-form-field" appearance="fill">
+                    <mat-label>Mot de passe</mat-label>
+                    <input matInput type="password" formControlName="loginPassword" minlength="8" required>
+                    <!-- <mat-error *ngIf="loginPassword.invalid">{{getLoginPasswordErrorMessage()}}</mat-error> -->
+                </mat-form-field>
 
-                    <button type="button" class="btn btn-primary">Réinitialiser</button>
-                </div>
-            </form>
-        </li>
-        <li class="list-group-item"><a (click)="onForgotPasswordClick()" type="button" class="link">Mot de
-                passe
-                oublié?</a></li>
-        <li (click)="onCreateAccountClick()" class="list-group-item">Vous n'avez pas de compte? <a type="button"
-                class="link">Créer
-                un compte</a></li>
-        <li (click)="onLoginClick()" class="list-group-item">Vous avez déjà un compte? <a type="button" class="link">Se
-                connecter</a></li>
-    </ul>
-</div>
+                <button (click)="onLogin()" [disabled]="loginForm.invalid" type="submit" mat-raised-button
+                    color="primary">Se
+                    connecter</button>
+            </div>
+        </form>
+
+        <form fxLayout="column" fxLayoutGap="20px" [formGroup]="signupForm" class="signup-form" *ngIf="isSignupState()">
+            <mat-card-header>
+                <mat-card-title>InstApp - Inscription</mat-card-title>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <div fxLayout="column">
+                <mat-form-field class="signup-email-form-field" appearance="fill">
+                    <mat-label>E-mail</mat-label>
+                    <input matInput placeholder="pat@example.com" formControlName="signupEmail" required>
+                    <!-- <mat-error *ngIf="signupEmail.invalid">{{getSignupEmailErrorMessage()}}</mat-error> -->
+                </mat-form-field>
+
+                <mat-form-field class="signup-fullname-form-field" appearance="fill">
+                    <mat-label>Nom complet</mat-label>
+                    <input matInput placeholder="Kevin Systrom" formControlName="signupFullname" minlength="4" required>
+                    <!-- <mat-error *ngIf="signupFullname.invalid">{{getSignupFullnameErrorMessage()}}</mat-error> -->
+                </mat-form-field>
+
+                <mat-form-field class="signup-username-form-field" appearance="fill">
+                    <mat-label>Nom d’utilisateur</mat-label>
+                    <input matInput placeholder="ksystrom" formControlName="signupUsername" minlength="2" required>
+                    <!-- <mat-error *ngIf="signupUsername.invalid">{{getSignupUsernameErrorMessage()}}</mat-error> -->
+                </mat-form-field>
+
+                <mat-form-field class="signup-password-form-field" appearance="fill">
+                    <mat-label>Mot de passe</mat-label>
+                    <input matInput type="password" formControlName="signupPassword" minlength="8" required>
+                    <!-- <mat-error *ngIf="signupPassword.invalid">{{getSignupPasswordErrorMessage()}}</mat-error> -->
+                </mat-form-field>
+
+                <button (click)="onSignup()" [disabled]="signupForm.invalid" mat-raised-button
+                    color="primary">S’inscrire</button>
+            </div>
+        </form>
+
+        <form fxLayout="column" fxLayoutGap="20px" [formGroup]="resetForm" class="reset-form"
+            *ngIf="isForgotPasswordState()">
+            <mat-card-header>
+                <mat-card-title>InstApp - Récupération de mot de passe</mat-card-title>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <div fxLayout="column">
+                <mat-form-field class="reset-email-form-field" appearance="fill">
+                    <mat-label>E-mail</mat-label>
+                    <input matInput placeholder="pat@example.com" formControlName="resetEmail" required>
+                    <!-- <mat-error *ngIf="resetEmail.invalid">{{getResetEmailErrorMessage()}}</mat-error> -->
+                </mat-form-field>
+
+                <button (click)="onReset()" [disabled]="resetForm.invalid" mat-raised-button
+                    color="primary">Reinitialiser</button>
+            </div>
+        </form>
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <button (click)="onForgotPasswordClick()" mat-button color="warn">Mot de passe oublié?</button>
+        <button (click)="onCreateAccountClick()" mat-button color="">Inscription</button>
+        <button (click)="onLoginClick()" mat-button color="primary">Connexion</button>
+    </mat-card-actions>
+</mat-card>

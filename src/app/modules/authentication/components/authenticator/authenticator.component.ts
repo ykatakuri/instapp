@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
@@ -12,36 +13,117 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 export class AuthenticatorComponent implements OnInit {
   state = AuthenticationState.LOGIN;
 
+  loginForm!: FormGroup;
+  signupForm!: FormGroup;
+  resetForm!: FormGroup;
+
+  // loginEmail = new FormControl('', [Validators.required, Validators.email]);
+  // loginPassword = new FormControl('', [Validators.required,]);
+  // signupEmail = new FormControl('', [Validators.required, Validators.email]);
+  // signupFullname = new FormControl('', [Validators.required,]);
+  // signupUsername = new FormControl('', [Validators.required,]);
+  // signupPassword = new FormControl('', [Validators.required,]);
+  // resetEmail = new FormControl('', [Validators.required, Validators.email]);
+
+  // getLoginEmailErrorMessage() {
+  //   if (this.loginEmail.hasError('required')) {
+  //     return 'Veuillez entrer votre email';
+  //   }
+  //   return this.loginEmail.hasError('email') ? 'Email incorrect' : '';
+  // }
+
+  // getSignupEmailErrorMessage() {
+  //   if (this.loginEmail.hasError('required')) {
+  //     return 'Veuillez entrer votre email';
+  //   }
+  //   return this.loginEmail.hasError('email') ? 'Email incorrect' : '';
+  // }
+
+  // getLoginPasswordErrorMessage() {
+  //   if (this.signupPassword.hasError('required')) {
+  //     return 'Veuillez entrer votre mot de passe';
+  //   }
+  //   if (this.signupPassword.value!.length < 8) {
+  //     return 'Mot de passe trop court';
+  //   }
+
+  //   return null;
+  // }
+
+  // getSignupFullnameErrorMessage() {
+  //   if (this.signupFullname.hasError('required')) {
+  //     return 'Veuillez entrer votre nom complet';
+  //   }
+  //   if (this.signupFullname.value!.length < 4) {
+  //     return 'Trop court';
+  //   }
+
+  //   return null;
+  // }
+
+  // getSignupUsernameErrorMessage() {
+  //   if (this.signupUsername.hasError('required')) {
+  //     return 'Veuillez entrer votre nom d’utilisateur';
+  //   }
+  //   if (this.signupUsername.value!.length < 3) {
+  //     return 'trop court';
+  //   }
+
+  //   return null;
+  // }
+
+  // getSignupPasswordErrorMessage() {
+  //   if (this.signupPassword.hasError('required')) {
+  //     return 'Veuillez entrer votre mot de passe';
+  //   }
+  //   if (this.signupPassword.value!.length < 8) {
+  //     return 'Mot de passe trop court';
+  //   }
+
+  //   return null;
+  // }
+
+  // getResetEmailErrorMessage() {
+  //   if (this.loginEmail.hasError('required')) {
+  //     return 'Veuillez entrer votre email';
+  //   }
+  //   return this.loginEmail.hasError('email') ? 'Email incorrect' : '';
+  // }
+
   ngOnInit(): void {
+    this.loginForm = this.formBuilder.group({
+      loginEmail: [null, [Validators.required, Validators.email]],
+      loginPassword: [null, [Validators.required,]],
+    });
+
+    this.signupForm = this.formBuilder.group({
+      signupEmail: [null, [Validators.required, Validators.email]],
+      signupFullname: [null, [Validators.required,]],
+      signupUsername: [null, [Validators.required,]],
+      signupPassword: [null, [Validators.required,]],
+    });
+
+    this.resetForm = this.formBuilder.group({
+      resetEmail: [null, [Validators.required, Validators.email]],
+    });
   }
 
-  constructor(private authenticationService: AuthenticationService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private authenticationService: AuthenticationService, private router: Router) { }
 
-  onLogin(loginEmail: HTMLInputElement, loginPassword: HTMLInputElement): void {
-    let email = loginEmail.value;
-    let password = loginPassword.value;
-
-    if (this.isNotEmpty(email.trim()) && this.isNotEmpty(password.trim())) {
-      this.authenticationService.signIn(
-        email,
-        password,
-      );
-      this.router.navigateByUrl('home');
-    }
+  onLogin(): void {
+    console.log(this.loginForm.value);
+    this.authenticationService.signIn(this.loginForm.value);
+    this.router.navigateByUrl('/home');
   }
 
-  onSignup(signupEmail: HTMLInputElement, signupPassword: HTMLInputElement, signupFullname: HTMLInputElement): void {
-    let email = signupEmail.value;
-    let password = signupPassword.value;
-    let fullname = signupFullname.value;
+  onSignup(): void {
+    console.log(this.signupForm.value);
 
-    if (this.isNotEmpty(email.trim()) && this.isNotEmpty(password.trim())) {
-      this.authenticationService.signUp(
-        email,
-        password,
-        fullname,
-      );
-    }
+    this.authenticationService.signUp(this.signupForm.value);
+  }
+
+  onReset(): void {
+    console.log(this.resetForm.value);
   }
 
   onLoginClick(): void {
