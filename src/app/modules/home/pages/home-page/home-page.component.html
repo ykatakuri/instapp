@@ -1,3 +1,19 @@
-<div fxLayout="column" fxLayoutAlign="center center">
-    <button (click)="onLogOut()" mat-raised-button color="primary">Se déconnecter</button>
+<div class="home-wrapper">
+    <nav class="navbar bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="assets/images/rounded_logo.svg" alt="InstApp" width="150" height="40">
+            </a>
+            <div class="d-flex" fxLayout.xs="column" fxLayoutGap="10px">
+                <form role="search" class="">
+                    <input class="form-control me-2" type="search" placeholder="Rechercher..." aria-label="Search">
+                </form>
+                <button mat-raised-button color="primary" class="home-add-friend-button">
+                    <mat-icon fontIcon="add"></mat-icon>
+                    <span>Ajouter amis</span>
+                </button>
+                <button (click)="onLogOut()" mat-raised-button color="warn">Se déconnecter</button>
+            </div>
+        </div>
+    </nav>
 </div>

@@ -154,10 +154,6 @@ export class AuthenticatorComponent implements OnInit {
     }
   }
 
-  isNotEmpty(text: string): boolean {
-    return text != null && text.length > 0;
-  }
-
 }
 
 export enum AuthenticationState {
