@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search-page.component.scss']
 })
 export class SearchPageComponent implements OnInit {
+  users: string[] = ['Virat Kholi', 'Steve Smith', 'Mitchel Johnson', 'James Anderson', 'Michael Clarke'];
 
   constructor() { }
 
