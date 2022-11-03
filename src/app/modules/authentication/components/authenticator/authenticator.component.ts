@@ -101,7 +101,7 @@ export class AuthenticatorComponent implements OnInit {
 
   onLogin(): void {
     this.authenticationService.signIn(this.loginForm.controls['loginEmail'].value, this.loginForm.controls['loginPassword'].value);
-    this.router.navigateByUrl('home');
+    this.router.navigateByUrl('');
     this.snackBar.open(`Bonjour ${this.loginForm.controls['loginEmail']}, Content de vous revoir :)`, 'Fermer');
   }
 
@@ -152,10 +152,6 @@ export class AuthenticatorComponent implements OnInit {
         return 'Se connecter'
         break;
     }
-  }
-
-  isNotEmpty(text: string): boolean {
-    return text != null && text.length > 0;
   }
 
 }

@@ -1,0 +1,28 @@
+<nav class="nav">
+    <a routerLink="/home" routerLinkActive="nav__link--active" [routerLinkActiveOptions]="{ exact: true }"
+        class="nav__link">
+        <mat-icon class="nav__icon" aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
+        <span class="nav__text">Accueil</span>
+    </a>
+    <a routerLink="/search" routerLinkActive="nav__link--active" [routerLinkActiveOptions]="{ exact: true }"
+        class="nav__link">
+        <mat-icon class="nav__icon" aria-hidden="false" aria-label="Example home icon" fontIcon="search"></mat-icon>
+        <span class="nav__text">Recherche</span>
+    </a>
+    <a routerLink="/chat" routerLinkActive="nav__link--active" [routerLinkActiveOptions]="{ exact: true }"
+        class="nav__link">
+        <mat-icon class="nav__icon" aria-hidden="false" aria-label="Example home icon" fontIcon="add_box"></mat-icon>
+        <span class="nav__text">Publier</span>
+    </a>
+    <a routerLink="/notifications" routerLinkActive="nav__link--active" [routerLinkActiveOptions]="{ exact: true }"
+        class="nav__link">
+        <mat-icon class="nav__icon" aria-hidden="false" aria-label="Example home icon" fontIcon="notifications">
+        </mat-icon>
+        <span class="nav__text">Notifications</span>
+    </a>
+    <a routerLink="/profile" routerLinkActive="nav__link--active" [routerLinkActiveOptions]="{ exact: true }"
+        class="nav__link">
+        <mat-icon class="nav__icon" aria-hidden="false" aria-label="Example home icon" fontIcon="person"></mat-icon>
+        <span class="nav__text">Profil</span>
+    </a>
+</nav>

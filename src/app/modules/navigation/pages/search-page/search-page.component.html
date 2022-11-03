@@ -1,0 +1,14 @@
+<form class="search-form">
+    <mat-form-field appearance="outline" class="search-field">
+        <input matInput type="text" placeholder="Rechercher">
+        <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+</form>
+
+<mat-selection-list #shoes [multiple]="false">
+    <mat-list-option *ngFor="let user of users" [value]="user">
+        {{user}}
+    </mat-list-option>
+</mat-selection-list>
+
+<app-navbar></app-navbar>
