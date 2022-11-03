@@ -1,2 +1,86 @@
-<app-appbar></app-appbar>
+<cdk-virtual-scroll-viewport appendOnly itemSize="50" class="home-page-viewport">
+    <app-appbar></app-appbar>
+
+    <p>
+        <mat-toolbar>
+            <span>Actualités</span>
+        </mat-toolbar>
+    </p>
+
+    <div>
+        <mat-card class="home-post-card">
+            <mat-card-header>
+                <div mat-card-avatar class="user-avatar"></div>
+                <mat-card-title>Fullname</mat-card-title>
+                <mat-card-subtitle>Time</mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+                alt="Photo of a Shiba Inu">
+            <mat-card-content>
+                <p>Title</p>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-icon-button>
+                    <mat-icon>favorite</mat-icon>
+                </button>
+                <button mat-icon-button>
+                    <mat-icon>comment</mat-icon>
+                </button>
+                <button mat-icon-button>
+                    <mat-icon>share</mat-icon>
+                </button>
+            </mat-card-actions>
+        </mat-card>
+
+        <mat-card class="home-post-card">
+            <mat-card-header>
+                <div mat-card-avatar class="user-avatar"></div>
+                <mat-card-title>Fullname</mat-card-title>
+                <mat-card-subtitle>Time</mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+                alt="Photo of a Shiba Inu">
+            <mat-card-content>
+                <p>Title</p>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-icon-button>
+                    <mat-icon>favorite</mat-icon>
+                </button>
+                <button mat-icon-button>
+                    <mat-icon>comment</mat-icon>
+                </button>
+                <button mat-icon-button>
+                    <mat-icon>share</mat-icon>
+                </button>
+            </mat-card-actions>
+        </mat-card>
+        <mat-card class="home-post-card">
+            <mat-card-header>
+                <div mat-card-avatar class="user-avatar"></div>
+                <mat-card-title>Fullname</mat-card-title>
+                <mat-card-subtitle>Time</mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+                alt="Photo of a Shiba Inu">
+            <mat-card-content>
+                <p>Title</p>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-icon-button>
+                    <mat-icon>favorite</mat-icon>
+                </button>
+                <button mat-icon-button>
+                    <mat-icon>comment</mat-icon>
+                </button>
+                <button mat-icon-button>
+                    <mat-icon>share</mat-icon>
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</cdk-virtual-scroll-viewport>
+
+<div class="utility-spacer"></div>
+
 <app-navbar></app-navbar>

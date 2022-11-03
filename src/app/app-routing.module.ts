@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { canActivate, redirectLoggedInTo, redirectUnauthorizedTo } from "@angular/fire/auth-guard";
 import { RouterModule, Routes } from '@angular/router';
 import { AuthenticationPageComponent } from './modules/authentication/pages/authentication-page/authentication-page.component';
-import { NavbarComponent } from './modules/navigation/components/navbar/navbar.component';
 import { ChatPageComponent } from './modules/navigation/pages/chat-page/chat-page.component';
 import { HomePageComponent } from './modules/navigation/pages/home-page/home-page.component';
 import { NotificationsPageComponent } from './modules/navigation/pages/notifications-page/notifications-page.component';
@@ -45,7 +44,7 @@ const routes: Routes = [
     loadChildren: () => import("./modules/authentication/authentication.module").then((module) => module.AuthenticationModule), ...canActivate(redirectLoggedInToAppNavigator),
   },
   {
-    component: NavbarComponent,
+    component: HomePageComponent,
     path: "",
     loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
   },
