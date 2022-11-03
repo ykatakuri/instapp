@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { WebcamImage } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
 import { FormBottomSheetComponent } from '../form-bottom-sheet/form-bottom-sheet.component';
@@ -15,13 +15,12 @@ export class SelectPhotoBottomSheetComponent implements OnInit {
   previewImage: string = '';
   takeSnapButtonLabel: string = 'Prendre une photo';
 
-  constructor(private _bottomSheet: MatBottomSheet, private _bottomSheetRef: MatBottomSheetRef<SelectPhotoBottomSheetComponent>) { }
+  constructor(private _bottomSheet: MatBottomSheet) { }
 
   ngOnInit(): void {
   }
 
   openLink(event: MouseEvent): void {
-    //this._bottomSheetRef.dismiss();
     this.checkPermissions();
     event.preventDefault();
   }
@@ -47,6 +46,7 @@ export class SelectPhotoBottomSheetComponent implements OnInit {
 
   snapshot(event: WebcamImage): void {
     console.log(event);
+
     this.previewImage = event.imageAsDataUrl;
     this.takeSnapButtonLabel = 'Reprendre la photo';
   }
