@@ -9,6 +9,7 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { NotificationsPageComponent } from './pages/notifications-page/notifications-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
+import { AppBarComponent } from './pages/home-page/components/app-bar/app-bar.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
     ChatPageComponent,
     NotificationsPageComponent,
     ProfilePageComponent,
-    HomePageComponent
+    HomePageComponent,
+    AppBarComponent
   ],
   imports: [
     CommonModule,
