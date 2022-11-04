@@ -1,0 +1,21 @@
+<mat-nav-list>
+    <div *ngIf="stream">
+        <webcam [trigger]="$trigger" (imageCapture)="snapshot($event)" [imageQuality]="1" [width]="360">
+        </webcam>
+    </div>
+
+    <div mat-list-item *ngIf="previewImage">
+        <img [src]="previewImage" height="100%" width="100%">
+        <div mat-list-item>
+            <button mat-raised-button (click)="onNext()" color="primary">Suivant</button>
+        </div>
+    </div>
+
+    <a href="#" mat-list-item (click)="openLink($event)">
+        <span mat-line (click)="onCaptureImage()">{{takeSnapButtonLabel}}</span>
+    </a>
+
+    <a href="#" mat-list-item (click)="openLink($event)">
+        <span mat-line>Choisir une photo</span>
+    </a>
+</mat-nav-list>

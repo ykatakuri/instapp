@@ -13,6 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
+import { NavigationModule } from './modules/navigation/navigation.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { AuthenticationModule } from './modules/authentication/authentication.mo
     BrowserModule,
     AppRoutingModule,
     AuthenticationModule,
+    NavigationModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAnalytics(() => getAnalytics()),
     provideAuth(() => getAuth()),
