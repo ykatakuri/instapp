@@ -1,0 +1,31 @@
+.home-toolbar-spacer {
+    flex: 1 1 auto;
+}
+
+.example-card {
+    max-width: 400px;
+}
+
+.user-avatar {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+}
+
+.home-page-viewport {
+    height: 100%;
+    width: 100%;
+}
+
+.post-container {
+    margin: 0 20px 0 16px;
+}
+
+.home-post-card {
+    margin-bottom: 20px;
+    max-width: 94%;
+    min-width: 94%;
+}
+
+.utility-spacer {
+    height: 100px;
+}
