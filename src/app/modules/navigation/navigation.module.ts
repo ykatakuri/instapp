@@ -12,9 +12,11 @@ import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { WebcamModule } from 'ngx-webcam';
+import { HomePageService } from 'src/app/services/home-page.service';
 import { FormBottomSheetComponent } from './components/form-bottom-sheet/form-bottom-sheet.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SelectPhotoBottomSheetComponent } from './components/select-photo-bottom-sheet/select-photo-bottom-sheet.component';
+import { NavigationRoutingModule } from './navigation-routing.module';
 import { ChatPageComponent } from './pages/chat-page/chat-page.component';
 import { AppBarComponent } from './pages/home-page/components/app-bar/app-bar.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
@@ -48,9 +50,10 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
     MatBottomSheetModule,
     WebcamModule,
     ReactiveFormsModule,
+    NavigationRoutingModule
   ],
-  exports: [
-
-  ],
+  providers: [
+    HomePageService
+  ]
 })
 export class NavigationModule { }

@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
 import { NavigationModule } from './modules/navigation/navigation.module';
+import { HomePageService } from './services/home-page.service';
 
 @NgModule({
   declarations: [

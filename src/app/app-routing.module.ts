@@ -12,7 +12,11 @@ const redirectUnauthorizedToAuth = () => redirectUnauthorizedTo(["authenticate"]
 const redirectLoggedInToAppNavigator = () => redirectLoggedInTo([""]);
 
 const routes: Routes = [
-
+  {
+    component: HomePageComponent,
+    path: "",
+    loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
+  },
   {
     component: ProfilePageComponent,
     path: "profile",
@@ -43,11 +47,7 @@ const routes: Routes = [
     path: "authenticate",
     loadChildren: () => import("./modules/authentication/authentication.module").then((module) => module.AuthenticationModule), ...canActivate(redirectLoggedInToAppNavigator),
   },
-  {
-    component: HomePageComponent,
-    path: "",
-    loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
-  },
+
 ];
 
 @NgModule({
