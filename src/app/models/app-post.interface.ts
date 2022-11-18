@@ -1,7 +1,9 @@
+import { Timestamp } from "firebase/firestore"
+
 export interface AppPost {
-  date: Date,
+  date: Timestamp,
   title: string,
-  userId: string,
-  image : string
+  idUser: string,
+  picture : string
   description: string
 }

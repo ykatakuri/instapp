@@ -10,7 +10,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
   styleUrls: ['./authenticator.component.scss']
 })
 
-// TODO: Show snackbar on authentication  
+// TODO: Show snackbar on authentication
 export class AuthenticatorComponent implements OnInit {
   state = AuthenticationState.LOGIN;
 
@@ -42,20 +42,20 @@ export class AuthenticatorComponent implements OnInit {
     return this.loginForm.controls['loginPassword'].hasError('minlength') ? 'Mot de passe trop court' : '';
   }
 
-  getSignupFullnameErrorMessage() {
-    if (this.signupForm.controls['signupFullname'].hasError('required')) {
-      return 'Veuillez saisir votre nom complet';
-    } else if (this.signupForm.controls['signupFullname'].hasError('minlength')) {
-      return 'Nom trop court';
+  getSignupFirstnameErrorMessage() {
+    if (this.signupForm.controls['signupFirstname'].hasError('required')) {
+      return 'Veuillez saisir votre prénom';
+    } else if (this.signupForm.controls['signupFirstname'].hasError('minlength')) {
+      return 'Prénom trop court';
     }
 
     return this.signupForm.controls['signupFullname'].hasError('minlength') ? 'Nom trop court' : '';
   }
 
-  getSignupUsernameErrorMessage() {
-    if (this.signupForm.controls['signupUsername'].hasError('required')) {
-      return 'Veuillez saisir votre nom d’utilisateur';
-    } else if (this.signupForm.controls['signupUsername'].hasError('minlength')) {
+  getSignupLastnameErrorMessage() {
+    if (this.signupForm.controls['signupLastname'].hasError('required')) {
+      return 'Veuillez saisir votre nom';
+    } else if (this.signupForm.controls['signupLastname'].hasError('minlength')) {
       return 'Nom trop court';
     }
 
@@ -87,8 +87,8 @@ export class AuthenticatorComponent implements OnInit {
 
     this.signupForm = this.formBuilder.group({
       signupEmail: [null, [Validators.required, Validators.email]],
-      signupFullname: [null, [Validators.required, Validators.minLength(4)]],
-      signupUsername: [null, [Validators.required, Validators.minLength(2)]],
+      signupFirstname: [null, [Validators.required, Validators.minLength(4)]],
+      signupLastname: [null, [Validators.required, Validators.minLength(2)]],
       signupPassword: [null, [Validators.required, Validators.minLength(8)]],
     });
 
@@ -106,7 +106,7 @@ export class AuthenticatorComponent implements OnInit {
   }
 
   onSignup(): void {
-    this.authenticationService.signUp(this.signupForm.controls['signupEmail'].value, this.signupForm.controls['signupPassword'].value, this.signupForm.controls['signupFullname'].value);
+    this.authenticationService.signUp(this.signupForm.controls['signupEmail'].value, this.signupForm.controls['signupPassword'].value, this.signupForm.controls['signupFirstname'].value, this.signupForm.controls['signupLastname'].value);
     this.state = AuthenticationState.LOGIN;
     this.snackBar.open(`Inscription terminée!`, 'Fermer');
   }

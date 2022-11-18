@@ -50,7 +50,7 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
     MatBottomSheetModule,
     WebcamModule,
     ReactiveFormsModule,
-    NavigationRoutingModule
+    NavigationRoutingModule,
   ],
   providers: [
     HomePageService

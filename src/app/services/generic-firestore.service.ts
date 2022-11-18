@@ -19,6 +19,7 @@ import {
 } from "@angular/fire/firestore";
 import { CollectionReference, doc, DocumentData } from "@firebase/firestore";
 import { Observable } from "rxjs";
+import { AppUser } from "../models/app-user.interface";
 
 @Injectable({
   providedIn: "root",
@@ -78,4 +79,5 @@ export class GenericFirestoreService {
     const documentReference = doc(this.firestore, `${path}/${id}`);
     return deleteDoc(documentReference);
   }
+
 }

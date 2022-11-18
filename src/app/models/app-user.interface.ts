@@ -1,6 +1,7 @@
 export interface AppUser {
-    fullname: string;
-    username: string;
+    id:string;
+    firstname: string;
+    lastname: string;
     email: string;
-    password: string;
+    picture:string;
 }
