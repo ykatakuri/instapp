@@ -1,7 +1,9 @@
 import { Injectable } from "@angular/core";
 import { deleteObject, FullMetadata, getDownloadURL, getMetadata, list, listAll, ListResult, percentage, ref, SettableMetadata, Storage, StorageReference, updateMetadata, uploadBytes, uploadBytesResumable, UploadMetadata, UploadResult, UploadTask, UploadTaskSnapshot } from "@angular/fire/storage";
 import { Observable } from 'rxjs';
-@Injectable()
+@Injectable({
+  providedIn: "root",
+})
 export class StorageService {
   constructor(private storage: Storage) { }
 
