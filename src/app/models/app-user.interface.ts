@@ -1,6 +1,6 @@
-interface AppUser {
+export interface AppUser {
     fullname: string;
     username: string;
     email: string;
-    password: string;
+    avatar?: string;
 }
