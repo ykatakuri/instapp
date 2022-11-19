@@ -3,7 +3,10 @@ import { Firestore } from '@angular/fire/firestore';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { FIREBASE_COLLECTION_PATHS } from 'src/app/constants/firestore-collection-paths.constant';
+import { Post } from 'src/app/models/post.interface';
+import { PostsService } from 'src/app/services/posts.service';
 import { StorageService } from 'src/app/services/storage.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-create-post-file',
@@ -14,8 +17,13 @@ export class CreatePostFileComponent implements OnInit {
   postFileForm!: FormGroup;
   selectedImage!: File;
   firestore!: Firestore;
+  currentUserId!: string;
+
+  buildPost(post: Post): Post { return post };
 
   constructor(
+    private userService: UsersService,
+    private postService: PostsService,
     private storageService: StorageService,
     private formBuilder: FormBuilder,
     private bottomSheetRef: MatBottomSheetRef<CreatePostFileComponent>
@@ -26,6 +34,8 @@ export class CreatePostFileComponent implements OnInit {
       title: [null, [Validators.required, Validators.minLength(2)]],
       file: [null, Validators.required],
     });
+
+    //this.currentUserId = this.userService.fetchUserById()
   }
 
   onImageSelected(fileSelector: any): void {
@@ -53,7 +63,15 @@ export class CreatePostFileComponent implements OnInit {
         let downloadUrl = this.storageService.getFileDownloadUrl(imagePath);
         return downloadUrl;
       }).then(
-        (response) => console.log(response)
+        (response) => {
+          let post = this.buildPost({
+            userId: localStorage.getItem('userId')!,
+            title: postTitle,
+            imageUrl: response,
+          });
+
+          this.postService.addNewPost(post);
+        }
       ).catch(error => console.log(error));
 
     this.bottomSheetRef.dismiss();

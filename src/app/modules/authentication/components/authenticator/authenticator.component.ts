@@ -128,20 +128,23 @@ export class AuthenticatorComponent implements OnInit {
         username: this.signupForm.controls['signupUsername'].value,
         email: this.signupForm.controls['signupEmail'].value,
       })
-    ).then(
-      response => {
-        this.userService.updateUser(
-          this.buildAppUser({
-            id: response.id,
-            fullname: this.signupForm.controls['signupFullname'].value,
-            username: this.signupForm.controls['signupUsername'].value,
-            email: this.signupForm.controls['signupEmail'].value,
-          })
-        )
-      }
-    ).catch(
-      error => console.log(error)
-    );
+    )
+      .then(
+        response => {
+          this.userService.updateUser(
+            this.buildAppUser({
+              id: response.id,
+              fullname: this.signupForm.controls['signupFullname'].value,
+              username: this.signupForm.controls['signupUsername'].value,
+              email: this.signupForm.controls['signupEmail'].value,
+            })
+          );
+          localStorage.setItem('userId', response.id);
+        }
+      )
+      .catch(
+        error => console.log(error)
+      );
 
     this.state = AuthenticationState.LOGIN;
     this.snackBar.open(`Inscription terminée!`, 'Fermer');
