@@ -13,6 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
 import { NavigationModule } from './modules/navigation/navigation.module';
+import { provideMessaging,getMessaging } from '@angular/fire/messaging';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { NavigationModule } from './modules/navigation/navigation.module';
     provideFirestore(() => getFirestore()),
     provideFunctions(() => getFunctions()),
     provideStorage(() => getStorage()),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    provideMessaging(() => getMessaging())
   ],
   providers: [
     ScreenTrackingService, UserTrackingService

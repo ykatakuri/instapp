@@ -1,11 +1,12 @@
 export const environment = {
   firebase: {
-    projectId: 'instapp-16290',
-    appId: '1:130667945369:web:1ff13f7ed0879fa2acc708',
-    storageBucket: 'instapp-16290.appspot.com',
-    apiKey: 'AIzaSyB577iKiKJRf_4WIEHQEH5wx7vndIw--wE',
-    authDomain: 'instapp-16290.firebaseapp.com',
-    messagingSenderId: '130667945369',
+    projectId: 'instvgrvm-742ef',
+    appId: '1:332944972727:web:11f0078a2c05bc8249a632',
+    storageBucket: 'instvgrvm-742ef.appspot.com',
+    apiKey: 'AIzaSyADVlfDb0B0CLjQza8qM4VYuJR8D5Oopjg',
+    authDomain: 'instvgrvm-742ef.firebaseapp.com',
+    messagingSenderId: '332944972727',
+    measurementId: 'G-RJF5RT8Z8G',
   },
   production: true
 };
