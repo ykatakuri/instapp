@@ -5,17 +5,17 @@ import { Router } from '@angular/router';
 import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
-  selector: 'app-form-bottom-sheet',
-  templateUrl: './form-bottom-sheet.component.html',
-  styleUrls: ['./form-bottom-sheet.component.scss']
+  selector: 'app-create-post-camera',
+  templateUrl: './create-post-camera.component.html',
+  styleUrls: ['./create-post-camera.component.scss']
 })
-export class FormBottomSheetComponent implements OnInit {
+export class CreatePostCameraComponent implements OnInit {
   imageUrl: string = '';
   previewImage: string = '';
 
   snapForm!: FormGroup;
 
-  constructor(private _storageService: StorageService, private _bottomSheetRef: MatBottomSheetRef<FormBottomSheetComponent>, private _router: Router, private _formBuilder: FormBuilder) { }
+  constructor(private _storageService: StorageService, private _bottomSheetRef: MatBottomSheetRef<CreatePostCameraComponent>, private _router: Router, private _formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.previewImage = localStorage.getItem('previewImage')!;
