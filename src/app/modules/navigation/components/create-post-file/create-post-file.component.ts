@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Firestore } from '@angular/fire/firestore';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { FIREBASE_COLLECTION_PATHS } from 'src/app/constants/firestore-collection-paths.constant';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-create-post-file',
@@ -9,25 +12,27 @@ import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 })
 export class CreatePostFileComponent implements OnInit {
   postFileForm!: FormGroup;
-  selectedFile!: File;
+  selectedImage!: File;
+  firestore!: Firestore;
 
   constructor(
-    private _formBuilder: FormBuilder,
-    private _bottomSheetRef: MatBottomSheetRef<CreatePostFileComponent>
+    private storageService: StorageService,
+    private formBuilder: FormBuilder,
+    private bottomSheetRef: MatBottomSheetRef<CreatePostFileComponent>
   ) { }
 
   ngOnInit(): void {
-    this.postFileForm = this._formBuilder.group({
+    this.postFileForm = this.formBuilder.group({
       title: [null, [Validators.required, Validators.minLength(2)]],
       file: [null, Validators.required],
     });
   }
 
-  onFileSelected(fileSelector: any): void {
-    this.selectedFile = fileSelector.files[0];
-    if (!this.selectedFile) return;
+  onImageSelected(fileSelector: any): void {
+    this.selectedImage = fileSelector.files[0];
+    if (!this.selectedImage) return;
     let fileReader = new FileReader();
-    fileReader.readAsDataURL(this.selectedFile);
+    fileReader.readAsDataURL(this.selectedImage);
     fileReader.addEventListener(
       "loadend",
       ev => {
@@ -39,8 +44,19 @@ export class CreatePostFileComponent implements OnInit {
   }
 
   onSubmitForm(): void {
-    console.log(this.postFileForm.value);
-    this._bottomSheetRef.dismiss();
+    let postTitle = this.postFileForm.controls['title'].value;
+    let postDate = Date.now();
+    const imagePath = `${FIREBASE_COLLECTION_PATHS.POSTS}_${postDate}`;
+
+    this.storageService.uploadFile(this.selectedImage, imagePath).then(
+      () => {
+        let downloadUrl = this.storageService.getFileDownloadUrl(imagePath);
+        return downloadUrl;
+      }).then(
+        (response) => console.log(response)
+      ).catch(error => console.log(error));
+
+    this.bottomSheetRef.dismiss();
   }
 
 }
