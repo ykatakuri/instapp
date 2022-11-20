@@ -6,6 +6,7 @@ import { Post } from 'src/app/models/post.interface';
 import { PostsService } from 'src/app/services/posts.service';
 
 import * as firebase from "firebase/firestore";
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-create-post-camera',
@@ -21,6 +22,7 @@ export class CreatePostCameraComponent implements OnInit {
   buildPost(post: Post): Post { return post };
 
   constructor(
+    private userService: UsersService,
     private postService: PostsService,
     private bottomSheetRef: MatBottomSheetRef<CreatePostCameraComponent>,
     private router: Router,
@@ -45,6 +47,7 @@ export class CreatePostCameraComponent implements OnInit {
       userId: userId!,
       title: title,
       imageUrl: url!,
+      likeCount: 0,
       createAt: this.createdAt,
     });
 

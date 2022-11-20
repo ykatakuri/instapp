@@ -69,6 +69,7 @@ export class CreatePostFileComponent implements OnInit {
             userId: localStorage.getItem('userId')!,
             title: postTitle,
             imageUrl: response,
+            likeCount: 0,
             createAt: this.createdAt,
           });
 

@@ -4,14 +4,20 @@ import { collection } from '@firebase/firestore';
 import { Observable } from 'rxjs';
 import { FIREBASE_COLLECTION_PATHS } from '../constants/firestore-collection-paths.constant';
 import { AppUser } from '../models/app-user.interface';
+import { Post } from '../models/post.interface';
 import { FirestoreService } from './firestore.service';
+import { PostsService } from './posts.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
   private usersCollection: CollectionReference<DocumentData>;
-  constructor(private readonly firestore: Firestore, private readonly firestoreService: FirestoreService) {
+  constructor(
+    private readonly firestore: Firestore,
+    private readonly firestoreService: FirestoreService,
+    private readonly postService: PostsService,
+  ) {
     this.usersCollection = collection(this.firestore, FIREBASE_COLLECTION_PATHS.USERS);
   }
 
@@ -25,5 +31,9 @@ export class UsersService {
 
   public updateUser(user: AppUser): Promise<void> {
     return this.firestoreService.update(FIREBASE_COLLECTION_PATHS.USERS, { id: user.id });
+  }
+
+  public updateUserWithPost(userId: string, post: Post): Promise<void> {
+    return this.firestoreService.update(FIREBASE_COLLECTION_PATHS.USERS, { id: userId, post: post });
   }
 }
