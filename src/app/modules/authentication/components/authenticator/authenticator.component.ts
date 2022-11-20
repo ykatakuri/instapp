@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { AppUser } from 'src/app/models/app-user.interface';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-authenticator',
@@ -17,6 +19,34 @@ export class AuthenticatorComponent implements OnInit {
   loginForm!: FormGroup;
   signupForm!: FormGroup;
   resetForm!: FormGroup;
+
+  buildAppUser(appUser: AppUser): AppUser { return appUser };
+
+  ngOnInit(): void {
+    this.loginForm = this.formBuilder.group({
+      loginEmail: [null, [Validators.required, Validators.email]],
+      loginPassword: [null, [Validators.required, Validators.minLength(8)]],
+    });
+
+    this.signupForm = this.formBuilder.group({
+      signupEmail: [null, [Validators.required, Validators.email]],
+      signupFullname: [null, [Validators.required, Validators.minLength(4)]],
+      signupUsername: [null, [Validators.required, Validators.minLength(2)]],
+      signupPassword: [null, [Validators.required, Validators.minLength(8)]],
+    });
+
+    this.resetForm = this.formBuilder.group({
+      resetEmail: [null, [Validators.required, Validators.email]],
+    });
+  }
+
+  constructor(
+    private authenticationService: AuthenticationService,
+    private userService: UsersService,
+    private snackBar: MatSnackBar,
+    private formBuilder: FormBuilder,
+    private router: Router,
+  ) { }
 
   getLoginEmailErrorMessage() {
     if (this.loginForm.controls['loginEmail'].hasError('required')) {
@@ -79,34 +109,43 @@ export class AuthenticatorComponent implements OnInit {
     return this.resetForm.controls['resetEmail'].hasError('email') ? 'Email incorrect' : '';
   }
 
-  ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
-      loginEmail: [null, [Validators.required, Validators.email]],
-      loginPassword: [null, [Validators.required, Validators.minLength(8)]],
-    });
-
-    this.signupForm = this.formBuilder.group({
-      signupEmail: [null, [Validators.required, Validators.email]],
-      signupFullname: [null, [Validators.required, Validators.minLength(4)]],
-      signupUsername: [null, [Validators.required, Validators.minLength(2)]],
-      signupPassword: [null, [Validators.required, Validators.minLength(8)]],
-    });
-
-    this.resetForm = this.formBuilder.group({
-      resetEmail: [null, [Validators.required, Validators.email]],
-    });
-  }
-
-  constructor(private snackBar: MatSnackBar, private formBuilder: FormBuilder, private authenticationService: AuthenticationService, private router: Router) { }
-
   onLogin(): void {
-    this.authenticationService.signIn(this.loginForm.controls['loginEmail'].value, this.loginForm.controls['loginPassword'].value);
+    this.authenticationService.signIn(
+      this.loginForm.controls['loginEmail'].value,
+      this.loginForm.controls['loginPassword'].value);
     this.router.navigateByUrl('');
-    this.snackBar.open(`Bonjour ${this.loginForm.controls['loginEmail']}, Content de vous revoir :)`, 'Fermer');
+    this.snackBar.open(`Bonjour, Content de vous revoir :)`, 'Fermer');
   }
 
   onSignup(): void {
-    this.authenticationService.signUp(this.signupForm.controls['signupEmail'].value, this.signupForm.controls['signupPassword'].value, this.signupForm.controls['signupFullname'].value);
+    this.authenticationService.signUp(
+      this.signupForm.controls['signupEmail'].value,
+      this.signupForm.controls['signupPassword'].value,
+      this.signupForm.controls['signupFullname'].value);
+    this.userService.addNewUser(
+      this.buildAppUser({
+        fullname: this.signupForm.controls['signupFullname'].value,
+        username: this.signupForm.controls['signupUsername'].value,
+        email: this.signupForm.controls['signupEmail'].value,
+      })
+    )
+      .then(
+        response => {
+          this.userService.updateUser(
+            this.buildAppUser({
+              id: response.id,
+              fullname: this.signupForm.controls['signupFullname'].value,
+              username: this.signupForm.controls['signupUsername'].value,
+              email: this.signupForm.controls['signupEmail'].value,
+            })
+          );
+          localStorage.setItem('userId', response.id);
+        }
+      )
+      .catch(
+        error => console.log(error)
+      );
+
     this.state = AuthenticationState.LOGIN;
     this.snackBar.open(`Inscription terminée!`, 'Fermer');
   }
