@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { Router } from '@angular/router';
-import { StorageService } from 'src/app/services/storage.service';
+import { Post } from 'src/app/models/post.interface';
+import { PostsService } from 'src/app/services/posts.service';
 
 @Component({
   selector: 'app-create-post-camera',
@@ -10,39 +11,43 @@ import { StorageService } from 'src/app/services/storage.service';
   styleUrls: ['./create-post-camera.component.scss']
 })
 export class CreatePostCameraComponent implements OnInit {
-  imageUrl: string = '';
+  photoTakenUrl: string = '';
   previewImage: string = '';
+  photoTakenForm!: FormGroup;
 
-  snapForm!: FormGroup;
+  buildPost(post: Post): Post { return post };
 
-  constructor(private _storageService: StorageService, private _bottomSheetRef: MatBottomSheetRef<CreatePostCameraComponent>, private _router: Router, private _formBuilder: FormBuilder) { }
+  constructor(
+    private postService: PostsService,
+    private bottomSheetRef: MatBottomSheetRef<CreatePostCameraComponent>,
+    private router: Router,
+    private formBuilder: FormBuilder
+  ) { }
 
   ngOnInit(): void {
     this.previewImage = localStorage.getItem('previewImage')!;
-    this.imageUrl = this.previewImage;
+    this.photoTakenUrl = this.previewImage;
 
-    this.snapForm = this._formBuilder.group({
-      snapTitle: [null],
-      snapDescription: [null],
-      snapUrl: [this.imageUrl, [Validators.required]],
+    this.photoTakenForm = this.formBuilder.group({
+      photoTakenTitle: [null, [Validators.required, Validators.minLength(2)]],
     });
   }
 
-
-
   onSaveSnap(): void {
-    var formValue = this.snapForm.value;
-    console.log(formValue);
-    var fileName = this.snapForm.controls['snapUrl'].value;
+    let title = this.photoTakenForm.controls['photoTakenTitle'].value;
+    let url = localStorage.getItem('photoTakenUrl');
+    let userId = localStorage.getItem('userId');
 
-    const file: File = new File([""], fileName);
+    let post = this.buildPost({
+      userId: userId!,
+      title: title,
+      imageUrl: url!,
+    });
 
-    // var fileMetaData = this._storageService.getFileMetaData(this.snapForm.controls['snapUrl'].value);
-    // var file!: File;
+    this.postService.addNewPost(post);
 
-    //this._storageService.uploadFile(file, fileName, file.);
-    this._bottomSheetRef.dismiss();
-    this._router.navigateByUrl('home');
+    this.bottomSheetRef.dismiss();
+    this.router.navigateByUrl('home');
   }
 
 }

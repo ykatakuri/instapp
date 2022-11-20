@@ -34,8 +34,6 @@ export class CreatePostFileComponent implements OnInit {
       title: [null, [Validators.required, Validators.minLength(2)]],
       file: [null, Validators.required],
     });
-
-    //this.currentUserId = this.userService.fetchUserById()
   }
 
   onImageSelected(fileSelector: any): void {

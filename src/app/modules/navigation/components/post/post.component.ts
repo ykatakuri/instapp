@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { WebcamImage } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
+import { FIREBASE_COLLECTION_PATHS } from 'src/app/constants/firestore-collection-paths.constant';
 import { StorageService } from 'src/app/services/storage.service';
 import { CreatePostCameraComponent } from '../create-post-camera/create-post-camera.component';
 import { CreatePostFileComponent } from '../create-post-file/create-post-file.component';
@@ -16,15 +17,20 @@ export class PostComponent implements OnInit {
   stream: any = null;
   previewImage: string = '';
   takeSnapButtonLabel: string = 'Prendre une photo';
-  snap!: File;
+  photoTaken!: File;
+  photoTakenName!: string;
+  imageFormat: string = 'image.jpeg';
 
-  constructor(private _storageService: StorageService, private _bottomSheet: MatBottomSheet) { }
+  constructor(
+    private storageService: StorageService,
+    private bottomSheet: MatBottomSheet
+  ) { }
 
   ngOnInit(): void {
   }
 
   openFileForm(): void {
-    this._bottomSheet.open(CreatePostFileComponent);
+    this.bottomSheet.open(CreatePostFileComponent);
   }
 
   openCamera(event: MouseEvent): void {
@@ -52,34 +58,35 @@ export class PostComponent implements OnInit {
   onCaptureImage(): void { this.trigger.next(); }
 
   snapshot(event: WebcamImage): void {
-    console.log(event);
-
     this.previewImage = event.imageAsDataUrl;
-
+    this.photoTakenName = Date.now().toString();
     this.takeSnapButtonLabel = 'Reprendre la photo';
   }
 
   onNext(): void {
+    const imagePath = `${FIREBASE_COLLECTION_PATHS.POSTS}_${this.photoTakenName}`;
 
-    const imageName = 'name.jpeg';
+    const arr = this.previewImage.split(",");
+    const bstr = window.atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
 
-    this.snap = new File([new Blob([this.previewImage], { type: 'image/jpeg' })], imageName, { type: 'image/jpeg' });
-    this._storageService.uploadFile(this.snap, this.previewImage);
-    localStorage.setItem('previewImage', this.previewImage);
-    this._bottomSheet.open(CreatePostCameraComponent);
+    this.photoTaken = new File([u8arr], this.photoTakenName, { type: this.imageFormat });
+
+    this.storageService.uploadFile(this.photoTaken, imagePath).then(
+      () => {
+        let downloadUrl = this.storageService.getFileDownloadUrl(imagePath);
+        return downloadUrl;
+      }).then(
+        (response) => {
+          localStorage.setItem('photoTakenUrl', response);
+        }
+      ).catch(error => console.log(error));
+
+    this.bottomSheet.open(CreatePostCameraComponent);
   }
-
-
-
-  // dataURItoBlob(dataURI: any) {
-  //   const byteString = window.atob(dataURI);
-  //   const arrayBuffer = new ArrayBuffer(byteString.length);
-  //   const int8Array = new Uint8Array(arrayBuffer);
-  //   for (let i = 0; i < byteString.length; i++) {
-  //     int8Array[i] = byteString.charCodeAt(i);
-  //   }
-  //   const blob = new Blob([int8Array], { type: 'image/jpeg' });
-  //   return blob;
-  // }
 
 }
