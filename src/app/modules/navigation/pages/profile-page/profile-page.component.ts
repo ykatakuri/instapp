@@ -27,16 +27,20 @@ export class ProfilePageComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private firestore: Firestore,
     private genericFirestoreService: GenericFirestoreService,
-    // private auth: Auth
+
     ) { }
 
   ngOnInit(): void {
-    // if(this.auth){
-    //   this.fetchUserById(this.auth.currentUser.uid).subscribe(res => {
-    //     this.currentUser = res;
-    //     console.log("Current User " + this.currentUser)
-    //   })
-    // }
+      this.fetchUserById(this.authenticationService.currentUserId).subscribe(res => {
+        this.currentUser.id = res.id;
+        this.currentUser.email = res.email;
+        this.currentUser.firstname = res.firstname;
+        this.currentUser.lastname = res.lastname;
+        this.currentUser.picture = res.picture;
+      })
+
+      // console.log("Current User " + this.authenticationService.currentUserId)
+
 
   }
 

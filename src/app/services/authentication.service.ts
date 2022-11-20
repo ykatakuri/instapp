@@ -14,7 +14,7 @@ import { Firestore } from "@angular/fire/firestore";
 export class AuthenticationService {
 
   private usersCollection: CollectionReference<DocumentData>;
-
+  public currentUserId : any = null;
   public user: Observable<User | null> = EMPTY;
   constructor(
     private readonly auth: Auth,
@@ -25,6 +25,7 @@ export class AuthenticationService {
 
       this.usersCollection = collection(this.firestore, FIREBASE_COLLECTION_PATHS.USERS);
     if (this.auth) {
+      this.currentUserId = this.auth.currentUser?.uid;
       this.user = authState(this.auth);
       onAuthStateChanged(this.auth,
         (user: User | null) => {
@@ -90,5 +91,13 @@ export class AuthenticationService {
 private uuidv4(): any {
   throw new Error("Function not implemented.");
 }
+
+public getCurrentUser(): Observable<User | null>{
+  return this.user;
+}
+
+// public getCurrentUserId(): string{
+//   return this.user;
+// }
 
 }
