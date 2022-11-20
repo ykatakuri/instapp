@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { Post } from 'src/app/models/post.interface';
 import { PostsService } from 'src/app/services/posts.service';
 
+import * as firebase from "firebase/firestore";
+
 @Component({
   selector: 'app-create-post-camera',
   templateUrl: './create-post-camera.component.html',
@@ -14,6 +16,7 @@ export class CreatePostCameraComponent implements OnInit {
   photoTakenUrl: string = '';
   previewImage: string = '';
   photoTakenForm!: FormGroup;
+  createdAt: firebase.Timestamp = firebase.Timestamp.now();
 
   buildPost(post: Post): Post { return post };
 
@@ -42,6 +45,7 @@ export class CreatePostCameraComponent implements OnInit {
       userId: userId!,
       title: title,
       imageUrl: url!,
+      createAt: this.createdAt,
     });
 
     this.postService.addNewPost(post);

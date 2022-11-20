@@ -3,5 +3,5 @@ export interface Post {
     title: string;
     imageUrl: string;
     likeCount?: number;
-    createAt?: string;
+    createAt?: any;
 }

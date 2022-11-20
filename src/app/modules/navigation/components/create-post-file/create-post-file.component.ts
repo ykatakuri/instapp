@@ -8,6 +8,8 @@ import { PostsService } from 'src/app/services/posts.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { UsersService } from 'src/app/services/users.service';
 
+import * as firebase from "firebase/firestore";
+
 @Component({
   selector: 'app-create-post-file',
   templateUrl: './create-post-file.component.html',
@@ -18,6 +20,7 @@ export class CreatePostFileComponent implements OnInit {
   selectedImage!: File;
   firestore!: Firestore;
   currentUserId!: string;
+  createdAt: firebase.Timestamp = firebase.Timestamp.now();
 
   buildPost(post: Post): Post { return post };
 
@@ -66,6 +69,7 @@ export class CreatePostFileComponent implements OnInit {
             userId: localStorage.getItem('userId')!,
             title: postTitle,
             imageUrl: response,
+            createAt: this.createdAt,
           });
 
           this.postService.addNewPost(post);
