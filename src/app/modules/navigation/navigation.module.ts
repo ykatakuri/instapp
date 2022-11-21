@@ -21,6 +21,9 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { NotificationsPageComponent } from './pages/notifications-page/notifications-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
+import { NbThemeModule,NbChatModule } from '@nebular/theme';
+import { ListeChatComponent } from './pages/liste-chat/liste-chat.component';
+
 
 @NgModule({
   declarations: [
@@ -32,7 +35,8 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
     HomePageComponent,
     AppBarComponent,
     SelectPhotoBottomSheetComponent,
-    FormBottomSheetComponent
+    FormBottomSheetComponent,
+    ListeChatComponent
   ],
   imports: [
     CommonModule,
@@ -48,6 +52,7 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
     MatBottomSheetModule,
     WebcamModule,
     ReactiveFormsModule,
+    NbChatModule,
   ],
   exports: [
 
