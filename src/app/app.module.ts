@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
 import { NavigationModule } from './modules/navigation/navigation.module';
+import { provideMessaging,getMessaging } from '@angular/fire/messaging';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { NavigationModule } from './modules/navigation/navigation.module';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     })
+    provideMessaging(() => getMessaging())
   ],
   providers: [
     ScreenTrackingService, UserTrackingService

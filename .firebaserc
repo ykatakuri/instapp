@@ -1,14 +1,14 @@
 {
   "targets": {
-    "instapp-16290": {
+    "instvgrvm-742ef": {
       "hosting": {
         "instapp": [
-          "instapp-16290"
+          "instvgrvm"
         ]
       }
     }
   },
   "projects": {
-    "default": "instapp-16290"
+    "default": "instvgrvm-742ef"
   }
 }
