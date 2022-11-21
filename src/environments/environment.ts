@@ -10,6 +10,7 @@ export const environment = {
     apiKey: 'AIzaSyB577iKiKJRf_4WIEHQEH5wx7vndIw--wE',
     authDomain: 'instapp-16290.firebaseapp.com',
     messagingSenderId: '130667945369',
+    vapidKey: 'BO4E79S6kIC3UanrjW_GjVQGeywZU4OGSjJwlfy1QS9BuWbWzYh9h2XoKRtGoFN7vllVw68iTDLkRs48iloFLrc'
   },
   production: false
 };

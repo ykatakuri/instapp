@@ -24,6 +24,11 @@ import { NotificationsPageComponent } from './pages/notifications-page/notificat
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 
+import { BrowserModule } from '@angular/platform-browser';
+import { AppRoutingModule } from 'src/app/app-routing.module';
+import { FormsModule } from '@angular/forms';
+import { QRCodeModule } from 'angularx-qrcode';
+
 @NgModule({
   declarations: [
     NavbarComponent,
@@ -50,7 +55,11 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
     MatBottomSheetModule,
     WebcamModule,
     ReactiveFormsModule,
-    NavigationRoutingModule
+    NavigationRoutingModule,
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    QRCodeModule
   ],
   providers: [
     HomePageService

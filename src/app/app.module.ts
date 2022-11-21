@@ -15,6 +15,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
 import { NavigationModule } from './modules/navigation/navigation.module';
 import { HomePageService } from './services/home-page.service';
+import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { HomePageService } from './services/home-page.service';
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    NgxScannerQrcodeModule
   ],
   providers: [
     ScreenTrackingService, UserTrackingService
