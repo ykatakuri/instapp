@@ -8,7 +8,6 @@ import { GenericFirestoreService } from './generic-firestore.service.service';
 import { FIREBASE_COLLECTION_PATHS } from '../core/constants/firestore-collection-paths.constant';
 import { Chat } from '../models/chat.interface';
 import { Message } from '../models/chat.interface';
-import { ListeChat } from '../models/liste-chat.interface';
 
 @Injectable({
   providedIn: 'root'

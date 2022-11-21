@@ -33,6 +33,11 @@ export class GenericFirestoreService {
     return getCountFromServer(request);
   }
 
+  public fetchAll<T>(collection: CollectionReference<DocumentData>, propertyName: string, direction: "asc" | "desc" = "asc"): Observable<T[]> {
+    const request = query(collection, orderBy(propertyName, direction));
+    return collectionData(request, { idField: "id" }) as Observable<T[]>;
+  }
+
   public fetchConvById<T>(collection: CollectionReference<DocumentData>, propertyName: string, direction: "asc" | "desc" = "asc", referenceUser: string): Observable<T[]> {
     const request = query(collection, where("users", "array-contains", referenceUser), orderBy(propertyName, direction));
     return collectionData(request, { idField: "id" }) as Observable<T[]>;
