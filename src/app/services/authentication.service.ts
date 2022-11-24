@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Auth, authState, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile, User, UserCredential } from "@angular/fire/auth";
 import { uuidv4 } from "@firebase/util";
 import { DocumentReference, DocumentData, CollectionReference, collection } from "firebase/firestore";
-import { EMPTY, first, last, Observable, of } from "rxjs";
+import { EMPTY, first, last, Observable, of, retryWhen } from "rxjs";
 import { AppUser } from "../models/app-user.interface";
 import { FIREBASE_COLLECTION_PATHS } from "../modules/navigation/constants/firestore-collection-paths.constant";
 import { GenericFirestoreService } from "./generic-firestore.service";
@@ -14,7 +14,16 @@ import { Firestore } from "@angular/fire/firestore";
 export class AuthenticationService {
 
   private usersCollection: CollectionReference<DocumentData>;
+  // public currentUserObservable : Observable<AppUser>;
   public currentUserId : any = null;
+  public currentUser: AppUser = {
+    id: "",
+    firstname: "",
+    lastname: "",
+    email: "",
+    picture: "",
+    friends: []
+  };
   public user: Observable<User | null> = EMPTY;
   constructor(
     private readonly auth: Auth,
@@ -26,6 +35,14 @@ export class AuthenticationService {
       this.usersCollection = collection(this.firestore, FIREBASE_COLLECTION_PATHS.USERS);
     if (this.auth) {
       this.currentUserId = this.auth.currentUser?.uid;
+
+      // if(this.auth.currentUser?.email != null){
+      //   this.genericFirestoreService.fetchByProperty<AppUser>(this.usersCollection, "email", this.auth.currentUser.email,1).subscribe(res => {
+      //     this.currentUser = res[0];
+      //     // console.log("currentuser in auth", this.currentUser);
+      //   })
+      // }
+
       this.user = authState(this.auth);
       onAuthStateChanged(this.auth,
         (user: User | null) => {
@@ -41,20 +58,23 @@ export class AuthenticationService {
     try {
       const data: UserCredential = await createUserWithEmailAndPassword(this.auth, email, password);
 
+      // this.setCurrentUser(data.user.uid, email, firstname, lastname)
+
+      this.currentUserId = data.user.uid;
+
       const newUser : AppUser = {
         id: data.user.uid,
         email : email,
         firstname : firstname,
         lastname : lastname,
-        picture : ""
+        picture : "",
+        friends : []
       };
       console.log("newUser" + newUser);
 
-      await this.addNewUser(newUser)
+      await this.addNewUser(newUser);
 
       console.log(data)
-
-      const displayName: string = firstname + " " + lastname;
 
       return data;
     } catch (error) {
@@ -73,6 +93,7 @@ export class AuthenticationService {
   public async signOut(): Promise<void> {
     try {
       await signOut(this.auth);
+
     } catch (error) {
       console.log(error);
     }
@@ -81,7 +102,7 @@ export class AuthenticationService {
 
   public async addNewUser(user: AppUser): Promise<DocumentReference<DocumentData>> {
     user.id = uuidv4();
-    let res = await this.genericFirestoreService.create(this.usersCollection, user)
+    let res = await this.genericFirestoreService.create(this.usersCollection, user);
     return res;
     }
 
@@ -92,9 +113,48 @@ private uuidv4(): any {
   throw new Error("Function not implemented.");
 }
 
-public getCurrentUser(): Observable<User | null>{
-  return this.user;
+// public async getCurrentUser():Promise<AppUser>{
+
+
+    // return this.genericFirestoreService.fetchByProperty<AppUser>(this.usersCollection, "email", this.auth.currentUser.email,1).pipe(first());
+    // })
+  // }
+  // let user : AppUser = {
+  //   id: "",
+  //   firstname: "",
+  //   lastname: "",
+  //   email: "",
+  //   picture: "",
+  //   friends: []
+  // };
+  // if(this.auth.currentUser?.email != null){
+  //   this.genericFirestoreService.fetchByProperty<AppUser>(this.usersCollection, "email", this.auth.currentUser.email, 1).subscribe(res => {
+  //   console.log("res[0]", res[0]);
+  //   this.currentUser = res[0];
+  //   user = res[0];
+  //   return user;
+  // })
+  // }
+  // else{
+  //   return user as unknown as Observable<AppUser>;
+  // }
+// }
+
+
+public fetchUserById(id: string): Observable<AppUser> {
+  return this.genericFirestoreService.fetchById<AppUser>(FIREBASE_COLLECTION_PATHS.USERS, id);
 }
+
+public fetchUserByEmail(email: string): Observable<AppUser> {
+  return this.genericFirestoreService.fetchByEmail<AppUser>(FIREBASE_COLLECTION_PATHS.USERS, email);
+}
+
+// private setCurrentUser(id: string, email: string, firstname: string, lastname: string){
+//   this.currentUser.id = id;
+//   this.currentUser.email = email;
+//   this.currentUser.firstname = firstname;
+//   this.currentUser.lastname = lastname;
+// }
 
 // public getCurrentUserId(): string{
 //   return this.user;

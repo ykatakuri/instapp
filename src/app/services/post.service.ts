@@ -12,7 +12,7 @@ import { Firestore } from "@angular/fire/firestore";
   providedIn: 'root',
 })
 
-export class HomePageService {
+export class PostService {
 
   private postsCollection: CollectionReference<DocumentData>;
 
@@ -29,6 +29,9 @@ export class HomePageService {
   }
 
   // public fetchFriendsPosts(direction: "asc" | "desc" = "asc"): Observable<AppPost[]> {
+  public fetchPostsById(id : string, direction: "asc" | "desc" = "asc"): Observable<AppPost[]> {
+    return this.genericFirestoreService.fetchAll<AppPost>(this.postsCollection, "title", direction);
+  }
 
   public fetchPostsByUserId(id : string, direction: "asc" | "desc" = "asc"): Observable<AppPost[]> {
     return this.genericFirestoreService.fetchByProperty(this.postsCollection, "idUser", id, 10);

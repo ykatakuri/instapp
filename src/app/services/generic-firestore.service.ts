@@ -55,6 +55,12 @@ export class GenericFirestoreService {
     return docData(documentReference, { idField: "id" }) as Observable<T>;
   }
 
+  public fetchByEmail<T>(path: string, email: string): Observable<T> {
+    const documentReference = doc(this.firestore, `${path}/${email}`);
+
+    return docData(documentReference, { idField: "email" }) as Observable<T>;
+  }
+
   public fetchByProperty<T>(
     collection: CollectionReference<DocumentData>,
     propertyName: string,
