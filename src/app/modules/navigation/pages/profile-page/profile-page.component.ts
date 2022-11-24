@@ -33,8 +33,8 @@ export class ProfilePageComponent implements OnInit {
       audio: false,
       video: {
         facingMode: 'environment', // Pour la caméra frontale go check : https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia, faut mettre user au lieu de environment
-        width: { min: 1024, ideal: 1280, max: 1920 },
-        height: { min: 576, ideal: 720, max: 1080 }
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
       }
     }
   };
