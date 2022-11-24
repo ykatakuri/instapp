@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgxScannerQrcodeService, SelectedFiles } from 'ngx-scanner-qrcode';
+import { NgxScannerQrcodeService } from 'ngx-scanner-qrcode';
 
 @Component({
   selector: 'app-root',
@@ -9,24 +9,6 @@ import { NgxScannerQrcodeService, SelectedFiles } from 'ngx-scanner-qrcode';
 export class AppComponent {
   title = 'instapp';
 
-  public config: Object = {
-    isAuto: true,
-    text: { font: '25px serif' }, // Hiden { font: '0px' },
-    frame: { lineWidth: 8 },
-    medias: {
-      audio: false,
-      video: {
-        facingMode: 'environment', // To require the rear camera https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
-        width: { ideal: 1280 },
-        height: { ideal: 720 }
-      }
-    }
-  };
-
-  public selectedFiles: SelectedFiles[] = [];
-
-  constructor(private qrcode: NgxScannerQrcodeService) { }
-
   public onError(e: any): void {
     alert(e);
   }
@@ -35,4 +17,5 @@ export class AppComponent {
     action[fn]().subscribe(console.log, console.error);
   }
 
+  constructor(private qrcode: NgxScannerQrcodeService) {  }
 }

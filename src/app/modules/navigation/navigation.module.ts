@@ -28,6 +28,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { QRCodeModule } from 'angularx-qrcode';
+import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
+
 
 @NgModule({
   declarations: [
@@ -59,7 +61,8 @@ import { QRCodeModule } from 'angularx-qrcode';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    QRCodeModule
+    QRCodeModule,
+    NgxScannerQrcodeModule
   ],
   providers: [
     HomePageService
