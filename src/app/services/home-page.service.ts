@@ -1,11 +1,12 @@
 import { Injectable } from "@angular/core";
 import { collectionData } from "@angular/fire/firestore";
-import { CollectionReference, DocumentData, query, orderBy, DocumentReference, collection, Firestore } from "firebase/firestore";
+import { CollectionReference, DocumentData, AggregateField, AggregateQuerySnapshot, query, orderBy, DocumentReference, collection } from "firebase/firestore";
 import { EMPTY, Observable, of } from "rxjs";
 import { FIREBASE_COLLECTION_PATHS } from "../modules/navigation/constants/firestore-collection-paths.constant";
 import { GenericFirestoreService } from "./generic-firestore.service";
 import { GenericStorageService } from "./generic-storage.service";
 import { AppPost } from "../models/app-post.interface";
+import { Firestore } from "@angular/fire/firestore";
 
 @Injectable({
   providedIn: 'root',
@@ -22,8 +23,6 @@ export class HomePageService {
     ) {
     this.postsCollection = collection(this.firestore, FIREBASE_COLLECTION_PATHS.POSTS);
   }
-
-
 
   public fetchPosts(direction: "asc" | "desc" = "asc"): Observable<AppPost[]> {
     return this.genericFirestoreService.fetchAll<AppPost>(this.postsCollection, "title", direction);

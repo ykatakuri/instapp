@@ -13,35 +13,35 @@ const redirectLoggedInToAppNavigator = () => redirectLoggedInTo([""]);
 
 const routes: Routes = [
   {
-    component: HomePageComponent,
+
     path: "",
     loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
   },
-  {
-    component: ProfilePageComponent,
-    path: "profile",
-    loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
-  },
-  {
-    component: NotificationsPageComponent,
-    path: "notifications",
-    loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
-  },
-  {
-    component: ChatPageComponent,
-    path: "chat",
-    loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
-  },
-  {
-    component: SearchPageComponent,
-    path: "search",
-    loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
-  },
-  {
-    component: HomePageComponent,
-    path: "home",
-    loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
-  },
+  // {
+  //   component: ProfilePageComponent,
+  //   path: "profile",
+  //   loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
+  // },
+  // {
+  //   component: NotificationsPageComponent,
+  //   path: "notifications",
+  //   loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
+  // },
+  // {
+  //   component: ChatPageComponent,
+  //   path: "chat",
+  //   loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
+  // },
+  // {
+  //   component: SearchPageComponent,
+  //   path: "search",
+  //   loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
+  // },
+  // {
+  //   component: HomePageComponent,
+  //   path: "home",
+  //   loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
+  // },
   {
     component: AuthenticationPageComponent,
     path: "authenticate",

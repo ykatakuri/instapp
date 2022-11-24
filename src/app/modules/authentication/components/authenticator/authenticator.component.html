@@ -35,23 +35,23 @@
             <div fxLayout="column">
                 <mat-form-field class="signup-email-form-field" appearance="fill">
                     <mat-label>E-mail</mat-label>
-                    <input matInput placeholder="pat@example.com" formControlName="signupEmail" required>
+                    <input matInput placeholder="Email" formControlName="signupEmail" required>
                     <mat-error *ngIf="this.signupForm.controls['signupEmail'].invalid">{{getSignupEmailErrorMessage()}}
                     </mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="signup-fullname-form-field" appearance="fill">
-                    <mat-label>Nom complet</mat-label>
-                    <input matInput placeholder="Kevin Systrom" formControlName="signupFullname" minlength="4" required>
-                    <mat-error *ngIf="this.signupForm.controls['signupFullname'].invalid">
-                        {{getSignupFullnameErrorMessage()}}</mat-error>
+                    <mat-label>Prénom</mat-label>
+                    <input matInput placeholder="Prénom" formControlName="signupFirstname" minlength="4" required>
+                    <mat-error *ngIf="this.signupForm.controls['signupFirstname'].invalid">
+                        {{getSignupFirstnameErrorMessage()}}</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="signup-username-form-field" appearance="fill">
-                    <mat-label>Nom d’utilisateur</mat-label>
-                    <input matInput placeholder="ksystrom" formControlName="signupUsername" minlength="2" required>
-                    <mat-error *ngIf="this.signupForm.controls['signupUsername'].invalid">
-                        {{getSignupUsernameErrorMessage()}}</mat-error>
+                    <mat-label>Nom</mat-label>
+                    <input matInput placeholder="Nom" formControlName="signupLastname" minlength="2" required>
+                    <mat-error *ngIf="this.signupForm.controls['signupLastname'].invalid">
+                        {{getSignupLastnameErrorMessage()}}</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="signup-password-form-field" appearance="fill">

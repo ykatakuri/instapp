@@ -8,81 +8,33 @@
         </mat-toolbar>
     </p>
 
-    <div class="post-container">
-        <mat-card class="home-post-card">
-            <mat-card-header>
-                <div mat-card-avatar class="user-avatar"></div>
-                <mat-card-title>Fullname</mat-card-title>
-                <mat-card-subtitle>Time</mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-                alt="Photo of a Shiba Inu">
-            <mat-card-content>
-                <p>Title</p>
-            </mat-card-content>
-            <mat-card-actions>
-                <button mat-icon-button>
-                    <mat-icon>favorite</mat-icon>
-                </button>
-                <span>20</span>
-                <button mat-icon-button>
-                    <mat-icon>comment</mat-icon>
-                </button>
-                <button mat-icon-button>
-                    <mat-icon>share</mat-icon>
-                </button>
-            </mat-card-actions>
-        </mat-card>
-
-        <mat-card class="home-post-card">
-            <mat-card-header>
-                <div mat-card-avatar class="user-avatar"></div>
-                <mat-card-title>Fullname</mat-card-title>
-                <mat-card-subtitle>Time</mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-                alt="Photo of a Shiba Inu">
-            <mat-card-content>
-                <p>Title</p>
-            </mat-card-content>
-            <mat-card-actions>
-                <button mat-icon-button>
-                    <mat-icon>favorite</mat-icon>
-                </button>
-                <span>20</span>
-                <button mat-icon-button>
-                    <mat-icon>comment</mat-icon>
-                </button>
-                <button mat-icon-button>
-                    <mat-icon>share</mat-icon>
-                </button>
-            </mat-card-actions>
-        </mat-card>
-        <mat-card class="home-post-card">
-            <mat-card-header>
-                <div mat-card-avatar class="user-avatar"></div>
-                <mat-card-title>Fullname</mat-card-title>
-                <mat-card-subtitle>Time</mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-                alt="Photo of a Shiba Inu">
-            <mat-card-content>
-                <p>Title</p>
-            </mat-card-content>
-            <mat-card-actions>
-                <button mat-icon-button>
-                    <mat-icon>favorite</mat-icon>
-                </button>
-                <span>20</span>
-                <button mat-icon-button>
-                    <mat-icon>comment</mat-icon>
-                </button>
-                <button mat-icon-button>
-                    <mat-icon>share</mat-icon>
-                </button>
-            </mat-card-actions>
-        </mat-card>
+    <div class="post-container" *ngFor="let p of posts">
+      <mat-card class="home-post-card">
+        <mat-card-header>
+            <div mat-card-avatar class="user-avatar"></div>
+            <mat-card-title>{{p.title}}</mat-card-title>
+            <mat-card-subtitle>{{p.description}}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image src="{{p.picture}}"
+            alt="Photo of a Shiba Inu">
+        <mat-card-content>
+            <p>{{p.date.toDate().toLocaleString()}}</p>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-icon-button>
+                <mat-icon>favorite</mat-icon>
+            </button>
+            <span>20</span>
+            <button mat-icon-button>
+                <mat-icon>comment</mat-icon>
+            </button>
+            <button mat-icon-button>
+                <mat-icon>share</mat-icon>
+            </button>
+        </mat-card-actions>
+    </mat-card>
     </div>
+
 </cdk-virtual-scroll-viewport>
 
 <div class="utility-spacer"></div>
