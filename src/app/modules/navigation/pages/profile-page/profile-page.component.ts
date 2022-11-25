@@ -12,6 +12,8 @@ import { GenericFirestoreService } from 'src/app/services/generic-firestore.serv
 import { PostService } from 'src/app/services/post.service';
 import { FIREBASE_COLLECTION_PATHS } from '../../constants/firestore-collection-paths.constant';
 
+import { NgxScannerQrcodeService } from 'ngx-scanner-qrcode';
+
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
@@ -53,7 +55,8 @@ export class ProfilePageComponent implements OnInit {
     private postService: PostService,
     private authenticationService: AuthenticationService,
     private firestore: Firestore,
-    private genericFirestoreService: GenericFirestoreService
+    private genericFirestoreService: GenericFirestoreService,
+    private qrcode: NgxScannerQrcodeService
     ) {
       this.usersCollection = collection(this.firestore, FIREBASE_COLLECTION_PATHS.USERS);
       this.postsCollection = collection(this.firestore, FIREBASE_COLLECTION_PATHS.POSTS);
@@ -90,12 +93,21 @@ export class ProfilePageComponent implements OnInit {
     return this.genericFirestoreService.fetchById<AppUser>(FIREBASE_COLLECTION_PATHS.USERS, id);
   }
 
+<<<<<<< HEAD
   public fetchUserByEmail(email: string): Observable<AppUser> {
     return this.genericFirestoreService.fetchByEmail<AppUser>(FIREBASE_COLLECTION_PATHS.USERS, email);
   }
 
   private fetchOwnPosts(idUser: string): Observable<AppPost[]>{
     return this.genericFirestoreService.fetchByProperty<AppPost>(this.postsCollection, "idUser",idUser, 10);
+=======
+  public onError(e: any): void {
+    alert(e);
+  }
+
+  public handle(action: any, fn: string): void {
+    action[fn]().subscribe(console.log, console.error);
+>>>>>>> origin/theo
   }
 
 }
