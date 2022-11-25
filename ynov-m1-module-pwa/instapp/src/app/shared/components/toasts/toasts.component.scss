@@ -1,0 +1,30 @@
+.toast-container {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  position: absolute;
+  bottom: 78px;
+  max-width: 500px;
+  z-index: 9999;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    background-color: #e0e0e0;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 2px;
+  }
+
+  scrollbar-width: auto;
+  scrollbar-color: var(--primary-color) #e0e0e0;
+}
+
+.left {
+  left: 0;
+}
+
+.right {
+  right: 0;
+}

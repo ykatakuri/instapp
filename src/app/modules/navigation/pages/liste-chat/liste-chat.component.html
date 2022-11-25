@@ -1,0 +1,133 @@
+<div class="container">
+  <h1>Discussion</h1>
+  <mat-list>
+      <div class="listeChats" *ngIf="chat.length > 0">
+    <div class="listeChat" *ngFor="let chat of chat" (click)="openChat(chat)">
+
+      <mat-list-item><span>{{chat.name}}</span></mat-list-item>
+
+    </div>
+    </div>
+  </mat-list>
+
+
+</div>
+<!--
+<div class="container-fluid h-50">
+  <div class="row justify-content-center h-100">
+    <div class="col-md-4 col-xl-3 chat"><div class="card mb-sm-3 mb-md-0 contacts_card">
+      <div class="card-header">
+        <div class="input-group">
+          <input type="text" placeholder="Search..." name="" class="form-control search">
+          <div class="input-group-prepend">
+            <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body contacts_body">
+        <ul class="contacts">
+        <li class="active">
+          <div class="d-flex bd-highlight">
+            <div class="img_cont">
+              <img src="https://therichpost.com/wp-content/uploads/2020/06/avatar2.png" class="rounded-circle user_img">
+              <span class="online_icon"></span>
+            </div>
+            <div class="user_info">
+              <span>jassa</span>
+              <p>Kalid is online</p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="d-flex bd-highlight">
+            <div class="img_cont">
+              <img src="https://therichpost.com/wp-content/uploads/2020/06/avatar2.png" class="rounded-circle user_img">
+              <span class="online_icon offline"></span>
+            </div>
+            <div class="user_info">
+              <span>jassa</span>
+              <p>Taherah left 7 mins ago</p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="d-flex bd-highlight">
+            <div class="img_cont">
+              <img src="https://therichpost.com/wp-content/uploads/2020/06/avatar2.png" class="rounded-circle user_img">
+              <span class="online_icon"></span>
+            </div>
+            <div class="user_info">
+              <span>jassa Mann</span>
+              <p>Sami is online</p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="d-flex bd-highlight">
+            <div class="img_cont">
+              <img src="https://therichpost.com/wp-content/uploads/2020/06/avatar2.png" class="rounded-circle user_img">
+              <span class="online_icon offline"></span>
+            </div>
+            <div class="user_info">
+              <span>jassa Mann</span>
+              <p>Nargis left 30 mins ago</p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="d-flex bd-highlight">
+            <div class="img_cont">
+              <img src="https://therichpost.com/wp-content/uploads/2020/06/avatar2.png" class="rounded-circle user_img">
+              <span class="online_icon offline"></span>
+            </div>
+            <div class="user_info">
+              <span>jassa Mann</span>
+              <p>Rashid left 50 mins ago</p>
+            </div>
+          </div>
+        </li>
+      </ul>
+      </div>
+      <div class="card-footer"></div>
+    </div></div>
+
+
+
+
+
+
+
+
+    <div class="col-md-8 col-xl-6 chat">
+      <div class="card">
+        <div class="card-header msg_head">
+          <div class="d-flex bd-highlight">
+            <div class="img_cont">
+              <img src="https://therichpost.com/wp-content/uploads/2020/06/avatar2.png" class="rounded-circle user_img">
+              <span class="online_icon"></span>
+            </div>
+            <div class="user_info">
+              <span>Chat with jassa</span>
+              <p>1767 Messages</p>
+            </div>
+            <div class="video_cam">
+              <span><i class="fas fa-video"></i></span>
+              <span><i class="fas fa-phone"></i></span>
+            </div>
+          </div>
+          <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
+          <div class="action_menu">
+            <ul>
+              <li><i class="fas fa-user-circle"></i> View profile</li>
+              <li><i class="fas fa-users"></i> Add to close friends</li>
+              <li><i class="fas fa-plus"></i> Add to group</li>
+              <li><i class="fas fa-ban"></i> Block</li>
+            </ul>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div> -->

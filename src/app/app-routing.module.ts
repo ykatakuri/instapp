@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthenticationPageComponent } from './modules/authentication/pages/authentication-page/authentication-page.component';
 import { ChatPageComponent } from './modules/navigation/pages/chat-page/chat-page.component';
 import { HomePageComponent } from './modules/navigation/pages/home-page/home-page.component';
+import { ListeChatComponent } from './modules/navigation/pages/liste-chat/liste-chat.component';
 import { NotificationsPageComponent } from './modules/navigation/pages/notifications-page/notifications-page.component';
 import { ProfilePageComponent } from './modules/navigation/pages/profile-page/profile-page.component';
 import { SearchPageComponent } from './modules/navigation/pages/search-page/search-page.component';

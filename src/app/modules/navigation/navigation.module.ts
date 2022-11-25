@@ -22,6 +22,8 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { NotificationsPageComponent } from './pages/notifications-page/notifications-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
+import { NbThemeModule,NbChatModule } from '@nebular/theme';
+import { CreatePostCameraComponent } from './components/create-post-camera/create-post-camera.component';
 import { CreatePostFileComponent } from './components/create-post-file/create-post-file.component';
 import { PostComponent } from './components/post/post.component';
 

@@ -1,0 +1,3 @@
+<div class="toast-container {{ position }}">
+  <app-toast *ngFor="let toast of toasts" [toast]="toast" [position]="position" (closeEvent)="close($event)"></app-toast>
+</div>

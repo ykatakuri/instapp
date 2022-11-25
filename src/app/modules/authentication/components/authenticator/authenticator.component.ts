@@ -111,6 +111,7 @@ export class AuthenticatorComponent implements OnInit {
     this.snackBar.open(`Inscription terminée!`, 'Fermer');
   }
 
+
   onReset(): void {
     console.log(this.resetForm.value);
   }

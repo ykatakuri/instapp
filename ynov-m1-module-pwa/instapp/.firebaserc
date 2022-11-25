@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "instapp-b9c3c": {
+      "hosting": {
+        "instapp": [
+          "instapp-b9c3c"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "instapp-b9c3c"
+  }
+}

@@ -1,0 +1,13 @@
+<div
+  class="toast-wrapper {{ toast.type }} {{ position }}"
+  [ngClass]="{ 'exit-left': isFinished && position === 'left', 'exit-right': isFinished && position === 'right' }"
+>
+  <div class="content">
+    <app-icons [type]="toast.type"></app-icons>
+    <div class="message">{{ toast.message }}</div>
+    <button *ngIf="toast?.button !== undefined" (click)="close()">{{ toast.button }}</button>
+  </div>
+  <div class="progress-bar" *ngIf="toast.duration > 0">
+    <div class="bar" [ngStyle]="{ width: width + '%' }"></div>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+<div class="loader-wrapper" *ngIf="loaders.length > 0">
+  <app-spinner></app-spinner>
+  <div class="message" *ngIf="loaders[0].isMessageDisplayed">
+    {{ loaders[0].message }}
+  </div>
+
+  <button *ngIf="isRefreshButtonDisplayed" (click)="refreshApplication()">Rafraîchir la page</button>
+</div>

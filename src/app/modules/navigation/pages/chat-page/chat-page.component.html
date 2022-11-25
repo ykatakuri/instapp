@@ -1,2 +1,66 @@
-<p>chat works!</p>
-<app-navbar></app-navbar>
+<div class="container">
+  <h1>Discussion</h1>
+
+  <div class="chat" *ngIf="chat.length > 0">
+    <div class="chat" *ngFor="let conv of chat">
+      <ng-container *ngFor="let mess of conv.messages">
+        <label>{{ mess.sender }}</label>
+
+        <div class="card-body msg_card_body">
+          <div class="d-flex justify-content-start mb-4">
+            <div class="msg_cotainer">
+              <label>{{ mess.content }}</label>
+              <span class="msg_time"><label>{{ mess.sentAt.toDate().toLocaleString() }}</label></span>
+            </div>
+          </div>
+        </div>
+
+      </ng-container>
+    </div>
+  </div>
+
+  <form action="">
+    <textarea name="" id="" cols="30" rows="10" placeholder="Type your message ...">
+
+    </textarea>
+    <button (click)="sendMessage()" type="submit" mat-raised-buttoncolor="primary">
+      Send message
+    </button>
+  </form>
+
+</div>
+
+
+<!-- <div class="card-body msg_card_body">
+  <div class="d-flex justify-content-start mb-4">
+    <div class="img_cont_msg">
+      <img src="https://therichpost.com/wp-content/uploads/2020/06/avatar2.png" class="rounded-circle user_img_msg">
+    </div>
+    <div class="msg_cotainer">
+      Hi, how are you samim?
+      <span class="msg_time">8:40 AM, Today</span>
+    </div>
+  </div>
+  <div class="d-flex justify-content-end mb-4">
+    <div class="msg_cotainer_send">
+      Hi jassa i am good tnx how about you?
+      <span class="msg_time_send">8:55 AM, Today</span>
+    </div>
+    <div class="img_cont_msg">
+      <img src="https://therichpost.com/wp-content/uploads/2020/06/avatar2.png" class="rounded-circle user_img_msg">
+    </div>
+  </div>
+</div> -->
+
+<!--
+<div class="card-footer">
+  <div class="input-group">
+    <div class="input-group-append">
+      <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
+    </div>
+    <textarea name="" class="form-control type_msg" placeholder="Type your message..."></textarea>
+    <div class="input-group-append">
+      <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
+    </div>
+  </div>
+</div> -->
