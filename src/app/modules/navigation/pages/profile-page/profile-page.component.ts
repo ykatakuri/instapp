@@ -8,6 +8,8 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { GenericFirestoreService } from 'src/app/services/generic-firestore.service';
 import { FIREBASE_COLLECTION_PATHS } from '../../constants/firestore-collection-paths.constant';
 
+import { NgxScannerQrcodeService } from 'ngx-scanner-qrcode';
+
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
@@ -43,6 +45,7 @@ export class ProfilePageComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private firestore: Firestore,
     private genericFirestoreService: GenericFirestoreService,
+    private qrcode: NgxScannerQrcodeService
     ) {
       this.myAngularxQrCode = 'Your QR code data string';
     }
@@ -67,6 +70,14 @@ export class ProfilePageComponent implements OnInit {
 
   public fetchUserById(id: string): Observable<AppUser> {
     return this.genericFirestoreService.fetchById<AppUser>(FIREBASE_COLLECTION_PATHS.USERS, id);
+  }
+
+  public onError(e: any): void {
+    alert(e);
+  }
+
+  public handle(action: any, fn: string): void {
+    action[fn]().subscribe(console.log, console.error);
   }
 
 }
