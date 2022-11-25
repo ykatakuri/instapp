@@ -3,7 +3,8 @@ import { ChatService } from 'src/app/services/chat.service';
 import { Chat } from 'src/app/models/chat.interface';
 import {ActivatedRoute, Router} from '@angular/router';
 import { LoaderService } from 'src/app/services/loader.service.service';
-import { DocumentReference } from '@angular/fire/firestore';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 // import * as $ from 'jquery';
 
 
@@ -15,7 +16,7 @@ import { DocumentReference } from '@angular/fire/firestore';
 export class ChatPageComponent implements OnInit {
   public chat: Chat[] = [];
 
-  public idDoc: string= "";
+  public idDoc: string = "";
 
   constructor(private route: ActivatedRoute, private router: Router, private loaderService: LoaderService, private chatService: ChatService) {
 
@@ -23,14 +24,27 @@ export class ChatPageComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.route.queryParams.subscribe(params => {
-      this.idDoc = params['chat'];
-    });
+    this.route.paramMap.subscribe((data) => {
+      console.log(data.get('docId'));
 
-    this.chatService.fetchConv(this.idDoc).subscribe(data => {
-      console.log(data);
-      this.chat = data;
+      this.idDoc = data.get('docId')!;
 
     })
-}
+
+
+
+    this.chatService.fetchConvById(this.idDoc).subscribe(data => {
+
+      this.chatService.fetchUser(data.messages[0].sender).subscribe(user => {
+        // console.log(user.firstname);
+      })
+
+      console.log(data);
+      this.chat.push(data);
+    })
+  }
+
+  sendMessage(): void {
+
+  }
 }

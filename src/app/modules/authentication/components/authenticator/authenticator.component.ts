@@ -12,7 +12,7 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./authenticator.component.scss']
 })
 
-// TODO: Show snackbar on authentication  
+// TODO: Show snackbar on authentication
 export class AuthenticatorComponent implements OnInit {
   state = AuthenticationState.LOGIN;
 
@@ -149,6 +149,7 @@ export class AuthenticatorComponent implements OnInit {
     this.state = AuthenticationState.LOGIN;
     this.snackBar.open(`Inscription terminée!`, 'Fermer');
   }
+
 
   onReset(): void {
     console.log(this.resetForm.value);

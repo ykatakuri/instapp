@@ -38,15 +38,10 @@ export class GenericFirestoreService {
     return collectionData(request, { idField: "id" }) as Observable<T[]>;
   }
 
-  public fetchConvById<T>(collection: CollectionReference<DocumentData>, propertyName: string, direction: "asc" | "desc" = "asc", referenceUser: string): Observable<T[]> {
-    const request = query(collection, where("users", "array-contains", referenceUser), orderBy(propertyName, direction));
+  public fetchConvById<T>(collection: CollectionReference<DocumentData>, propertyName: string, direction: "asc" | "desc" = "asc", referenceUser: string, path: string): Observable<T[]> {
+    const documentReference = doc(this.firestore, `${path}/${referenceUser}`);
+    const request = query(collection, where("users", "array-contains", documentReference), orderBy(propertyName, direction));
     return collectionData(request, { idField: "id" }) as Observable<T[]>;
-  }
-
-  public fetchConv<T>(collection: CollectionReference<DocumentData>, idDoc: string): Observable<T[]> {
-    const request = query(collection, where("", "==", idDoc));
-    return collectionData(request, { idField: "id" }) as Observable<T[]>;
-
   }
 
   public fetchByPagination<T>(

@@ -19,7 +19,5 @@ export const FIREBASE_MESSAGES: FirebaseMessage[] = [
 ];
 
 export const FIREBASE_COLLECTION_PATHS = {
-  CHATS: "chat",
-  LISTECHAT: "listeChat",
   MSN: "msn",
 }

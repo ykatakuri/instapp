@@ -1,4 +1,4 @@
-import { DocumentReference } from "@angular/fire/firestore";
+import { DocumentReference, Timestamp } from "@angular/fire/firestore";
 
 export interface Chat {
   id: string;
@@ -9,6 +9,6 @@ export interface Chat {
 
 export interface Message{
   content: string;
-  sender: string;
-  sentAt: string;
+  sender: DocumentReference;
+  sentAt: Timestamp;
 }
