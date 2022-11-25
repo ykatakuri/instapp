@@ -15,7 +15,6 @@ import { WebcamModule } from 'ngx-webcam';
 import { HomePageService } from 'src/app/services/home-page.service';
 import { CreatePostCameraComponent } from './components/create-post-camera/create-post-camera.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { SelectPhotoBottomSheetComponent } from './components/select-photo-bottom-sheet/select-photo-bottom-sheet.component';
 import { NavigationRoutingModule } from './navigation-routing.module';
 import { ChatPageComponent } from './pages/chat-page/chat-page.component';
 import { AppBarComponent } from './pages/home-page/components/app-bar/app-bar.component';
@@ -24,6 +23,7 @@ import { NotificationsPageComponent } from './pages/notifications-page/notificat
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { CreatePostFileComponent } from './components/create-post-file/create-post-file.component';
+import { PostComponent } from './components/post/post.component';
 
 @NgModule({
   declarations: [
@@ -34,9 +34,9 @@ import { CreatePostFileComponent } from './components/create-post-file/create-po
     ProfilePageComponent,
     HomePageComponent,
     AppBarComponent,
-    PostComponent,
     CreatePostCameraComponent,
-    CreatePostFileComponent
+    CreatePostFileComponent,
+    PostComponent,
   ],
   imports: [
     CommonModule,

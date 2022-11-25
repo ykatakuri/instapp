@@ -1,8 +1,8 @@
 {
   "hosting": [
     {
-      "target": "instvgrvm",
-      "public": "dist/instvgrvm",
+      "target": "instapp-16290",
+      "public": "dist/instapp-16290",
       "ignore": [
         "**/.*"
       ],
@@ -34,8 +34,8 @@
       ]
     },
     {
-      "target": "instvgrvm",
-      "public": "dist/instvgrvm",
+      "target": "instapp-16290",
+      "public": "dist/instapp-16290",
       "ignore": [
         "**/.*"
       ],

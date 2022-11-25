@@ -23,11 +23,7 @@ const routes: Routes = [
         path: "profile",
         component: ProfilePageComponent,
       },
-      {
-          component: ProfilePageComponent,
-          path: "profile",
 
-        },
         {
           component: NotificationsPageComponent,
           path: "notifications",
