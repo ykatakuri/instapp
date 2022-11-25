@@ -13,7 +13,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { WebcamModule } from 'ngx-webcam';
 import { HomePageService } from 'src/app/services/home-page.service';
-import { FormBottomSheetComponent } from './components/form-bottom-sheet/form-bottom-sheet.component';
+import { CreatePostCameraComponent } from './components/create-post-camera/create-post-camera.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SelectPhotoBottomSheetComponent } from './components/select-photo-bottom-sheet/select-photo-bottom-sheet.component';
 import { NavigationRoutingModule } from './navigation-routing.module';
@@ -23,6 +23,7 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { NotificationsPageComponent } from './pages/notifications-page/notifications-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
+import { CreatePostFileComponent } from './components/create-post-file/create-post-file.component';
 
 @NgModule({
   declarations: [
@@ -33,8 +34,9 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
     ProfilePageComponent,
     HomePageComponent,
     AppBarComponent,
-    SelectPhotoBottomSheetComponent,
-    FormBottomSheetComponent
+    PostComponent,
+    CreatePostCameraComponent,
+    CreatePostFileComponent
   ],
   imports: [
     CommonModule,

@@ -113,8 +113,8 @@
             "prerender": false,
             "ssr": false,
             "browserTarget": "instapp:build:production",
-            "firebaseProject": "instapp-16290",
-            "firebaseHostingSite": "instapp-16290"
+            "firebaseProject": "instvgrvm-742ef",
+            "firebaseHostingSite": "instvgrvm"
           }
         }
       }

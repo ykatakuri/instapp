@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { SelectPhotoBottomSheetComponent } from '../select-photo-bottom-sheet/select-photo-bottom-sheet.component';
+import { PostComponent } from '../post/post.component';
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +16,7 @@ export class NavbarComponent implements OnInit {
   }
 
   openBottomSheet(): void {
-    this._bottomSheet.open(SelectPhotoBottomSheetComponent);
+    this._bottomSheet.open(PostComponent);
   }
 }
 

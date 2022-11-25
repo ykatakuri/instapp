@@ -11,6 +11,9 @@ import { GenericFirestoreService } from 'src/app/services/generic-firestore.serv
 import { PostService } from 'src/app/services/post.service';
 import { FIREBASE_COLLECTION_PATHS } from '../../constants/firestore-collection-paths.constant';
 import { Firestore, doc, docData } from '@angular/fire/firestore';
+import { Post } from 'src/app/models/post.interface';
+import { PostsService } from 'src/app/services/posts.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-home-page',
@@ -19,20 +22,33 @@ import { Firestore, doc, docData } from '@angular/fire/firestore';
 })
 export class HomePageComponent implements OnInit {
 
-  posts : AppPost[] = []
-  friends: AppUser[]= []
-  currentUser: any;
-  ownPosts: any;
-
   private usersCollection: CollectionReference<DocumentData>;
+  private postsCollection: CollectionReference<DocumentData>;
 
-  constructor(private homePageService : HomePageService,
-    private postService : PostService,
-     private authenticationService : AuthenticationService,
-     private firestore: Firestore,
-      private genericFirestoreService: GenericFirestoreService
-      ) {
-        this.usersCollection = collection(this.firestore, FIREBASE_COLLECTION_PATHS.USERS);
+  posts$!: Observable<Post[]>;
+  user$!: Observable<AppUser>;
+  userId!: string;
+  username!: string;
+  friends: AppUser[] = [];
+  posts: AppPost[] = [];
+  public currentUser : AppUser = {
+    id: "",
+    email: "",
+    firstname: "",
+    lastname: "",
+    picture: "",
+    friends: []
+  }
+
+  constructor(
+    private genericFirestoreService : GenericFirestoreService,
+    private postService: PostService,
+    private userService: UsersService,
+    private firestore: Firestore,
+
+  ) {
+    this.usersCollection = collection(this.firestore, FIREBASE_COLLECTION_PATHS.USERS);
+      this.postsCollection = collection(this.firestore, FIREBASE_COLLECTION_PATHS.POSTS);
   }
 
   ngOnInit(): void {
@@ -62,5 +78,14 @@ export class HomePageComponent implements OnInit {
   public fetchByDocumentReference<T>(documentReference: DocumentReference): Observable<T> {
     return docData(documentReference, { idField: "id" }) as Observable<T>;
   }
+
+  // getUsername(userId: string): void {
+  //   this.userId = userId;
+  //   this.user$ = this.userService.fetchUserById(userId);
+
+  //   this.user$.subscribe(
+  //     value => this.username = value.fullname,
+  //   );
+  // }
 
 }

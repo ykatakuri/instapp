@@ -4,6 +4,9 @@ import { Observable } from 'rxjs';
 import { Firestore } from "@angular/fire/firestore";
 
 @Injectable()
+@Injectable({
+  providedIn: "root",
+})
 export class StorageService {
   constructor(private storage: Storage) { }
 
@@ -38,9 +41,9 @@ export class StorageService {
   }
 
   // Upload a file
-  public uploadFile(file: File, path: string, metadata: UploadMetadata): Promise<UploadResult> {
+  public uploadFile(file: File, path: string): Promise<UploadResult> {
     const reference: StorageReference = ref(this.storage, path);
-    return uploadBytes(reference, file, metadata);
+    return uploadBytes(reference, file);
   }
 
   // Handle a file upload

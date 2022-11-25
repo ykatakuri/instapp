@@ -1,6 +1,7 @@
 <mat-nav-list>
     <div *ngIf="stream">
-        <webcam [trigger]="$trigger" (imageCapture)="snapshot($event)" [imageQuality]="1" [width]="360">
+        <webcam [trigger]="$trigger" (imageCapture)="snapshot($event)" [imageQuality]="1" [allowCameraSwitch]="true"
+            [width]="360">
         </webcam>
     </div>
 
@@ -11,11 +12,9 @@
         </div>
     </div>
 
-    <a href="#" mat-list-item (click)="openLink($event)">
+    <a href="#" mat-list-item (click)="openCamera($event)">
         <span mat-line (click)="onCaptureImage()">{{takeSnapButtonLabel}}</span>
     </a>
 
-    <a href="#" mat-list-item (click)="openLink($event)">
-        <span mat-line>Choisir une photo</span>
-    </a>
+    <button mat-raised-button (click)="openFileForm()" color="primary">Choisir une photo</button>
 </mat-nav-list>
