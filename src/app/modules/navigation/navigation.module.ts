@@ -25,9 +25,6 @@ import { CreatePostCameraComponent } from './components/create-post-camera/creat
 import { CreatePostFileComponent } from './components/create-post-file/create-post-file.component';
 import { PostComponent } from './components/post/post.component';
 import { ListeChatComponent } from './pages/liste-chat/liste-chat.component';
-
-import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from 'src/app/app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { QRCodeModule } from 'angularx-qrcode';
 import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
@@ -63,8 +60,6 @@ import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
     WebcamModule,
     ReactiveFormsModule,
     NavigationRoutingModule,
-    BrowserModule,
-    AppRoutingModule,
     FormsModule,
     QRCodeModule,
     NgxScannerQrcodeModule
