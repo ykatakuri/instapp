@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { collection, CollectionReference, DocumentData, DocumentReference, Firestore } from '@angular/fire/firestore';
+import { AggregateField, AggregateQuerySnapshot, collection, CollectionReference, DocumentData, DocumentReference, Firestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { FIREBASE_COLLECTION_PATHS } from '../constants/firestore-collection-paths.constant';
 import { Post } from '../models/post.interface';
@@ -25,7 +25,19 @@ export class PostsService {
     return this.firestoreService.fetchAll<Post>(this.postsCollection, "createAt", direction);
   }
 
-  public fetchPostByUserId(id: string): Observable<Post[]> {
+  public getUserPosts(id: string): Observable<Post[]> {
     return this.firestoreService.fetchByProperty<Post>(this.postsCollection, "userId", id);
+  }
+
+  public getPostById(id: string): Observable<Post> {
+    return this.firestoreService.fetchById<Post>(FIREBASE_COLLECTION_PATHS.POSTS, id);
+  }
+
+  public updatePost(post: Post): Promise<void> {
+    return this.firestoreService.update(FIREBASE_COLLECTION_PATHS.POSTS, { id: post.id! });
+  }
+
+  public async countPosts(): Promise<AggregateQuerySnapshot<{ count: AggregateField<number> }>> {
+    return await this.firestoreService.count(this.postsCollection);
   }
 }

@@ -47,7 +47,7 @@ export class FirestoreService {
   }
 
   // Update a document
-  public update<T extends { id: any }>(path: string, object: T): Promise<void> {
+  public update<T extends { id: string }>(path: string, object: T): Promise<void> {
     const documentReference = doc(this.firestore, `${path}/${object.id}`);
     return updateDoc(documentReference, { ...object });
   }

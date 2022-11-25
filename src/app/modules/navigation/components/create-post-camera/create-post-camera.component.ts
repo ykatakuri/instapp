@@ -42,8 +42,10 @@ export class CreatePostCameraComponent implements OnInit {
     let title = this.photoTakenForm.controls['photoTakenTitle'].value;
     let url = localStorage.getItem('photoTakenUrl');
     let userId = localStorage.getItem('userId');
+    const postId = Date.now().toString();
 
     let post = this.buildPost({
+      id: postId,
       userId: userId!,
       title: title,
       imageUrl: url!,

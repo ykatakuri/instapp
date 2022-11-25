@@ -13,7 +13,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { WebcamModule } from 'ngx-webcam';
 import { CreatePostCameraComponent } from './components/create-post-camera/create-post-camera.component';
+import { CreatePostFileComponent } from './components/create-post-file/create-post-file.component';
+import { CreatePostComponent } from './components/create-post/create-post.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { PostListComponent } from './components/post-list/post-list.component';
 import { PostComponent } from './components/post/post.component';
 import { ChatPageComponent } from './pages/chat-page/chat-page.component';
 import { AppBarComponent } from './pages/home-page/components/app-bar/app-bar.component';
@@ -21,7 +24,6 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { NotificationsPageComponent } from './pages/notifications-page/notifications-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
-import { CreatePostFileComponent } from './components/create-post-file/create-post-file.component';
 
 @NgModule({
   declarations: [
@@ -32,9 +34,11 @@ import { CreatePostFileComponent } from './components/create-post-file/create-po
     ProfilePageComponent,
     HomePageComponent,
     AppBarComponent,
-    PostComponent,
+    CreatePostComponent,
     CreatePostCameraComponent,
-    CreatePostFileComponent
+    CreatePostFileComponent,
+    PostComponent,
+    PostListComponent
   ],
   imports: [
     CommonModule,
