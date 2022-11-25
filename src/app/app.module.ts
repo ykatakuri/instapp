@@ -15,7 +15,6 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { provideMessaging,getMessaging } from '@angular/fire/messaging';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
 import { HomePageService } from './services/home-page.service';
 import { NavigationModule } from './modules/navigation/navigation.module';

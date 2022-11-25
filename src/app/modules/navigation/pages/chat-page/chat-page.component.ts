@@ -5,8 +5,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import { LoaderService } from 'src/app/services/loader.service.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-// import * as $ from 'jquery';
-
 
 @Component({
   selector: 'app-chat-page',

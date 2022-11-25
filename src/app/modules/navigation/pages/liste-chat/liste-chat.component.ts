@@ -12,7 +12,8 @@ import { LoaderService } from 'src/app/services/loader.service.service';
 export class ListeChatComponent implements OnInit {
   public chat: Chat[] = [];
 
-  public ref: string= localStorage.getItem('userId')!;
+  // public ref: string= localStorage.getItem('userId')!;
+  public ref: string= "5Wkr8osqVmRaOJ4HisVV";
 
   constructor(private route: ActivatedRoute, private router: Router, private loaderService: LoaderService, private chatService: ChatService) {
 
