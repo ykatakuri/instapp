@@ -33,16 +33,33 @@ export class ProfilePageComponent implements OnInit {
 
   public ownPosts : AppPost[] = []
 
+  public myAngularxQrCode: string;
+
+  public config: Object = {
+    isAuto: true,
+    text: { font: '25px serif' }, // Hiden { font: '0px' },
+    frame: { lineWidth: 8 },
+    medias: {
+      audio: false,
+      video: {
+        facingMode: 'environment', // Pour la caméra frontale go check : https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia, faut mettre user au lieu de environment
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      }
+    }
+  };
+
   constructor(
     private postService: PostService,
     private authenticationService: AuthenticationService,
     private firestore: Firestore,
     private genericFirestoreService: GenericFirestoreService
-
     ) {
       this.usersCollection = collection(this.firestore, FIREBASE_COLLECTION_PATHS.USERS);
       this.postsCollection = collection(this.firestore, FIREBASE_COLLECTION_PATHS.POSTS);
-     }
+
+      this.myAngularxQrCode = 'Your QR code data string';
+    }
 
   ngOnInit(): void {
 
