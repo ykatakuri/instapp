@@ -93,21 +93,20 @@ export class ProfilePageComponent implements OnInit {
     return this.genericFirestoreService.fetchById<AppUser>(FIREBASE_COLLECTION_PATHS.USERS, id);
   }
 
-<<<<<<< HEAD
   public fetchUserByEmail(email: string): Observable<AppUser> {
     return this.genericFirestoreService.fetchByEmail<AppUser>(FIREBASE_COLLECTION_PATHS.USERS, email);
   }
 
   private fetchOwnPosts(idUser: string): Observable<AppPost[]>{
     return this.genericFirestoreService.fetchByProperty<AppPost>(this.postsCollection, "idUser",idUser, 10);
-=======
+  }
+
   public onError(e: any): void {
     alert(e);
   }
 
   public handle(action: any, fn: string): void {
     action[fn]().subscribe(console.log, console.error);
->>>>>>> origin/theo
   }
 
 }
