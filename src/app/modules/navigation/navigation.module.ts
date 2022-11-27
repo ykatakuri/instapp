@@ -23,6 +23,8 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { NotificationsPageComponent } from './pages/notifications-page/notifications-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -51,6 +53,7 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
     WebcamModule,
     ReactiveFormsModule,
     NavigationRoutingModule,
+    FormsModule
   ],
   providers: [
     HomePageService
