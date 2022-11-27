@@ -26,7 +26,6 @@ import { CreatePostFileComponent } from './components/create-post-file/create-po
 import { PostComponent } from './components/post/post.component';
 import { ListeChatComponent } from './pages/liste-chat/liste-chat.component';
 import { FormsModule } from '@angular/forms';
-import { QRCodeModule } from 'angularx-qrcode';
 import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
 
 
@@ -61,7 +60,6 @@ import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
     ReactiveFormsModule,
     NavigationRoutingModule,
     FormsModule,
-    QRCodeModule,
     NgxScannerQrcodeModule
   ],
   providers: [
