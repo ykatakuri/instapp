@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { user } from '@angular/fire/auth';
 import { docData, Firestore } from '@angular/fire/firestore';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { CollectionReference, DocumentData, collection, query, where, getDocs, Query, DocumentReference } from 'firebase/firestore';
 import { Observable } from 'rxjs';
@@ -17,6 +18,7 @@ import { FIREBASE_COLLECTION_PATHS } from '../../constants/firestore-collection-
 export class SearchPageComponent implements OnInit {
 
     friends: AppUser[]= [];
+    searches: AppUser[]= [];
     private currentUser : AppUser = {
       id: "",
       email: "",
@@ -31,7 +33,8 @@ export class SearchPageComponent implements OnInit {
 
   constructor(
     private genericFirestoreService: GenericFirestoreService,
-     private firestore: Firestore
+     private firestore: Firestore,
+     private snackBar: MatSnackBar
      ) {
     this.usersCollection = collection(this.firestore, FIREBASE_COLLECTION_PATHS.USERS);
   }
@@ -48,7 +51,7 @@ export class SearchPageComponent implements OnInit {
             console.log("Current User", this.currentUser)
             for(var i = 0; i < res[0].friends.length; i++){
               this.fetchByDocumentReference<AppUser>(res[0].friends[i]).subscribe(r=> {
-                this.friends.push(r);
+                  this.friends.push(r);
                 console.log("REF", r)
                 console.log("FriendList", this.friends)
               })
