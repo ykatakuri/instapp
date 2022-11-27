@@ -1,7 +1,7 @@
 import { ThisReceiver } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { firebaseApp$ } from '@angular/fire/app';
-import { collection, CollectionReference, DocumentData, Firestore } from '@angular/fire/firestore';
+import { collection, CollectionReference, docData, DocumentData, DocumentReference, Firestore } from '@angular/fire/firestore';
 import { keyValuesToMap } from '@angular/flex-layout/extended/style/style-transforms';
 import { Auth, getAuth, onAuthStateChanged } from 'firebase/auth';
 import { Observable } from 'rxjs';
@@ -32,6 +32,8 @@ export class ProfilePageComponent implements OnInit {
     picture: "",
     friends: []
   }
+
+  public friends : AppUser[] = [];
 
   public ownPosts : AppPost[] = []
 
@@ -73,11 +75,19 @@ export class ProfilePageComponent implements OnInit {
         if(user.email != null && user.uid != null){
           this.genericFirestoreService.fetchByProperty<AppUser>(this.usersCollection, "email", user.email).subscribe(res => {
             this.currentUser = res[0];
+            console.log("Current User", this.currentUser)
+            for(var i = 0; i < res[0].friends.length; i++){
+              this.fetchByDocumentReference<AppUser>(res[0].friends[i]).subscribe(r=> {
+                this.friends.push(r);
+                console.log("REF", r)
+                console.log("FriendList", this.friends)
+              })
+            }
             this.fetchOwnPosts(res[0].id).subscribe(r => {
               this.ownPosts = r;
             })
           })
-
+          console.log("Friends in profile", this.friends)
         }
       } else {
       }
@@ -87,6 +97,10 @@ export class ProfilePageComponent implements OnInit {
 
   logOut(){
     this.authenticationService.signOut()
+  }
+
+  public fetchByDocumentReference<T>(documentReference: DocumentReference): Observable<T> {
+    return docData(documentReference, { idField: "id" }) as Observable<T>;
   }
 
   public fetchUserById(id: string): Observable<AppUser> {
