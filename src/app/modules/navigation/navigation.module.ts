@@ -59,6 +59,7 @@ import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
     WebcamModule,
     ReactiveFormsModule,
     NavigationRoutingModule,
+    FormsModule
   ],
   providers: [
     HomePageService

@@ -71,7 +71,7 @@ export class SearchPageComponent implements OnInit {
     const querySnapshot = await getDocs(query(this.usersCollection, where("email", "==", this.searchElem)));
     console.log("QUERYY", querySnapshot)
     querySnapshot.forEach((doc) => {
-      this.users.push(doc.data());
+      this.users[0] = (doc.data());
     console.log(doc.id, " => ", doc.data());
     console.log(this.friends.some(elem => elem.id == doc.id));
 });

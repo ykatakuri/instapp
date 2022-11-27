@@ -1,6 +1,6 @@
 <mat-card class="example-card">
   <mat-card-header>
-    <img mat-card-avatar src="{{currentUser.picture}}">
+    <img mat-card-avatar src="{{currentUser.picture}}" alt="Photo of a Shiba Inu">
     <mat-card-title>{{currentUser.firstname}}</mat-card-title>
     <mat-card-subtitle>{{currentUser.lastname}}</mat-card-subtitle>
     <button (click)="logOut()">Log out</button>
@@ -16,37 +16,23 @@
 
     <div class="container">
       <!-- ngx-scanner-qrcode -->
-      <ngx-scanner-qrcode #action="scanner" [config]="config" (error)="onError($event)"></ngx-scanner-qrcode>
+      <!-- <ngx-scanner-qrcode #action="scanner" [config]="config" (error)="onError($event)"></ngx-scanner-qrcode> -->
 
       <!-- data  -->
-      <p class="data">{{ action.data | async }}</p>
+      <!-- <p class="data">{{ action.data | async }}</p> -->
 
       <!-- Loading -->
-      <p *ngIf="action.isLoading">⌛ Loading...</p>
+      <!-- <p *ngIf="action.isLoading">⌛ Loading...</p> -->
 
       <!-- toggleCamera -->
-      <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart" [disabled]="action.isLoading">
+      <!-- <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart" [disabled]="action.isLoading">
         <img *ngIf="!action.isStart" (click)="handle(action, 'start')" src="https://img.icons8.com/ios/50/000000/no-camera--v2.png" width="30px"/>
         <img *ngIf="action.isStart" (click)="handle(action, 'stop')" src="https://img.icons8.com/ios/50/000000/no-camera--v1.png" width="30px"/>
-      </button>
+      </button> -->
     </div>
   </mat-card-actions>
 
 </mat-card>
-
-<div class="post-container" *ngFor="let f of friends">
-  <mat-card class="example-card">
-    <img mat-card-avatar src="{{f.picture}}">
-    <mat-card-title>{{f.firstname}}</mat-card-title>
-    <mat-card-subtitle>{{f.lastname}}</mat-card-subtitle>
-
-  </mat-card>
-  </div>
-
-  <button>Ajouter ami(e)s</button>
-
-
-
 
 <div class="post-container" *ngFor="let p of ownPosts">
   <mat-card class="home-post-card">
