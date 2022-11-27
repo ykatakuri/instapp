@@ -6,7 +6,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { CollectionReference, DocumentData, collection, query, where, getDocs, Query, DocumentReference } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 import { AppUser } from 'src/app/models/app-user.interface';
-import { GenericFirestoreService } from 'src/app/services/generic-firestore.service';
+import { FirestoreService } from 'src/app/services/firestore.service';
 import { GenericStorageService } from 'src/app/services/generic-storage.service';
 import { FIREBASE_COLLECTION_PATHS } from '../../constants/firestore-collection-paths.constant';
 
@@ -32,7 +32,7 @@ export class SearchPageComponent implements OnInit {
     private usersCollection: CollectionReference<DocumentData>;
 
   constructor(
-    private genericFirestoreService: GenericFirestoreService,
+    private firestoreService: FirestoreService,
      private firestore: Firestore,
      private snackBar: MatSnackBar
      ) {
@@ -46,7 +46,7 @@ export class SearchPageComponent implements OnInit {
       if (user) {
         const uid = user.uid;
         if(user.email != null && user.uid != null){
-          this.genericFirestoreService.fetchByProperty<AppUser>(this.usersCollection, "email", user.email).subscribe(res => {
+          this.firestoreService.fetchByProperty<AppUser>(this.usersCollection, "email", user.email).subscribe(res => {
             this.currentUser = res[0];
             console.log("Current User", this.currentUser)
             for(var i = 0; i < res[0].friends.length; i++){
@@ -79,7 +79,7 @@ export class SearchPageComponent implements OnInit {
   }
 
   public fetchUserByEmail(email: string): Observable<AppUser> {
-    return this.genericFirestoreService.fetchByEmail<AppUser>(FIREBASE_COLLECTION_PATHS.USERS, email);
+    return this.firestoreService.fetchByEmail<AppUser>(FIREBASE_COLLECTION_PATHS.USERS, email);
   }
 
   public fetchByDocumentReference<T>(documentReference: DocumentReference): Observable<T> {

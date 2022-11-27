@@ -5,7 +5,7 @@ import { DocumentReference, DocumentData, CollectionReference, collection } from
 import { EMPTY, first, last, Observable, of, retryWhen } from "rxjs";
 import { AppUser } from "../models/app-user.interface";
 import { FIREBASE_COLLECTION_PATHS } from "../modules/navigation/constants/firestore-collection-paths.constant";
-import { GenericFirestoreService } from "./generic-firestore.service";
+import { FirestoreService } from "./firestore.service";
 import { GenericStorageService } from "./generic-storage.service";
 import { Firestore } from "@angular/fire/firestore";
 @Injectable({
@@ -28,7 +28,7 @@ export class AuthenticationService {
   constructor(
     private readonly auth: Auth,
     private readonly firestore: Firestore,
-    private genericFirestoreService: GenericFirestoreService,
+    private firestoreService: FirestoreService,
     private readonly genericStorageService: GenericStorageService
     ) {
 
@@ -102,7 +102,7 @@ export class AuthenticationService {
 
   public async addNewUser(user: AppUser): Promise<DocumentReference<DocumentData>> {
     user.id = uuidv4();
-    let res = await this.genericFirestoreService.create(this.usersCollection, user);
+    let res = await this.firestoreService.create(this.usersCollection, user);
     return res;
     }
 
@@ -142,11 +142,11 @@ private uuidv4(): any {
 
 
 public fetchUserById(id: string): Observable<AppUser> {
-  return this.genericFirestoreService.fetchById<AppUser>(FIREBASE_COLLECTION_PATHS.USERS, id);
+  return this.firestoreService.fetchById<AppUser>(FIREBASE_COLLECTION_PATHS.USERS, id);
 }
 
 public fetchUserByEmail(email: string): Observable<AppUser> {
-  return this.genericFirestoreService.fetchByEmail<AppUser>(FIREBASE_COLLECTION_PATHS.USERS, email);
+  return this.firestoreService.fetchByEmail<AppUser>(FIREBASE_COLLECTION_PATHS.USERS, email);
 }
 
 // private setCurrentUser(id: string, email: string, firstname: string, lastname: string){
