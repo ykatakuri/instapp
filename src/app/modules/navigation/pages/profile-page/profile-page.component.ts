@@ -37,8 +37,6 @@ export class ProfilePageComponent implements OnInit {
 
   public ownPosts : AppPost[] = []
 
-  public myAngularxQrCode: string;
-
   public config: Object = {
     isAuto: true,
     text: { font: '25px serif' }, // Hiden { font: '0px' },
@@ -63,7 +61,6 @@ export class ProfilePageComponent implements OnInit {
       this.usersCollection = collection(this.firestore, FIREBASE_COLLECTION_PATHS.USERS);
       this.postsCollection = collection(this.firestore, FIREBASE_COLLECTION_PATHS.POSTS);
 
-      this.myAngularxQrCode = 'Your QR code data string';
     }
 
   ngOnInit(): void {
