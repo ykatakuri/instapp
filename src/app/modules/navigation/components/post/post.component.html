@@ -1,20 +1,24 @@
-<mat-nav-list>
-    <div *ngIf="stream">
-        <webcam [trigger]="$trigger" (imageCapture)="snapshot($event)" [imageQuality]="1" [allowCameraSwitch]="true"
-            [width]="360">
-        </webcam>
-    </div>
-
-    <div mat-list-item *ngIf="previewImage">
-        <img [src]="previewImage" height="100%" width="100%">
-        <div mat-list-item>
-            <button mat-raised-button (click)="onNext()" color="primary">Suivant</button>
-        </div>
-    </div>
-
-    <a href="#" mat-list-item (click)="openCamera($event)">
-        <span mat-line (click)="onCaptureImage()">{{takeSnapButtonLabel}}</span>
-    </a>
-
-    <button mat-raised-button (click)="openFileForm()" color="primary">Choisir une photo</button>
-</mat-nav-list>
+<mat-card class="home-post-card">
+    <mat-card-header>
+        <div mat-card-avatar class="user-avatar"></div>
+        <mat-card-title *ngIf="user$ |async as postOwner">{{ postOwner.fullname }}</mat-card-title>
+        <mat-card-subtitle>Mis en ligne le {{ post.createAt!.toDate() | date:'dd/MM/yyyy à HH:mm' }}</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image [src]="post.imageUrl" [alt]="post.title">
+    <mat-card-content>
+        <p>{{ post.title }}</p>
+    </mat-card-content>
+    <mat-card-actions>
+        <button [color]="color" mat-icon-button (click)="onLike(post.id)">
+            <mat-icon *ngIf="!isLiked">favorite_border</mat-icon>
+            <mat-icon *ngIf="isLiked">favorite</mat-icon>
+        </button>
+        <span>{{ post.likeCount }}</span>
+        <button mat-icon-button>
+            <mat-icon>chat_bubble_outline</mat-icon>
+        </button>
+        <button mat-icon-button>
+            <mat-icon>share</mat-icon>
+        </button>
+    </mat-card-actions>
+</mat-card>

@@ -1,5 +1,5 @@
 export interface AppUser {
-    id?: string;
+    id: string;
     fullname: string;
     username: string;
     email: string;

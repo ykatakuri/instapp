@@ -1,11 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { WebcamImage } from 'ngx-webcam';
-import { Observable, Subject } from 'rxjs';
-import { FIREBASE_COLLECTION_PATHS } from 'src/app/constants/firestore-collection-paths.constant';
-import { StorageService } from 'src/app/services/storage.service';
-import { CreatePostCameraComponent } from '../create-post-camera/create-post-camera.component';
-import { CreatePostFileComponent } from '../create-post-file/create-post-file.component';
+import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { AppUser } from 'src/app/models/app-user.interface';
+import { Post } from 'src/app/models/post.interface';
+import { PostsService } from 'src/app/services/posts.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-post',
@@ -13,80 +11,55 @@ import { CreatePostFileComponent } from '../create-post-file/create-post-file.co
   styleUrls: ['./post.component.scss']
 })
 export class PostComponent implements OnInit {
-  trigger: Subject<void> = new Subject();
-  stream: any = null;
-  previewImage: string = '';
-  takeSnapButtonLabel: string = 'Prendre une photo';
-  photoTaken!: File;
-  photoTakenName!: string;
-  imageFormat: string = 'image.jpeg';
+  @Input() post!: Post;
+  user$!: Observable<AppUser>;
+  isLiked!: boolean;
+  color!: string;
+
+  post$!: Observable<Post>;
+
 
   constructor(
-    private storageService: StorageService,
-    private bottomSheet: MatBottomSheet
+    private postService: PostsService,
+    private userService: UsersService,
   ) { }
 
   ngOnInit(): void {
+    this.color = '';
+    this.isLiked = false;
+    this.user$ = this.userService.getUserById(this.post.userId!);
+    this.post$ = this.postService.getPostById(this.post.id);
   }
 
-  openFileForm(): void {
-    this.bottomSheet.open(CreatePostFileComponent);
-  }
+  // onLike(postId: string): void {
+  //   this.isLiked = !this.isLiked;
 
-  openCamera(event: MouseEvent): void {
-    this.checkPermissions();
-    event.preventDefault();
-  }
+  //   console.log('is liked: ' + this.isLiked);
 
-  checkPermissions(): void {
-    navigator.mediaDevices.getUserMedia({
-      video: {
-        width: 500,
-        height: 500,
-      }
-    }).then((res) => {
-      this.stream = res;
-    }).catch((error) => {
-      console.log(error);
-    });
-  }
+  //   if (this.isLiked) {
+  //     this.post$ = this.postService.likePostById(postId, this.isLiked).pipe(
+  //       tap(() => this.color = 'warn')
+  //     );
 
-  get $trigger(): Observable<void> {
-    return this.trigger.asObservable();
-  }
+  //   } else {
+  //     this.post$ = this.postService.likePostById(postId, this.isLiked).pipe(
+  //       tap(() => this.color = '')
+  //     );
+  //   }
+  // }
 
-  onCaptureImage(): void { this.trigger.next(); }
+  onLike(postId: string): void {
+    this.isLiked = !this.isLiked;
 
-  snapshot(event: WebcamImage): void {
-    this.previewImage = event.imageAsDataUrl;
-    this.photoTakenName = Date.now().toString();
-    this.takeSnapButtonLabel = 'Reprendre la photo';
-  }
+    console.log('is liked: ' + this.isLiked);
 
-  onNext(): void {
-    const imagePath = `${FIREBASE_COLLECTION_PATHS.POSTS}_${this.photoTakenName}`;
+    if (this.isLiked) {
+      this.post.likeCount! = this.post.likeCount! + 1;
+      this.color = 'warn';
 
-    const arr = this.previewImage.split(",");
-    const bstr = window.atob(arr[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
+    } else {
+      this.post.likeCount! = this.post.likeCount! - 1;
+      this.color = '';
     }
-
-    this.photoTaken = new File([u8arr], this.photoTakenName, { type: this.imageFormat });
-
-    this.storageService.uploadFile(this.photoTaken, imagePath).then(
-      () => {
-        let downloadUrl = this.storageService.getFileDownloadUrl(imagePath);
-        return downloadUrl;
-      }).then(
-        (response) => {
-          localStorage.setItem('photoTakenUrl', response);
-        }
-      ).catch(error => console.log(error));
-
-    this.bottomSheet.open(CreatePostCameraComponent);
   }
-
 }

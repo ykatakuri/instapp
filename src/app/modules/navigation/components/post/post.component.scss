@@ -1,0 +1,40 @@
+.home-toolbar-spacer {
+    flex: 1 1 auto;
+}
+
+.example-card {
+    max-width: 400px;
+}
+
+.user-avatar {
+    background-image: url('https://toppng.com/uploads/preview/user-account-management-logo-user-icon-11562867145a56rus2zwu.png');
+    background-size: cover;
+}
+
+.home-page-viewport {
+    height: 100%;
+    width: 100%;
+}
+
+.post-container {
+    margin: 0 20px 0 16px;
+}
+
+.home-post-card {
+    margin-bottom: 20px;
+    max-width: 96%;
+    min-width: 96%;
+    margin-left: 10px;
+    margin-right: 0px;
+}
+
+.no-home-post-card {
+    margin-left: 20px;
+    margin-right: 20px;
+    max-width: 94%;
+    min-width: 94%;
+}
+
+.utility-spacer {
+    height: 100px;
+}

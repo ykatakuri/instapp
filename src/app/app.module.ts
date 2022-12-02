@@ -17,6 +17,7 @@ import { AppComponent } from './app.component';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
 import { NavigationModule } from './modules/navigation/navigation.module';
 
+
 @NgModule({
   declarations: [
     AppComponent,
