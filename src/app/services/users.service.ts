@@ -28,7 +28,7 @@ export class UsersService {
   }
 
   public updateUser(user: AppUser): Promise<void> {
-    return this.firestoreService.update(FIREBASE_COLLECTION_PATHS.USERS, { id: user.id! });
+    return this.firestoreService.update(FIREBASE_COLLECTION_PATHS.USERS, user);
   }
 
   public updateUserWithPost(userId: string, post: Post): Promise<void> {

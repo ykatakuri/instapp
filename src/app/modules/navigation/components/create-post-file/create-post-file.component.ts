@@ -21,8 +21,7 @@ export class CreatePostFileComponent implements OnInit {
   firestore!: Firestore;
   currentUserId!: string;
   createdAt: firebase.Timestamp = firebase.Timestamp.now();
-
-  buildPost(post: Post): Post { return post };
+  post: Post = { id: '', userId: '', title: '', imageUrl: '', likeCount: 0, createAt: this.createdAt };
 
   constructor(
     private userService: UsersService,
@@ -65,15 +64,19 @@ export class CreatePostFileComponent implements OnInit {
         return downloadUrl;
       }).then(
         (response) => {
-          let post = this.buildPost({
-            userId: localStorage.getItem('userId')!,
-            title: postTitle,
-            imageUrl: response,
-            likeCount: 0,
-            createAt: this.createdAt,
-          });
+          this.post.userId = localStorage.getItem('userId')!;
+          this.post.title = postTitle;
+          this.post.imageUrl = response;
+          this.post.likeCount = 0;
+          this.post.createAt = this.createdAt;
 
-          this.postService.addNewPost(post);
+          Promise.resolve(this.postService.addNewPost(this.post))
+            .then(
+              (snapshot) => {
+                this.post.id = snapshot.id;
+                this.postService.updatePost(this.post)
+              }
+            );
         }
       ).catch(error => console.log(error));
 

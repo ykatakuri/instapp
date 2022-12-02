@@ -6,7 +6,6 @@ import { Post } from 'src/app/models/post.interface';
 import { PostsService } from 'src/app/services/posts.service';
 
 import * as firebase from "firebase/firestore";
-import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-create-post-camera',
@@ -18,11 +17,9 @@ export class CreatePostCameraComponent implements OnInit {
   previewImage: string = '';
   photoTakenForm!: FormGroup;
   createdAt: firebase.Timestamp = firebase.Timestamp.now();
-
-  buildPost(post: Post): Post { return post };
+  post: Post = { id: '', userId: '', title: '', imageUrl: '', likeCount: 0, createAt: this.createdAt };
 
   constructor(
-    private userService: UsersService,
     private postService: PostsService,
     private bottomSheetRef: MatBottomSheetRef<CreatePostCameraComponent>,
     private router: Router,
@@ -44,16 +41,19 @@ export class CreatePostCameraComponent implements OnInit {
     let userId = localStorage.getItem('userId');
     const postId = Date.now().toString();
 
-    let post = this.buildPost({
-      id: postId,
-      userId: userId!,
-      title: title,
-      imageUrl: url!,
-      likeCount: 0,
-      createAt: this.createdAt,
-    });
+    this.post.id = postId;
+    this.post.userId = userId!;
+    this.post.title = title;
+    this.post.imageUrl = url!;
+    this.post.createAt = this.createdAt;
 
-    this.postService.addNewPost(post);
+    Promise.resolve(this.postService.addNewPost(this.post))
+      .then(
+        (snapshot) => {
+          this.post.id = snapshot.id;
+          this.postService.updatePost(this.post)
+        }
+      );
 
     this.bottomSheetRef.dismiss();
     this.router.navigateByUrl('home');

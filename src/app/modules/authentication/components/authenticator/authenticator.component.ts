@@ -19,8 +19,7 @@ export class AuthenticatorComponent implements OnInit {
   loginForm!: FormGroup;
   signupForm!: FormGroup;
   resetForm!: FormGroup;
-
-  buildAppUser(appUser: AppUser): AppUser { return appUser };
+  appUser: AppUser = { id: '', fullname: '', username: '', email: '' };
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -122,23 +121,18 @@ export class AuthenticatorComponent implements OnInit {
       this.signupForm.controls['signupEmail'].value,
       this.signupForm.controls['signupPassword'].value,
       this.signupForm.controls['signupFullname'].value);
-    this.userService.addNewUser(
-      this.buildAppUser({
-        fullname: this.signupForm.controls['signupFullname'].value,
-        username: this.signupForm.controls['signupUsername'].value,
-        email: this.signupForm.controls['signupEmail'].value,
-      })
-    )
+
+    this.appUser.fullname = this.signupForm.controls['signupFullname'].value;
+    this.appUser.username = this.signupForm.controls['signupUsername'].value;
+    this.appUser.email = this.signupForm.controls['signupEmail'].value;
+
+    console.log(this.appUser);
+
+    this.userService.addNewUser(this.appUser)
       .then(
         response => {
-          this.userService.updateUser(
-            this.buildAppUser({
-              id: response.id,
-              fullname: this.signupForm.controls['signupFullname'].value,
-              username: this.signupForm.controls['signupUsername'].value,
-              email: this.signupForm.controls['signupEmail'].value,
-            })
-          );
+          this.appUser.id = response.id;
+          this.userService.updateUser(this.appUser);
           localStorage.setItem('userId', response.id);
         }
       )

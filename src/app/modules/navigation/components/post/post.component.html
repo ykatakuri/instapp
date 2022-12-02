@@ -1,16 +1,17 @@
-<mat-card class="home-post-card" *ngIf="user$ |async as user">
+<mat-card class="home-post-card">
     <mat-card-header>
         <div mat-card-avatar class="user-avatar"></div>
-        <mat-card-title>{{ user.fullname }}</mat-card-title>
-        <mat-card-subtitle>Mis en ligne le {{ post.createAt.toDate() | date:'dd/MM/yyyy à HH:mm' }}</mat-card-subtitle>
+        <mat-card-title *ngIf="user$ |async as postOwner">{{ postOwner.fullname }}</mat-card-title>
+        <mat-card-subtitle>Mis en ligne le {{ post.createAt!.toDate() | date:'dd/MM/yyyy à HH:mm' }}</mat-card-subtitle>
     </mat-card-header>
     <img mat-card-image [src]="post.imageUrl" [alt]="post.title">
     <mat-card-content>
         <p>{{ post.title }}</p>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-icon-button (click)="onLike(post.id!, post.likeCount!)">
-            <mat-icon>favorite_border</mat-icon>
+        <button [color]="color" mat-icon-button (click)="onLike(post.id)">
+            <mat-icon *ngIf="!isLiked">favorite_border</mat-icon>
+            <mat-icon *ngIf="isLiked">favorite</mat-icon>
         </button>
         <span>{{ post.likeCount }}</span>
         <button mat-icon-button>

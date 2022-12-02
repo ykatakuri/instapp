@@ -52,6 +52,12 @@ export class FirestoreService {
     return updateDoc(documentReference, { ...object });
   }
 
+  public customUpdate<T extends { id: string }>(path: string, object: T): Observable<T> {
+    const documentReference = doc(this.firestore, `${path}/${object.id}`);
+    updateDoc(documentReference, { ...object });
+    return docData(documentReference, { idField: "id" }) as Observable<T>;
+  }
+
   // Delete a document
   public delete(path: string, id: string) {
     const documentReference = doc(this.firestore, `${path}/${id}`);

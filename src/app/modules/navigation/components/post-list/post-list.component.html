@@ -1,10 +1,8 @@
-<div *ngIf="posts$">
-    <div class="post-container" *ngFor="let post of posts$ |async">
-        <app-post [post]="post"></app-post>
-    </div>
+<div>
+    <app-post *ngFor="let post of posts$ |async" [post]="post"></app-post>
 </div>
 
-<div *ngIf="!posts$">
+<div *ngIf="postCount === 0">
     <mat-card class="no-home-post-card">
         <mat-card-content>
             <p>Aucun post disponible !</p>
