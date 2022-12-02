@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Auth, authState, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile, User, UserCredential } from "@angular/fire/auth";
+import { sendPasswordResetEmail } from '@firebase/auth';
 import { EMPTY, Observable, of } from "rxjs";
 @Injectable({
   providedIn: "root",
@@ -35,6 +36,14 @@ export class AuthenticationService {
       return await signInWithEmailAndPassword(this.auth, email, password);
     } catch (error: unknown) {
       console.log(error); return null;
+    }
+  }
+
+  public async resetPassword(email: string): Promise<void> {
+    try {
+      await sendPasswordResetEmail(this.auth, email);
+    } catch (error) {
+      console.log(error);
     }
   }
 

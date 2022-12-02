@@ -10,6 +10,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { WebcamModule } from 'ngx-webcam';
@@ -58,6 +59,7 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
     WebcamModule,
     ReactiveFormsModule,
     MatDialogModule,
+    MatProgressSpinnerModule,
   ],
   exports: [
 
