@@ -1,8 +1,8 @@
 <p>Commentaires</p>
 <div id="comment-box"></div>
-<div id="comment-action-bar">
-    <button mat-flat-button color="primary">
+<form id="comment-action-bar" [formGroup]="commentForm" (ngSubmit)="onComment()">
+    <button mat-flat-button color="primary" [disabled]="commentForm.invalid">
         <mat-icon>send</mat-icon>
     </button>
-    <input type="text" placeholder="Ajouter un commentaire...">
-</div>
+    <input type="text" formControlName="comment" placeholder="Ajouter un commentaire...">
+</form>

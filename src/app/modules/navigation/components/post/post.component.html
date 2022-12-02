@@ -14,7 +14,7 @@
             <mat-icon *ngIf="isLiked">favorite</mat-icon>
         </button>
         <span>{{ post.likeCount }}</span>
-        <button mat-icon-button (click)="onComment()">
+        <button mat-icon-button (click)="openCommentDialog()">
             <mat-icon>chat_bubble_outline</mat-icon>
         </button>
         <button mat-icon-button>

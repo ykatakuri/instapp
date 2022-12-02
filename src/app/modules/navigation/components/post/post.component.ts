@@ -66,7 +66,7 @@ export class PostComponent implements OnInit {
     }
   }
 
-  onComment(): void {
-    this.dialog.open(CommentComponent);
+  openCommentDialog(): void {
+    this.dialog.open(CommentComponent, { data: this.post.id });
   }
 }
