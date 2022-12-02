@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AggregateField, AggregateQuerySnapshot, collection, CollectionReference, DocumentData, DocumentReference, Firestore } from '@angular/fire/firestore';
 import { map, Observable, switchMap } from 'rxjs';
 import { FIREBASE_COLLECTION_PATHS } from '../constants/firestore-collection-paths.constant';
+import { PostComment } from '../models/post.comment.interface';
 import { Post } from '../models/post.interface';
 import { FirestoreService } from './firestore.service';
 
@@ -10,11 +11,14 @@ import { FirestoreService } from './firestore.service';
 })
 export class PostsService {
   private postsCollection: CollectionReference<DocumentData>;
+  private postCommentsCollection: CollectionReference<DocumentData>;
+  private postId: string = 'EzeAqXT1rr2hOftOtaVq';
   constructor(
     private readonly firestore: Firestore,
     private firestoreService: FirestoreService,
   ) {
     this.postsCollection = collection(this.firestore, FIREBASE_COLLECTION_PATHS.POSTS);
+    this.postCommentsCollection = collection(this.firestore, `${FIREBASE_COLLECTION_PATHS.POSTS}/${this.postId}/PostComments`);
   }
 
   public addNewPost(post: Post): Promise<DocumentReference<DocumentData>> {
@@ -57,5 +61,9 @@ export class PostsService {
         updatedPost => this.customUpdatePost(updatedPost)
       )
     );
+  }
+
+  public addPostComment(comment: PostComment): Promise<DocumentReference<DocumentData>> {
+    return this.firestoreService.create(this.postCommentsCollection, comment);
   }
 }

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { AppUser } from 'src/app/models/app-user.interface';
+import { AppUser } from 'src/app/models/app.user.interface';
 import { Post } from 'src/app/models/post.interface';
 import { PostsService } from 'src/app/services/posts.service';
 import { UsersService } from 'src/app/services/users.service';
