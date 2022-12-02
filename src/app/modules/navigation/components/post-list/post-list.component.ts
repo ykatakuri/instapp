@@ -1,5 +1,5 @@
-import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Post } from 'src/app/models/post.interface';
 import { PostsService } from 'src/app/services/posts.service';
 
@@ -8,11 +8,9 @@ import { PostsService } from 'src/app/services/posts.service';
   templateUrl: './post-list.component.html',
   styleUrls: ['./post-list.component.scss']
 })
-export class PostListComponent implements OnInit, OnChanges, OnDestroy {
+export class PostListComponent implements OnInit, OnChanges {
   posts$!: Observable<Post[]>;
   postCount!: number;
-
-  private destroy$!: Subject<boolean>;
 
   constructor(
     private postService: PostsService,
@@ -20,12 +18,10 @@ export class PostListComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit(): void {
     this.getPostsCount();
-    this.destroy$ = new Subject<boolean>();
-    this.posts$ = this.postService.getAllPosts().pipe(takeUntil(this.destroy$));
+    this.posts$ = this.postService.getAllPosts();
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next(true);
     localStorage.removeItem('postCount');
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
@@ -6,36 +6,53 @@ import { FIREBASE_COLLECTION_PATHS } from 'src/app/constants/firestore-collectio
 import { Post } from 'src/app/models/post.interface';
 import { PostsService } from 'src/app/services/posts.service';
 import { StorageService } from 'src/app/services/storage.service';
-import { UsersService } from 'src/app/services/users.service';
 
 import * as firebase from "firebase/firestore";
+import { Subject, takeUntil, tap } from 'rxjs';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-create-post-file',
   templateUrl: './create-post-file.component.html',
   styleUrls: ['./create-post-file.component.scss']
 })
-export class CreatePostFileComponent implements OnInit {
+export class CreatePostFileComponent implements OnInit, OnDestroy {
   postFileForm!: FormGroup;
   selectedImage!: File;
   firestore!: Firestore;
-  currentUserId!: string;
   createdAt: firebase.Timestamp = firebase.Timestamp.now();
-  post: Post = { id: '', userId: '', title: '', imageUrl: '', likeCount: 0, createAt: this.createdAt };
+  post: Post = { id: '', creator: '', title: '', imageUrl: '', likeCount: 0, createAt: this.createdAt };
+
+  currentUserfullname: any;
+  currentUserId: any;
+
+  private destroy$!: Subject<boolean>;
 
   constructor(
-    private userService: UsersService,
     private postService: PostsService,
     private storageService: StorageService,
+    private authService: AuthenticationService,
     private formBuilder: FormBuilder,
     private bottomSheetRef: MatBottomSheetRef<CreatePostFileComponent>
   ) { }
 
   ngOnInit(): void {
+    this.destroy$ = new Subject<boolean>();
     this.postFileForm = this.formBuilder.group({
       title: [null, [Validators.required, Validators.minLength(2)]],
       file: [null, Validators.required],
     });
+    this.authService.user.pipe(
+      tap((user) => {
+        this.currentUserfullname = user?.displayName;
+        this.currentUserId = user?.uid;
+      }),
+      takeUntil(this.destroy$)
+    ).subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
   }
 
   onImageSelected(fileSelector: any): void {
@@ -64,7 +81,7 @@ export class CreatePostFileComponent implements OnInit {
         return downloadUrl;
       }).then(
         (response) => {
-          this.post.userId = localStorage.getItem('userId')!;
+          this.post.creator = this.currentUserfullname;
           this.post.title = postTitle;
           this.post.imageUrl = response;
           this.post.likeCount = 0;

@@ -54,7 +54,8 @@ export class AuthenticatorComponent implements OnInit {
     this.authenticationService.signIn(
       this.loginForm.controls['loginEmail'].value,
       this.loginForm.controls['loginPassword'].value).then(
-        () => {
+        (data) => {
+          localStorage.setItem('userId', data?.user.uid!);
           this.displaySpinner = true;
           setTimeout(() => {
             this.router.navigateByUrl('');
