@@ -19,8 +19,9 @@ export class CreatePostCameraComponent implements OnInit, OnDestroy {
   previewImage: string = '';
   photoTakenForm!: FormGroup;
   createdAt: firebase.Timestamp = firebase.Timestamp.now();
-  post: Post = { id: '', creator: '', title: '', imageUrl: '', likeCount: 0, createAt: this.createdAt };
+  post: Post = { id: '', creatorId: '', creatorName: '', title: '', imageUrl: '', likeCount: 0, createAt: this.createdAt };
 
+  currentUserId: any;
   currentUserfullname: any;
 
   private destroy$!: Subject<boolean>;
@@ -44,6 +45,7 @@ export class CreatePostCameraComponent implements OnInit, OnDestroy {
 
     this.authService.user.pipe(
       tap((user) => {
+        this.currentUserId = user?.uid;
         this.currentUserfullname = user?.displayName;
       }),
       takeUntil(this.destroy$)
@@ -57,13 +59,11 @@ export class CreatePostCameraComponent implements OnInit, OnDestroy {
   onSaveSnap(): void {
     let title = this.photoTakenForm.controls['photoTakenTitle'].value;
     let url = localStorage.getItem('photoTakenUrl');
-    const postId = Date.now().toString();
 
-    this.post.id = postId;
-    this.post.creator = this.currentUserfullname;
+    this.post.creatorId = this.currentUserId;
+    this.post.creatorName = this.currentUserfullname;
     this.post.title = title;
     this.post.imageUrl = url!;
-    this.post.createAt = this.createdAt;
 
     Promise.resolve(this.postService.addNewPost(this.post))
       .then(

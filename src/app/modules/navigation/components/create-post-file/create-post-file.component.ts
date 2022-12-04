@@ -21,7 +21,7 @@ export class CreatePostFileComponent implements OnInit, OnDestroy {
   selectedImage!: File;
   firestore!: Firestore;
   createdAt: firebase.Timestamp = firebase.Timestamp.now();
-  post: Post = { id: '', creator: '', title: '', imageUrl: '', likeCount: 0, createAt: this.createdAt };
+  post: Post = { id: '', creatorId: '', creatorName: '', title: '', imageUrl: '', likeCount: 0, createAt: this.createdAt };
 
   currentUserfullname: any;
   currentUserId: any;
@@ -81,11 +81,10 @@ export class CreatePostFileComponent implements OnInit, OnDestroy {
         return downloadUrl;
       }).then(
         (response) => {
-          this.post.creator = this.currentUserfullname;
+          this.post.creatorId = this.currentUserId;
+          this.post.creatorName = this.currentUserfullname;
           this.post.title = postTitle;
           this.post.imageUrl = response;
-          this.post.likeCount = 0;
-          this.post.createAt = this.createdAt;
 
           Promise.resolve(this.postService.addNewPost(this.post))
             .then(
