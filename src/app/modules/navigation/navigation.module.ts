@@ -26,7 +26,7 @@ import { PostComponent } from './components/post/post.component';
 import { ChatPageComponent } from './pages/chat-page/chat-page.component';
 import { AppBarComponent } from './pages/home-page/components/app-bar/app-bar.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
-import { NotificationsPageComponent } from './pages/notifications-page/notifications-page.component';
+import { UserInfoPageComponent } from './pages/profile-page/pages/user-info-page/user-info-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 
@@ -35,7 +35,6 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
     NavbarComponent,
     SearchPageComponent,
     ChatPageComponent,
-    NotificationsPageComponent,
     ProfilePageComponent,
     HomePageComponent,
     AppBarComponent,
@@ -45,6 +44,7 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
     PostComponent,
     PostListComponent,
     CommentComponent,
+    UserInfoPageComponent,
   ],
   imports: [
     CommonModule,
