@@ -7,12 +7,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthenticatorComponent } from './components/authenticator/authenticator.component';
 import { AuthenticationPageComponent } from './pages/authentication-page/authentication-page.component';
-
-
-
 @NgModule({
   declarations: [
     AuthenticatorComponent,
@@ -28,6 +26,7 @@ import { AuthenticationPageComponent } from './pages/authentication-page/authent
     MatInputModule,
     MatDividerModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule,
   ],
   exports: [
     AuthenticationPageComponent,

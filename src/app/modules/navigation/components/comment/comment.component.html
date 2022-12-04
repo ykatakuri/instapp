@@ -1,0 +1,16 @@
+<p>Commentaires</p>
+<div id="comment-box">
+    <div *ngFor="let comment of comments$|async"
+        [ngClass]="{'comment-container': true, 'comment-creator-container': isCommentCreator(comment)}">
+        <div>
+            <p class="comment-username">{{ comment.userFullname }}</p>
+            <p [ngClass]="{'comment': true, 'creator-comment': isCommentCreator(comment)}">{{ comment.comment }}</p>
+        </div>
+    </div>
+</div>
+<form id="comment-action-bar" [formGroup]="commentForm" (ngSubmit)="onComment()">
+    <button mat-flat-button color="primary" [disabled]="commentForm.invalid">
+        <mat-icon>send</mat-icon>
+    </button>
+    <input type="text" formControlName="comment" placeholder="Ajouter un commentaire...">
+</form>

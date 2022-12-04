@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { AppUser } from 'src/app/models/app-user.interface';
+import { AppUser } from 'src/app/models/app.user.interface';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { UsersService } from 'src/app/services/users.service';
 
@@ -15,11 +16,11 @@ import { UsersService } from 'src/app/services/users.service';
 // TODO: Show snackbar on authentication  
 export class AuthenticatorComponent implements OnInit {
   state = AuthenticationState.LOGIN;
-
   loginForm!: FormGroup;
   signupForm!: FormGroup;
   resetForm!: FormGroup;
   appUser: AppUser = { id: '', fullname: '', username: '', email: '' };
+  displaySpinner!: boolean;
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -37,6 +38,8 @@ export class AuthenticatorComponent implements OnInit {
     this.resetForm = this.formBuilder.group({
       resetEmail: [null, [Validators.required, Validators.email]],
     });
+
+    this.displaySpinner = false;
   }
 
   constructor(
@@ -46,6 +49,113 @@ export class AuthenticatorComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
   ) { }
+
+  onLogin(): void {
+    this.authenticationService.signIn(
+      this.loginForm.controls['loginEmail'].value,
+      this.loginForm.controls['loginPassword'].value).then(
+        (data) => {
+          localStorage.setItem('userId', data?.user.uid!);
+          this.displaySpinner = true;
+          setTimeout(() => {
+            this.router.navigateByUrl('');
+            this.snackBar.open('Bonjour, Content de vous revoir 😃 !', 'Fermer');
+          }, 3000);
+        }
+      ).catch(
+        (error) => {
+          console.log(error);
+          this.snackBar.open('Erreur survenue 😩', 'Fermer');
+        }
+      );
+  }
+
+  onSignup(): void {
+    this.authenticationService.signUp(
+      this.signupForm.controls['signupEmail'].value,
+      this.signupForm.controls['signupPassword'].value,
+      this.signupForm.controls['signupFullname'].value).then(
+        () => {
+          this.appUser.fullname = this.signupForm.controls['signupFullname'].value;
+          this.appUser.username = this.signupForm.controls['signupUsername'].value;
+          this.appUser.email = this.signupForm.controls['signupEmail'].value;
+
+          this.userService.addNewUser(this.appUser)
+            .then(
+              response => {
+                this.appUser.id = response.id;
+                this.userService.updateUser(this.appUser).then(
+                  () => {
+                    this.displaySpinner = true;
+                    setTimeout(() => {
+                      this.displaySpinner = false;
+                      this.state = AuthenticationState.LOGIN;
+                      this.snackBar.open('Inscription terminée 👍🏾.', 'Fermer');
+                    }, 3000);
+                  }
+                ).catch(
+                  (error) => {
+                    console.log(error);
+                    this.snackBar.open('Erreur survenue 😩', 'Fermer');
+                  }
+                );
+              }
+            )
+            .catch(
+              error => {
+                console.log(error);
+                this.snackBar.open('Erreur survenue 😩', 'Fermer');
+              }
+            );
+        }
+      ).catch(
+        (error) => {
+          console.log(error);
+          this.snackBar.open('Erreur survenue 😩', 'Fermer');
+        }
+      );
+  }
+
+  onResetPassword(): void {
+    this.authenticationService.resetPassword(this.resetForm.controls['resetEmail'].value).then(
+      () => {
+        this.resetForm.controls['resetEmail'].setValue('');
+        this.snackBar.open(`Reset email sent to ${this.resetForm.controls['resetEmail'].value}`, 'Fermer');
+      }
+    ).catch(
+      (error) => {
+        console.log(error);
+        this.snackBar.open('Erreur survenue 😩', 'Fermer');
+      }
+    );
+  }
+
+  onLoginClick(): void { this.state = AuthenticationState.LOGIN; }
+
+  onForgotPasswordClick(): void { this.state = AuthenticationState.FORGOT_PASSWORD; }
+
+  onCreateAccountClick(): void { this.state = AuthenticationState.SIGNUP; }
+
+  isLoginState(): boolean { return this.state == AuthenticationState.LOGIN; }
+
+  isSignupState(): boolean { return this.state == AuthenticationState.SIGNUP; }
+
+  isForgotPasswordState(): boolean { return this.state == AuthenticationState.FORGOT_PASSWORD; }
+
+  getButtonText(): string {
+    switch (this.state) {
+      case AuthenticationState.FORGOT_PASSWORD:
+        return 'Réinitialiser'
+        break;
+      case AuthenticationState.SIGNUP:
+        return 'S’inscrire'
+        break;
+
+      default:
+        return 'Se connecter'
+        break;
+    }
+  }
 
   getLoginEmailErrorMessage() {
     if (this.loginForm.controls['loginEmail'].hasError('required')) {
@@ -107,86 +217,6 @@ export class AuthenticatorComponent implements OnInit {
     }
     return this.resetForm.controls['resetEmail'].hasError('email') ? 'Email incorrect' : '';
   }
-
-  onLogin(): void {
-    this.authenticationService.signIn(
-      this.loginForm.controls['loginEmail'].value,
-      this.loginForm.controls['loginPassword'].value);
-    this.router.navigateByUrl('');
-    this.snackBar.open(`Bonjour, Content de vous revoir :)`, 'Fermer');
-  }
-
-  onSignup(): void {
-    this.authenticationService.signUp(
-      this.signupForm.controls['signupEmail'].value,
-      this.signupForm.controls['signupPassword'].value,
-      this.signupForm.controls['signupFullname'].value);
-
-    this.appUser.fullname = this.signupForm.controls['signupFullname'].value;
-    this.appUser.username = this.signupForm.controls['signupUsername'].value;
-    this.appUser.email = this.signupForm.controls['signupEmail'].value;
-
-    console.log(this.appUser);
-
-    this.userService.addNewUser(this.appUser)
-      .then(
-        response => {
-          this.appUser.id = response.id;
-          this.userService.updateUser(this.appUser);
-          localStorage.setItem('userId', response.id);
-        }
-      )
-      .catch(
-        error => console.log(error)
-      );
-
-    this.state = AuthenticationState.LOGIN;
-    this.snackBar.open(`Inscription terminée!`, 'Fermer');
-  }
-
-  onReset(): void {
-    console.log(this.resetForm.value);
-  }
-
-  onLoginClick(): void {
-    this.state = AuthenticationState.LOGIN;
-  }
-
-  onForgotPasswordClick(): void {
-    this.state = AuthenticationState.FORGOT_PASSWORD;
-  }
-
-  onCreateAccountClick(): void {
-    this.state = AuthenticationState.SIGNUP;
-  }
-
-  isLoginState(): boolean {
-    return this.state == AuthenticationState.LOGIN;
-  }
-
-  isSignupState(): boolean {
-    return this.state == AuthenticationState.SIGNUP;
-  }
-
-  isForgotPasswordState(): boolean {
-    return this.state == AuthenticationState.FORGOT_PASSWORD;
-  }
-
-  getButtonText(): string {
-    switch (this.state) {
-      case AuthenticationState.FORGOT_PASSWORD:
-        return 'Réinitialiser'
-        break;
-      case AuthenticationState.SIGNUP:
-        return 'S’inscrire'
-        break;
-
-      default:
-        return 'Se connecter'
-        break;
-    }
-  }
-
 }
 
 export enum AuthenticationState {

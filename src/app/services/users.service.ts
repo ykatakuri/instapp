@@ -3,7 +3,7 @@ import { CollectionReference, DocumentData, DocumentReference, Firestore } from 
 import { collection } from '@firebase/firestore';
 import { Observable } from 'rxjs';
 import { FIREBASE_COLLECTION_PATHS } from '../constants/firestore-collection-paths.constant';
-import { AppUser } from '../models/app-user.interface';
+import { AppUser } from '../models/app.user.interface';
 import { Post } from '../models/post.interface';
 import { FirestoreService } from './firestore.service';
 

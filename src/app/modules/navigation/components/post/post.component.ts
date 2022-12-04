@@ -1,9 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { AppUser } from 'src/app/models/app-user.interface';
+import { MatDialog } from '@angular/material/dialog';
 import { Post } from 'src/app/models/post.interface';
-import { PostsService } from 'src/app/services/posts.service';
-import { UsersService } from 'src/app/services/users.service';
+import { CommentComponent } from '../comment/comment.component';
 
 @Component({
   selector: 'app-post',
@@ -12,24 +10,20 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class PostComponent implements OnInit {
   @Input() post!: Post;
-  user$!: Observable<AppUser>;
   isLiked!: boolean;
   color!: string;
 
-  post$!: Observable<Post>;
-
 
   constructor(
-    private postService: PostsService,
-    private userService: UsersService,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
     this.color = '';
     this.isLiked = false;
-    this.user$ = this.userService.getUserById(this.post.userId!);
-    this.post$ = this.postService.getPostById(this.post.id);
   }
+
+
 
   // onLike(postId: string): void {
   //   this.isLiked = !this.isLiked;
@@ -61,5 +55,9 @@ export class PostComponent implements OnInit {
       this.post.likeCount! = this.post.likeCount! - 1;
       this.color = '';
     }
+  }
+
+  openCommentDialog(): void {
+    this.dialog.open(CommentComponent, { data: this.post.id });
   }
 }
