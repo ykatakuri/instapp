@@ -11,7 +11,7 @@
             <mat-grid-tile colspan="3" rowspan="2" [style.background]="''">
                 <mat-card class="stat-card">
                     <mat-card-header>
-                        <mat-card-title>0</mat-card-title>
+                        <mat-card-title *ngIf="currentUserPosts$|async as posts">{{ posts.length }}</mat-card-title>
                         <mat-card-subtitle>Publications</mat-card-subtitle>
                     </mat-card-header>
                 </mat-card>
@@ -29,26 +29,26 @@
                 </mat-card>
             </mat-grid-tile>
 
-            <mat-grid-tile colspan="1" rowspan="1" [style.background]="''">John Doe</mat-grid-tile>
+            <mat-grid-tile colspan="1" rowspan="1" [style.background]="''">{{ currentUserFullname }}
+            </mat-grid-tile>
         </mat-grid-list>
     </mat-card-content>
 </mat-card>
 
 <mat-card class="menu-card">
     <mat-list>
-        <mat-list-item>Informations Personnelles</mat-list-item>
+        <a type="button" (click)="onPersonalInformation()">
+            <mat-list-item>Informations Personnelles</mat-list-item>
+        </a>
         <mat-divider></mat-divider>
         <mat-list-item>Inviter Des Amis</mat-list-item>
     </mat-list>
 </mat-card>
 
 <mat-card class="post-card">
-    <mat-grid-list cols="3" rowHeight="2:1">
-        <mat-grid-tile>1</mat-grid-tile>
-        <mat-grid-tile>2</mat-grid-tile>
-        <mat-grid-tile>3</mat-grid-tile>
-        <mat-grid-tile>4</mat-grid-tile>
-        <mat-grid-tile>5</mat-grid-tile>
-        <mat-grid-tile>6</mat-grid-tile>
+    <mat-grid-list cols="3" rowHeight="150px">
+        <mat-grid-tile *ngFor="let post of currentUserPosts$|async">
+            <img [src]="post.imageUrl" [alt]="post.title">
+        </mat-grid-tile>
     </mat-grid-list>
 </mat-card>
