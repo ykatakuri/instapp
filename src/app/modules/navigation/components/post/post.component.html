@@ -1,7 +1,7 @@
 <mat-card class="home-post-card">
     <mat-card-header>
         <div mat-card-avatar class="user-avatar"></div>
-        <mat-card-title>{{ post.creator }}</mat-card-title>
+        <mat-card-title>{{ post.creatorName }}</mat-card-title>
         <mat-card-subtitle>Mis en ligne le {{ post.createAt!.toDate() | date:'dd/MM/yyyy à HH:mm' }}</mat-card-subtitle>
     </mat-card-header>
     <img mat-card-image [src]="post.imageUrl" [alt]="post.title">
