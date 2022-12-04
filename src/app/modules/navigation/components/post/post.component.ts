@@ -21,7 +21,6 @@ export class PostComponent implements OnInit {
   ngOnInit(): void {
     this.color = '';
     this.isLiked = false;
-    console.log(this.post.creator);
   }
 
 
