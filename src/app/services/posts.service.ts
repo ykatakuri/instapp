@@ -25,7 +25,7 @@ export class PostsService {
     return this.firestoreService.create(this.postsCollection, post);
   }
 
-  public getAllPosts(direction: "asc" | "desc" = "asc"): Observable<Post[]> {
+  public getAllPosts(direction: "asc" | "desc" = "desc"): Observable<Post[]> {
     return this.firestoreService.fetchAll<Post>(this.postsCollection, "createAt", direction);
   }
 
