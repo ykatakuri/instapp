@@ -30,7 +30,7 @@ export class PostsService {
   }
 
   public getUserPosts(id: string): Observable<Post[]> {
-    return this.firestoreService.fetchByProperty<Post>(this.postsCollection, "userId", id);
+    return this.firestoreService.fetchByProperty<Post>(this.postsCollection, "creatorId", id);
   }
 
   public getPostById(id: string): Observable<Post> {
