@@ -41,8 +41,4 @@ export class PostListComponent implements OnInit, OnChanges {
       );
     this.postCount = parseInt(localStorage.getItem('postCount')!);
   }
-
-  updateLikeCount(newCount: number): void {
-    // this.post.likeCount = newCount;
-  }
 }
