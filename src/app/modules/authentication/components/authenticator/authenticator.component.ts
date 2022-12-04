@@ -88,6 +88,7 @@ export class AuthenticatorComponent implements OnInit {
                   () => {
                     this.displaySpinner = true;
                     setTimeout(() => {
+                      this.displaySpinner = false;
                       this.state = AuthenticationState.LOGIN;
                       this.snackBar.open('Inscription terminée 👍🏾.', 'Fermer');
                     }, 3000);
