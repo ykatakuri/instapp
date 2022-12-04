@@ -1,0 +1,24 @@
+.avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.stat-card {
+    max-width: 100px;
+    margin-right: 10px;
+}
+
+.menu-card,
+.post-card {
+    margin-top: 30px;
+}
+
+mat-grid-tile {
+    background: lightblue;
+}
+
+.user-info-card {
+    margin-top: 30px;
+}
