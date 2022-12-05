@@ -13,7 +13,6 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./authenticator.component.scss']
 })
 
-// TODO: Show snackbar on authentication  
 export class AuthenticatorComponent implements OnInit {
   state = AuthenticationState.LOGIN;
   loginForm!: FormGroup;
@@ -54,13 +53,20 @@ export class AuthenticatorComponent implements OnInit {
     this.authenticationService.signIn(
       this.loginForm.controls['loginEmail'].value,
       this.loginForm.controls['loginPassword'].value).then(
-        (data) => {
-          localStorage.setItem('userId', data?.user.uid!);
-          this.displaySpinner = true;
-          setTimeout(() => {
-            this.router.navigateByUrl('');
-            this.snackBar.open('Bonjour, Content de vous revoir 😃 !', 'Fermer');
-          }, 3000);
+        (snapshot) => {
+          if (snapshot?.user.uid === undefined) {
+            setTimeout(() => {
+              this.snackBar.open('Compte inexistant !', 'Fermer');
+            }, 1000);
+            this.state = AuthenticationState.SIGNUP;
+          } else {
+            localStorage.setItem('userId', snapshot?.user.uid!);
+            this.displaySpinner = true;
+            setTimeout(() => {
+              this.router.navigateByUrl('');
+              this.snackBar.open('Bonjour, Content de vous revoir 😃 !', 'Fermer');
+            }, 3000);
+          }
         }
       ).catch(
         (error) => {
@@ -75,30 +81,21 @@ export class AuthenticatorComponent implements OnInit {
       this.signupForm.controls['signupEmail'].value,
       this.signupForm.controls['signupPassword'].value,
       this.signupForm.controls['signupFullname'].value).then(
-        () => {
+        (snapshot) => {
+          this.appUser.id = snapshot?.user.uid!;
           this.appUser.fullname = this.signupForm.controls['signupFullname'].value;
           this.appUser.username = this.signupForm.controls['signupUsername'].value;
           this.appUser.email = this.signupForm.controls['signupEmail'].value;
 
-          this.userService.addNewUser(this.appUser)
+          this.userService.addUser(this.appUser)
             .then(
-              response => {
-                this.appUser.id = response.id;
-                this.userService.updateUser(this.appUser).then(
-                  () => {
-                    this.displaySpinner = true;
-                    setTimeout(() => {
-                      this.displaySpinner = false;
-                      this.state = AuthenticationState.LOGIN;
-                      this.snackBar.open('Inscription terminée 👍🏾.', 'Fermer');
-                    }, 3000);
-                  }
-                ).catch(
-                  (error) => {
-                    console.log(error);
-                    this.snackBar.open('Erreur survenue 😩', 'Fermer');
-                  }
-                );
+              () => {
+                this.displaySpinner = true;
+                setTimeout(() => {
+                  this.displaySpinner = false;
+                  this.state = AuthenticationState.LOGIN;
+                  this.snackBar.open('Inscription terminée 👍🏾.', 'Fermer');
+                }, 3000);
               }
             )
             .catch(
