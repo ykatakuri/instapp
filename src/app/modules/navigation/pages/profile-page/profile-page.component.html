@@ -1,54 +1,60 @@
-<app-navbar></app-navbar>
-<app-appbar></app-appbar>
-<mat-card class="user-info-card">
-    <mat-card-content>
-        <mat-grid-list cols="4" rowHeight="50px">
-            <mat-grid-tile colspan="1" rowspan="1" [style.background]="''">
-                <img src="https://toppng.com/uploads/preview/user-account-management-logo-user-icon-11562867145a56rus2zwu.png"
-                    alt="Avatar" class="avatar">
-            </mat-grid-tile>
+<cdk-virtual-scroll-viewport appendOnly itemSize="50" class="profile-page-viewport">
+    <app-appbar></app-appbar>
+    <mat-card class="user-info-card">
+        <mat-card-content>
+            <mat-grid-list cols="4" rowHeight="50px">
+                <mat-grid-tile colspan="1" rowspan="1" [style.background]="''">
+                    <img src="https://toppng.com/uploads/preview/user-account-management-logo-user-icon-11562867145a56rus2zwu.png"
+                        alt="Avatar" class="avatar">
+                </mat-grid-tile>
 
-            <mat-grid-tile colspan="3" rowspan="2" [style.background]="''">
-                <mat-card class="stat-card">
-                    <mat-card-header>
-                        <mat-card-title *ngIf="currentUserPosts$|async as posts">{{ posts.length }}</mat-card-title>
-                        <mat-card-subtitle>Publications</mat-card-subtitle>
-                    </mat-card-header>
-                </mat-card>
-                <mat-card class="stat-card">
-                    <mat-card-header>
-                        <mat-card-title>73</mat-card-title>
-                        <mat-card-subtitle>Followers</mat-card-subtitle>
-                    </mat-card-header>
-                </mat-card>
-                <mat-card class="stat-card">
-                    <mat-card-header>
-                        <mat-card-title>79</mat-card-title>
-                        <mat-card-subtitle>Suivi(e)s</mat-card-subtitle>
-                    </mat-card-header>
-                </mat-card>
-            </mat-grid-tile>
+                <mat-grid-tile colspan="3" rowspan="2" [style.background]="''">
+                    <mat-card class="stat-card">
+                        <mat-card-header>
+                            <mat-card-title *ngIf="currentUserPosts$|async as posts">{{ posts.length }}</mat-card-title>
+                            <mat-card-subtitle>Publications</mat-card-subtitle>
+                        </mat-card-header>
+                    </mat-card>
+                    <mat-card class="stat-card">
+                        <mat-card-header>
+                            <mat-card-title>73</mat-card-title>
+                            <mat-card-subtitle>Followers</mat-card-subtitle>
+                        </mat-card-header>
+                    </mat-card>
+                    <mat-card class="stat-card">
+                        <mat-card-header>
+                            <mat-card-title>79</mat-card-title>
+                            <mat-card-subtitle>Suivi(e)s</mat-card-subtitle>
+                        </mat-card-header>
+                    </mat-card>
+                </mat-grid-tile>
 
-            <mat-grid-tile colspan="1" rowspan="1" [style.background]="''">{{ currentUserFullname }}
+                <mat-grid-tile colspan="1" rowspan="1" [style.background]="''">{{ currentUserFullname }}
+                </mat-grid-tile>
+            </mat-grid-list>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="menu-card">
+        <mat-list>
+            <a type="button" (click)="onPersonalInformation()">
+                <mat-list-item>Informations Personnelles</mat-list-item>
+            </a>
+            <mat-divider></mat-divider>
+            <mat-list-item>Inviter Des Amis</mat-list-item>
+        </mat-list>
+    </mat-card>
+
+    <mat-card class="post-card">
+        <mat-grid-list cols="3" rowHeight="150px">
+            <mat-grid-tile *ngFor="let post of currentUserPosts$|async">
+                <img [src]="post.imageUrl" [alt]="post.title">
             </mat-grid-tile>
         </mat-grid-list>
-    </mat-card-content>
-</mat-card>
+    </mat-card>
 
-<mat-card class="menu-card">
-    <mat-list>
-        <a type="button" (click)="onPersonalInformation()">
-            <mat-list-item>Informations Personnelles</mat-list-item>
-        </a>
-        <mat-divider></mat-divider>
-        <mat-list-item>Inviter Des Amis</mat-list-item>
-    </mat-list>
-</mat-card>
+</cdk-virtual-scroll-viewport>
 
-<mat-card class="post-card">
-    <mat-grid-list cols="3" rowHeight="150px">
-        <mat-grid-tile *ngFor="let post of currentUserPosts$|async">
-            <img [src]="post.imageUrl" [alt]="post.title">
-        </mat-grid-tile>
-    </mat-grid-list>
-</mat-card>
+<div class="utility-spacer"></div>
+
+<app-navbar></app-navbar>

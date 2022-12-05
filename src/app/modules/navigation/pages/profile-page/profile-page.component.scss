@@ -1,3 +1,8 @@
+.profile-page-viewport {
+    height: 100%;
+    width: 100%;
+}
+
 .avatar {
     vertical-align: middle;
     width: 50px;
@@ -21,4 +26,8 @@ mat-grid-tile {
 
 .user-info-card {
     margin-top: 30px;
+}
+
+.utility-spacer {
+    height: 100px;
 }
