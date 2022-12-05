@@ -9,3 +9,16 @@
     justify-content: center;
     margin: 100px 30px 0 30px;
 }
+
+/* The div container */
+.qrcodeImage {
+    display: flex;
+    flex: 1;
+}
+
+/* Add custom styles here */
+.center {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+}
