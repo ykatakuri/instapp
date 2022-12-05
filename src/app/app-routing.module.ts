@@ -4,7 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthenticationPageComponent } from './modules/authentication/pages/authentication-page/authentication-page.component';
 import { ChatPageComponent } from './modules/navigation/pages/chat-page/chat-page.component';
 import { HomePageComponent } from './modules/navigation/pages/home-page/home-page.component';
-import { NotificationsPageComponent } from './modules/navigation/pages/notifications-page/notifications-page.component';
+import { InvitFriendsPageComponent } from './modules/navigation/pages/profile-page/pages/invit-friends-page/invit-friends-page.component';
+import { UserInfoPageComponent } from './modules/navigation/pages/profile-page/pages/user-info-page/user-info-page.component';
 import { ProfilePageComponent } from './modules/navigation/pages/profile-page/profile-page.component';
 import { SearchPageComponent } from './modules/navigation/pages/search-page/search-page.component';
 
@@ -12,15 +13,19 @@ const redirectUnauthorizedToAuth = () => redirectUnauthorizedTo(["authenticate"]
 const redirectLoggedInToAppNavigator = () => redirectLoggedInTo([""]);
 
 const routes: Routes = [
-
   {
-    component: ProfilePageComponent,
-    path: "profile",
+    component: InvitFriendsPageComponent,
+    path: "invit-friends",
     loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
   },
   {
-    component: NotificationsPageComponent,
-    path: "notifications",
+    component: UserInfoPageComponent,
+    path: "user-infos",
+    loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
+  },
+  {
+    component: ProfilePageComponent,
+    path: "profile",
     loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
   },
   {

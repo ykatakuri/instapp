@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
+import { AppUser } from 'src/app/models/app.user.interface';
 import { Post } from 'src/app/models/post.interface';
+import { UsersService } from 'src/app/services/users.service';
 import { CommentComponent } from '../comment/comment.component';
 
 @Component({
@@ -13,14 +16,21 @@ export class PostComponent implements OnInit {
   isLiked!: boolean;
   color!: string;
 
+  tempUserId: string = localStorage.getItem('userId')!;
+
+  userPhotoUrl!: string;
+
+  user$!: Observable<AppUser>;
 
   constructor(
     private dialog: MatDialog,
+    private userService: UsersService,
   ) { }
 
   ngOnInit(): void {
     this.color = '';
     this.isLiked = false;
+    this.user$ = this.userService.getUserById(this.tempUserId);
   }
 
 

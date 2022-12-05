@@ -73,7 +73,7 @@ export class CreatePostFileComponent implements OnInit, OnDestroy {
   onSubmitForm(): void {
     let postTitle = this.postFileForm.controls['title'].value;
     let postDate = Date.now();
-    const imagePath = `${FIREBASE_COLLECTION_PATHS.POSTS}_${postDate}`;
+    const imagePath = `${FIREBASE_COLLECTION_PATHS.POSTS}/${postDate}`;
 
     this.storageService.uploadFile(this.selectedImage, imagePath).then(
       () => {

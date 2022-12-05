@@ -1,6 +1,8 @@
 <mat-card class="home-post-card">
     <mat-card-header>
-        <div mat-card-avatar class="user-avatar"></div>
+        <div mat-card-avatar>
+            <img *ngIf="user$|async as user" [src]="user.avatar" [alt]="user.fullname" class="avatar">
+        </div>
         <mat-card-title>{{ post.creatorName }}</mat-card-title>
         <mat-card-subtitle>Mis en ligne le {{ post.createAt!.toDate() | date:'dd/MM/yyyy à HH:mm' }}</mat-card-subtitle>
     </mat-card-header>
