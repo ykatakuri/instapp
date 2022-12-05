@@ -4,8 +4,7 @@
         <mat-card-content>
             <mat-grid-list cols="4" rowHeight="50px">
                 <mat-grid-tile colspan="1" rowspan="1" [style.background]="''">
-                    <img src="https://toppng.com/uploads/preview/user-account-management-logo-user-icon-11562867145a56rus2zwu.png"
-                        alt="Avatar" class="avatar">
+                    <img *ngIf="currentUser$|async as user" [src]="user.avatar" [alt]="user.fullname" class="avatar">
                 </mat-grid-tile>
 
                 <mat-grid-tile colspan="3" rowspan="2" [style.background]="''">
