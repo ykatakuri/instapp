@@ -29,6 +29,7 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { UserInfoPageComponent } from './pages/profile-page/pages/user-info-page/user-info-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
+import { InvitFriendsPageComponent } from './pages/profile-page/pages/invit-friends-page/invit-friends-page.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
     PostListComponent,
     CommentComponent,
     UserInfoPageComponent,
+    InvitFriendsPageComponent,
   ],
   imports: [
     CommonModule,

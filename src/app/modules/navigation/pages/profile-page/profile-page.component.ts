@@ -44,4 +44,8 @@ export class ProfilePageComponent implements OnInit {
   onPersonalInformation(): void {
     this.router.navigateByUrl('user-infos');
   }
+
+  onInvitFriends(): void {
+    this.router.navigateByUrl('invit-friends');
+  }
 }
