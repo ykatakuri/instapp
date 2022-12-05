@@ -15,6 +15,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
+import { QRCodeModule } from 'angularx-qrcode';
 import { WebcamModule } from 'ngx-webcam';
 import { CommentComponent } from './components/comment/comment.component';
 import { CreatePostCameraComponent } from './components/create-post-camera/create-post-camera.component';
@@ -26,10 +27,10 @@ import { PostComponent } from './components/post/post.component';
 import { ChatPageComponent } from './pages/chat-page/chat-page.component';
 import { AppBarComponent } from './pages/home-page/components/app-bar/app-bar.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
+import { InvitFriendsPageComponent } from './pages/profile-page/pages/invit-friends-page/invit-friends-page.component';
 import { UserInfoPageComponent } from './pages/profile-page/pages/user-info-page/user-info-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
-import { InvitFriendsPageComponent } from './pages/profile-page/pages/invit-friends-page/invit-friends-page.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { InvitFriendsPageComponent } from './pages/profile-page/pages/invit-frie
     MatProgressSpinnerModule,
     MatGridListModule,
     MatDividerModule,
+    QRCodeModule,
   ],
   exports: [
 
