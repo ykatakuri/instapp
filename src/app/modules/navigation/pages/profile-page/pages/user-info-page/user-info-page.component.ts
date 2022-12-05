@@ -1,10 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable, tap } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { tap } from 'rxjs';
+import { FIREBASE_COLLECTION_PATHS } from 'src/app/constants/firestore-collection-paths.constant';
 import { AppUser } from 'src/app/models/app.user.interface';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { StorageService } from 'src/app/services/storage.service';
 import { UsersService } from 'src/app/services/users.service';
 
+// TODO: Get the current user infos
+// TODO: Init avatar with an image link 
 @Component({
   selector: 'app-user-info-page',
   templateUrl: './user-info-page.component.html',
@@ -12,44 +18,99 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class UserInfoPageComponent implements OnInit {
   userInfosForm!: FormGroup;
-  user$!: Observable<AppUser>;
-  currentUserId!: string;
-  currentUserName!: string;
-  currentUserUsername!: any;
+  public currentUserId!: string;
+  public currentUserName!: string;
+  public currentUserUsername!: string;
+  public currentUserEmail!: string;
 
+  currentUser!: AppUser;
+
+  selectedImage!: File;
+
+  userAvatar: string = 'https://toppng.com/uploads/preview/user-account-management-logo-user-icon-11562867145a56rus2zwu.png';
 
   constructor(
     private formBuilder: FormBuilder,
     private userService: UsersService,
     private authService: AuthenticationService,
+    private storageService: StorageService,
+    private router: Router,
+    private snackBar: MatSnackBar,
   ) {
   }
 
   ngOnInit(): void {
+    let previewImage = <HTMLImageElement>document.getElementById('avatar');
+    previewImage.src = this.userAvatar;
+
     this.authService.user.pipe(
       tap((user) => {
         this.currentUserId = user?.uid!;
         this.currentUserName = user?.displayName!;
+        this.currentUserUsername = this.currentUserName.split(' ').join('_').toLowerCase();
+        this.currentUserEmail = user?.email!;
       }),
     ).subscribe();
 
-    // TODO: Get the user by Id
-    this.userService.getUserById(localStorage.getItem('userId')!).pipe(
-      tap((user) => {
-        // this.currentUserName = user?.fullname;
-        // this.currentUserUsername = user?.username;
-        console.log('user: ' + user);
-      })
-    ).subscribe();
+    this.currentUser = {
+      id: this.currentUserId,
+      fullname: this.currentUserName,
+      username: this.currentUserUsername,
+      email: this.currentUserEmail,
+    };
 
     this.userInfosForm = this.formBuilder.group({
       fullname: [this.currentUserName, [Validators.required, Validators.minLength(2)]],
-      username: ['', [Validators.required, Validators.minLength(2)]],
+      username: [this.currentUserUsername, [Validators.required, Validators.minLength(2)]],
     });
+
   }
 
-  onSubmit(): void {
-    console.log('On submit form');
+  onUpdateUserInfos(): void {
+    this.currentUser.fullname = this.userInfosForm.controls['fullname'].value;
+    this.currentUser.username = this.userInfosForm.controls['username'].value;
+    const imagePath = `${FIREBASE_COLLECTION_PATHS.USERS}/${this.currentUserId}`;
+    this.storageService.uploadFile(this.selectedImage, imagePath).then(
+      () => {
+        let downloadUrl = this.storageService.getFileDownloadUrl(imagePath);
+        return downloadUrl;
+      }).then(
+        (photoUrl) => {
+          this.currentUser.avatar = photoUrl;
+          this.userService.updateUser(this.currentUser).then(
+            () => {
+              setTimeout(() => {
+                this.router.navigateByUrl('profile');
+                this.snackBar.open('Informations sauvegardées', 'Fermer');
+              }, 1000);
+            }
+          ).catch(error => console.log(error));
+        }
+      ).catch(error => console.log(error));
+  }
+
+  onBack(): void {
+    this.router.navigateByUrl('profile');
+  }
+
+  onAvatarClick(): void {
+    console.log('Modify avatar');
+    <HTMLInputElement>document.getElementById('myfile')?.click()!;
+  }
+
+  onImageSelected(fileSelector: any): void {
+    this.selectedImage = fileSelector.files[0];
+    if (!this.selectedImage) return;
+    let fileReader = new FileReader();
+    fileReader.readAsDataURL(this.selectedImage);
+    fileReader.addEventListener(
+      "loadend",
+      ev => {
+        let readableString = fileReader.result!.toString();
+        let previewImage = <HTMLImageElement>document.getElementById('avatar');
+        previewImage.src = readableString;
+      }
+    );
   }
 
   getFullnameErrorMessage() {

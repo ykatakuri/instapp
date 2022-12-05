@@ -1,9 +1,23 @@
 <app-navbar></app-navbar>
 <app-appbar></app-appbar>
+<button mat-mini-fab color="" class="back_button" (click)="onBack()">
+    <mat-icon color="">arrow_back</mat-icon>
+</button>
+<div id="avatar-container">
+    <mat-card-title>
+        <form>
+            <img id="avatar" (click)="onAvatarClick()" [src]="" alt="Avatar" class="avatar">
+            <input #fileSelector (change)="onImageSelected(fileSelector)" accept="image/*" type="file" id="myfile"
+                style="display: none;">
+        </form>
+    </mat-card-title>
+    <mat-card-subtitle>Modifier la photo</mat-card-subtitle>
+</div>
+
 <mat-card class="form-card">
     <mat-card-content>
         <form fxLayout="column" fxLayoutGap="20px" [formGroup]="userInfosForm" class="signup-form"
-            (ngSubmit)="onSubmit()">
+            (ngSubmit)="onUpdateUserInfos()">
             <div fxLayout="column">
                 <mat-form-field class="fullname-form-field" appearance="fill">
                     <mat-label>Nom complet</mat-label>
