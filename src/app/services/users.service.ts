@@ -23,6 +23,10 @@ export class UsersService {
     return this.firestoreService.createWithCustomID(this.usersCollection, user, user.id);
   }
 
+  public getAllUsers(direction: "asc" | "desc" = "asc"): Observable<AppUser[]> {
+    return this.firestoreService.fetchAll<AppUser>(this.usersCollection, "username", direction);
+  }
+
   public getUserById(id: string): Observable<AppUser> {
     return this.firestoreService.fetchById<AppUser>(FIREBASE_COLLECTION_PATHS.USERS, id);
   }

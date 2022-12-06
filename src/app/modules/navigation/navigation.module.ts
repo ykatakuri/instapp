@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -68,6 +69,7 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
     MatGridListModule,
     MatDividerModule,
     QRCodeModule,
+    MatAutocompleteModule,
   ],
   exports: [
 

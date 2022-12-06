@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-search-page',
@@ -6,11 +8,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search-page.component.scss']
 })
 export class SearchPageComponent implements OnInit {
-  users: string[] = ['Virat Kholi', 'Steve Smith', 'Mitchel Johnson', 'James Anderson', 'Michael Clarke'];
+  users$ = this.usersService.getAllUsers();
 
-  constructor() { }
+  searchForm!: FormGroup;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private usersService: UsersService,
+  ) { }
 
   ngOnInit(): void {
+    this.searchForm = this.formBuilder.group({
+      search: [null],
+    });
   }
 
 }
