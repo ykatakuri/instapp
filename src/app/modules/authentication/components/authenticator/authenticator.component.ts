@@ -80,37 +80,41 @@ export class AuthenticatorComponent implements OnInit {
     this.authenticationService.signUp(
       this.signupForm.controls['signupEmail'].value,
       this.signupForm.controls['signupPassword'].value,
-      this.signupForm.controls['signupFullname'].value).then(
-        (snapshot) => {
-          this.appUser.id = snapshot?.user.uid!;
-          this.appUser.fullname = this.signupForm.controls['signupFullname'].value;
-          this.appUser.username = this.signupForm.controls['signupUsername'].value;
-          this.appUser.email = this.signupForm.controls['signupEmail'].value;
+      this.signupForm.controls['signupFullname'].value,
+      'https://toppng.com/uploads/preview/user-account-management-logo-user-icon-11562867145a56rus2zwu.png',
+    ).then(
+      (snapshot) => {
+        this.appUser.id = snapshot?.user.uid!;
+        this.appUser.fullname = this.signupForm.controls['signupFullname'].value;
+        this.appUser.username = this.signupForm.controls['signupUsername'].value;
+        this.appUser.email = this.signupForm.controls['signupEmail'].value;
+        this.appUser.photoURL = 'https://toppng.com/uploads/preview/user-account-management-logo-user-icon-11562867145a56rus2zwu.png';
 
-          this.userService.addUser(this.appUser)
-            .then(
-              () => {
-                this.displaySpinner = true;
-                setTimeout(() => {
-                  this.displaySpinner = false;
-                  this.state = AuthenticationState.LOGIN;
-                  this.snackBar.open('Inscription terminée 👍🏾.', 'Fermer');
-                }, 3000);
-              }
-            )
-            .catch(
-              error => {
-                console.log(error);
-                this.snackBar.open('Erreur survenue 😩', 'Fermer');
-              }
-            );
-        }
-      ).catch(
-        (error) => {
-          console.log(error);
-          this.snackBar.open('Erreur survenue 😩', 'Fermer');
-        }
-      );
+        this.userService.addUser(this.appUser)
+          .then(
+            () => {
+              this.displaySpinner = true;
+              this.signupForm.reset('');
+              setTimeout(() => {
+                this.displaySpinner = false;
+                this.state = AuthenticationState.LOGIN;
+                this.snackBar.open('Inscription terminée 👍🏾.', 'Fermer');
+              }, 3000);
+            }
+          )
+          .catch(
+            error => {
+              console.log(error);
+              this.snackBar.open('Erreur survenue 😩', 'Fermer');
+            }
+          );
+      }
+    ).catch(
+      (error) => {
+        console.log(error);
+        this.snackBar.open('Erreur survenue 😩', 'Fermer');
+      }
+    );
   }
 
   onResetPassword(): void {

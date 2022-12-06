@@ -16,8 +16,6 @@ export class PostComponent implements OnInit {
   isLiked!: boolean;
   color!: string;
 
-  tempUserId: string = localStorage.getItem('userId')!;
-
   userPhotoUrl!: string;
 
   user$!: Observable<AppUser>;
@@ -30,7 +28,7 @@ export class PostComponent implements OnInit {
   ngOnInit(): void {
     this.color = '';
     this.isLiked = false;
-    this.user$ = this.userService.getUserById(this.tempUserId);
+    this.user$ = this.userService.getUserById(this.post.creatorId);
   }
 
 

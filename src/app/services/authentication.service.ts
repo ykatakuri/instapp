@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { Auth, authState, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile, User, UserCredential } from "@angular/fire/auth";
+import { Auth, authState, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile, User, UserCredential, UserInfo } from "@angular/fire/auth";
 import { sendPasswordResetEmail } from '@firebase/auth';
-import { EMPTY, Observable, of } from "rxjs";
+import { concatMap, EMPTY, Observable, of } from "rxjs";
 @Injectable({
   providedIn: "root",
 })
@@ -20,11 +20,23 @@ export class AuthenticationService {
     }
   }
 
-  public async signUp(email: string, password: string, fullname: string): Promise<UserCredential | null> {
+  updateProfile(profileData: Partial<UserInfo>): Observable<any> {
+    const user = this.auth.currentUser;
+    return of(user).pipe(
+      concatMap((user) => {
+        if (!user) throw new Error('Not Authenticated');
+
+        return updateProfile(user, profileData);
+      })
+    );
+  }
+
+  public async signUp(email: string, password: string, fullname: string, photoUrL: string): Promise<UserCredential | null> {
     try {
       const data: UserCredential = await createUserWithEmailAndPassword(this.auth, email, password);
       const displayName: string = fullname;
-      await updateProfile(data.user, { displayName });
+      const photoURL: string = photoUrL;
+      await updateProfile(data.user, { displayName, photoURL });
       return data;
     } catch (error) {
       return null;
@@ -50,6 +62,7 @@ export class AuthenticationService {
   public async signOut(): Promise<void> {
     try {
       await signOut(this.auth);
+      localStorage.clear();
     } catch (error) {
       console.log(error);
     }

@@ -8,6 +8,7 @@ import { InvitFriendsPageComponent } from './modules/navigation/pages/profile-pa
 import { UserInfoPageComponent } from './modules/navigation/pages/profile-page/pages/user-info-page/user-info-page.component';
 import { ProfilePageComponent } from './modules/navigation/pages/profile-page/profile-page.component';
 import { SearchPageComponent } from './modules/navigation/pages/search-page/search-page.component';
+import { SingleUserPageComponent } from './modules/navigation/pages/single-user-page/single-user-page.component';
 
 const redirectUnauthorizedToAuth = () => redirectUnauthorizedTo(["authenticate"]);
 const redirectLoggedInToAppNavigator = () => redirectLoggedInTo([""]);
@@ -21,6 +22,11 @@ const routes: Routes = [
   {
     component: UserInfoPageComponent,
     path: "user-infos",
+    loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
+  },
+  {
+    component: SingleUserPageComponent,
+    path: "search/:id",
     loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
   },
   {
