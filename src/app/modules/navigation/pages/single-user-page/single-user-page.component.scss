@@ -3,6 +3,12 @@
     width: 100%;
 }
 
+.user-info-card {
+    margin-top: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
 .avatar {
     vertical-align: middle;
     width: 50px;
@@ -15,14 +21,14 @@
     margin-right: 10px;
 }
 
-.menu-card,
+.button-card,
 .post-card {
     margin-top: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
-.user-info-card {
-    margin-top: 30px;
-}
+
 
 .utility-spacer {
     height: 100px;

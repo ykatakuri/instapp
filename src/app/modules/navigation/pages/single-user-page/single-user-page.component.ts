@@ -15,8 +15,9 @@ import { UsersService } from 'src/app/services/users.service';
 export class SingleUserPageComponent implements OnInit {
 
   userPosts$!: Observable<Post[]>;
-
   user$!: Observable<AppUser>;
+  id!: string;
+  paramSub!: any;
 
   constructor(
     private postService: PostsService,
@@ -25,10 +26,15 @@ export class SingleUserPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const userId = +this.route.snapshot.params['id'];
-    this.user$ = this.userService.getUserById(userId.toString());
+    this.paramSub = this.route.paramMap.subscribe((params) => {
+      this.id = params.get('id')!;
+      this.user$ = this.userService.getUserById(this.id);
+    });
 
-    this.userPosts$ = this.postService.getUserPosts(userId.toString());
+    this.userPosts$ = this.postService.getUserPosts(this.id);
   }
 
+  ngOnDestroy() {
+    if (this.paramSub) this.paramSub.unsubscribe();
+  }
 }

@@ -35,15 +35,15 @@ export class SearchPageComponent implements OnInit {
       this.searchForm.controls['search'].valueChanges.pipe(startWith(''))
     ]).pipe(
       map(([users, user, searchString]) => users.filter(
-        u => (u.fullname?.toLowerCase().includes(searchString) &&
-          u.id !== user?.uid) || (u.fullname?.toUpperCase().includes(searchString) &&
+        u => (u.username?.toLowerCase().includes(searchString.toLowerCase()) &&
+          u.id !== user?.uid) || (u.username?.toUpperCase().includes(searchString.toUpperCase()) &&
             u.id !== user?.uid)
       ))
     );
   }
 
   goToUserProfile(otherUser: AppUser): void {
-    console.log('navigate to other user profile');
-    this.router.navigateByUrl(`search/${otherUser.id}`);
+    console.log('Other User Id: ' + otherUser.id);
+    this.router.navigate(['/search', otherUser.id]);
   }
 }
