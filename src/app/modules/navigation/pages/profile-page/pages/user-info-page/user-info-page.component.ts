@@ -2,15 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { tap } from 'rxjs';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Observable } from 'rxjs';
 import { FIREBASE_COLLECTION_PATHS } from 'src/app/constants/firestore-collection-paths.constant';
 import { AppUser } from 'src/app/models/app.user.interface';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { UsersService } from 'src/app/services/users.service';
-
-// TODO: Get the current user infos
-// TODO: Init avatar with an image link 
+@UntilDestroy()
 @Component({
   selector: 'app-user-info-page',
   templateUrl: './user-info-page.component.html',
@@ -18,67 +17,56 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class UserInfoPageComponent implements OnInit {
   userInfosForm!: FormGroup;
-  public currentUserId!: string;
-  public currentUserName!: string;
-  public currentUserUsername!: string;
-  public currentUserEmail!: string;
 
-  currentUser!: AppUser;
+  currentUser$!: Observable<AppUser | null>;
+  updatedUser!: AppUser;
 
   selectedImage!: File;
-
-  userAvatar: string = 'https://toppng.com/uploads/preview/user-account-management-logo-user-icon-11562867145a56rus2zwu.png';
 
   constructor(
     private formBuilder: FormBuilder,
     private userService: UsersService,
     private authService: AuthenticationService,
     private storageService: StorageService,
+    private usersService: UsersService,
     private router: Router,
     private snackBar: MatSnackBar,
   ) {
   }
 
   ngOnInit(): void {
-    let previewImage = <HTMLImageElement>document.getElementById('avatar');
-    previewImage.src = this.userAvatar;
-
-    this.authService.user.pipe(
-      tap((user) => {
-        this.currentUserId = user?.uid!;
-        this.currentUserName = user?.displayName!;
-        this.currentUserUsername = this.currentUserName.split(' ').join('_').toLowerCase();
-        this.currentUserEmail = user?.email!;
-      }),
-    ).subscribe();
-
-    this.currentUser = {
-      id: this.currentUserId,
-      fullname: this.currentUserName,
-      username: this.currentUserUsername,
-      email: this.currentUserEmail,
-    };
+    this.currentUser$ = this.usersService.currentUserProfile;
 
     this.userInfosForm = this.formBuilder.group({
-      fullname: [this.currentUserName, [Validators.required, Validators.minLength(2)]],
-      username: [this.currentUserUsername, [Validators.required, Validators.minLength(2)]],
+      fullname: ['', [Validators.required, Validators.minLength(2)]],
+      username: ['', [Validators.required, Validators.minLength(2)]],
     });
 
+    this.usersService.currentUserProfile
+      .pipe(untilDestroyed(this))
+      .subscribe((user) => {
+        this.userInfosForm.patchValue({ ...(user as object) });
+      });
   }
 
-  onUpdateUserInfos(): void {
-    this.currentUser.fullname = this.userInfosForm.controls['fullname'].value;
-    this.currentUser.username = this.userInfosForm.controls['username'].value;
-    const imagePath = `${FIREBASE_COLLECTION_PATHS.USERS}/${this.currentUserId}`;
+  onUpdateUserInfos(userId: string): void {
+    const imagePath = `${FIREBASE_COLLECTION_PATHS.USERS}/${userId}/${userId}`;
+
     this.storageService.uploadFile(this.selectedImage, imagePath).then(
       () => {
         let downloadUrl = this.storageService.getFileDownloadUrl(imagePath);
         return downloadUrl;
       }).then(
         (photoUrl) => {
-          this.currentUser.avatar = photoUrl;
-          this.userService.updateUser(this.currentUser).then(
+          this.updatedUser = {
+            id: userId,
+            fullname: this.userInfosForm.controls['fullname'].value,
+            username: this.userInfosForm.controls['username'].value,
+            photoURL: `${photoUrl}.jpeg`,
+          };
+          this.userService.updateUser(this.updatedUser).then(
             () => {
+              this.authService.updateProfile(this.updatedUser);
               setTimeout(() => {
                 this.router.navigateByUrl('profile');
                 this.snackBar.open('Informations sauvegardées', 'Fermer');
@@ -94,7 +82,6 @@ export class UserInfoPageComponent implements OnInit {
   }
 
   onAvatarClick(): void {
-    console.log('Modify avatar');
     <HTMLInputElement>document.getElementById('myfile')?.click()!;
   }
 
@@ -133,3 +120,4 @@ export class UserInfoPageComponent implements OnInit {
     return this.userInfosForm.controls['username'].hasError('minlength') ? 'Nom trop court' : '';
   }
 }
+

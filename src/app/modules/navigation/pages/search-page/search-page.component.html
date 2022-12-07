@@ -1,14 +1,12 @@
 <form class="search-form">
-    <mat-form-field appearance="outline" class="search-field">
-        <input matInput type="text" placeholder="Rechercher">
+    <mat-form-field [formGroup]="searchForm" appearance="outline" class="search-field">
+        <input matInput type="text" formControlName="search" placeholder="Rechercher" [matAutocomplete]="users">
         <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
+    <mat-autocomplete #users="matAutocomplete">
+        <mat-option *ngFor="let user of users$|async" [value]="user" (click)="goToUserProfile(user)">{{ user.username }}
+        </mat-option>
+    </mat-autocomplete>
 </form>
-
-<mat-selection-list #shoes [multiple]="false">
-    <mat-list-option *ngFor="let user of users" [value]="user">
-        {{user}}
-    </mat-list-option>
-</mat-selection-list>
 
 <app-navbar></app-navbar>

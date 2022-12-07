@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AppUser } from 'src/app/models/app.user.interface';
 import { Post } from 'src/app/models/post.interface';
 import { AuthenticationService } from 'src/app/services/authentication.service';
@@ -17,28 +17,21 @@ export class ProfilePageComponent implements OnInit {
   currentUserFullname: any;
   currentUserId: any;
 
-  currentUser$!: Observable<AppUser>;
+  currentUser$!: Observable<AppUser | null>;
 
   tempUserId: string = localStorage.getItem('userId')!;
 
   constructor(
     private authService: AuthenticationService,
     private postService: PostsService,
-    private userService: UsersService,
+    private usersService: UsersService,
     private router: Router,
   ) { }
 
   ngOnInit(): void {
-    this.authService.user.pipe(
-      tap((result) => {
-        this.currentUserFullname = result?.displayName;
-        this.currentUserId = result?.uid;
-      }),
-    ).subscribe();
+    this.currentUser$ = this.usersService.currentUserProfile;
 
-    this.currentUser$ = this.userService.getUserById(this.tempUserId);
-
-    this.currentUserPosts$ = this.postService.getUserPosts(this.currentUserId);
+    this.currentUserPosts$ = this.postService.getUserPosts(this.tempUserId);
   }
 
   onPersonalInformation(): void {

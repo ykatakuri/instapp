@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -31,6 +32,7 @@ import { InvitFriendsPageComponent } from './pages/profile-page/pages/invit-frie
 import { UserInfoPageComponent } from './pages/profile-page/pages/user-info-page/user-info-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
+import { SingleUserPageComponent } from './pages/single-user-page/single-user-page.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,7 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
     CommentComponent,
     UserInfoPageComponent,
     InvitFriendsPageComponent,
+    SingleUserPageComponent,
   ],
   imports: [
     CommonModule,
@@ -68,6 +71,7 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
     MatGridListModule,
     MatDividerModule,
     QRCodeModule,
+    MatAutocompleteModule,
   ],
   exports: [
 

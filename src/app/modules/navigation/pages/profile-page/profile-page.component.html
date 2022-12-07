@@ -1,10 +1,10 @@
 <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="profile-page-viewport">
     <app-appbar></app-appbar>
-    <mat-card class="user-info-card">
+    <mat-card *ngIf="currentUser$|async as user" class="user-info-card">
         <mat-card-content>
             <mat-grid-list cols="4" rowHeight="50px">
                 <mat-grid-tile colspan="1" rowspan="1" [style.background]="''">
-                    <img *ngIf="currentUser$|async as user" [src]="user.avatar" [alt]="user.fullname" class="avatar">
+                    <img [src]="user.photoURL" [alt]="user.fullname" class="avatar">
                 </mat-grid-tile>
 
                 <mat-grid-tile colspan="3" rowspan="2" [style.background]="''">
@@ -28,7 +28,7 @@
                     </mat-card>
                 </mat-grid-tile>
 
-                <mat-grid-tile colspan="1" rowspan="1" [style.background]="''">{{ currentUserFullname }}
+                <mat-grid-tile colspan="1" rowspan="1" [style.background]="''">{{ user.fullname }}
                 </mat-grid-tile>
             </mat-grid-list>
         </mat-card-content>

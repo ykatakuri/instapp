@@ -2,38 +2,40 @@
 <button mat-mini-fab color="" class="back_button" (click)="onBack()">
     <mat-icon color="">arrow_back</mat-icon>
 </button>
-<div id="avatar-container">
-    <mat-card-title>
-        <form>
-            <img id="avatar" (click)="onAvatarClick()" [src]="" alt="Avatar" class="avatar">
-            <input #fileSelector (change)="onImageSelected(fileSelector)" accept="image/*" type="file" id="myfile"
-                style="display: none;">
-        </form>
-    </mat-card-title>
-    <mat-card-subtitle>Modifier la photo</mat-card-subtitle>
-</div>
+<ng-container *ngIf="currentUser$ |async as user">
+    <div id="avatar-container">
+        <mat-card-title>
+            <form>
+                <img id="avatar" (click)="onAvatarClick()" [src]="user.photoURL" alt="Avatar" class="avatar">
+                <input #fileSelector (change)="onImageSelected(fileSelector)" accept="image/*" type="file" id="myfile"
+                    style="display: none;">
+            </form>
+        </mat-card-title>
+        <mat-card-subtitle>Modifier la photo</mat-card-subtitle>
+    </div>
 
-<mat-card class="form-card">
-    <mat-card-content>
-        <form fxLayout="column" fxLayoutGap="20px" [formGroup]="userInfosForm" class="signup-form"
-            (ngSubmit)="onUpdateUserInfos()">
-            <div fxLayout="column">
-                <mat-form-field class="fullname-form-field" appearance="fill">
-                    <mat-label>Nom complet</mat-label>
-                    <input matInput formControlName="fullname" required>
-                    <mat-error *ngIf="this.userInfosForm.controls['username'].invalid">
-                        {{getFullnameErrorMessage()}}</mat-error>
-                </mat-form-field>
+    <mat-card class="form-card">
+        <mat-card-content>
+            <form fxLayout="column" fxLayoutGap="20px" [formGroup]="userInfosForm" class="signup-form"
+                (ngSubmit)="onUpdateUserInfos(user.id)">
+                <div fxLayout="column">
+                    <mat-form-field class="fullname-form-field" appearance="fill">
+                        <mat-label>Nom complet</mat-label>
+                        <input matInput formControlName="fullname" required>
+                        <mat-error *ngIf="this.userInfosForm.controls['username'].invalid">
+                            {{getFullnameErrorMessage()}}</mat-error>
+                    </mat-form-field>
 
-                <mat-form-field class="username-form-field" appearance="fill">
-                    <mat-label>Nom d’utilisateur</mat-label>
-                    <input matInput formControlName="username" required>
-                    <mat-error *ngIf="this.userInfosForm.controls['username'].invalid">
-                        {{getUsernameErrorMessage()}}</mat-error>
-                </mat-form-field>
+                    <mat-form-field class="username-form-field" appearance="fill">
+                        <mat-label>Nom d’utilisateur</mat-label>
+                        <input matInput formControlName="username" required>
+                        <mat-error *ngIf="this.userInfosForm.controls['username'].invalid">
+                            {{getUsernameErrorMessage()}}</mat-error>
+                    </mat-form-field>
 
-                <button [disabled]="userInfosForm.invalid" mat-raised-button color="primary">Terminé</button>
-            </div>
-        </form>
-    </mat-card-content>
-</mat-card>
+                    <button [disabled]="userInfosForm.invalid" mat-raised-button color="primary">Terminé</button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</ng-container>
