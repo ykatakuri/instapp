@@ -35,8 +35,8 @@ export class SearchPageComponent implements OnInit {
       this.searchForm.controls['search'].valueChanges.pipe(startWith(''))
     ]).pipe(
       map(([users, user, searchString]) => users.filter(
-        u => (u.username?.toLowerCase().includes(searchString.toLowerCase()) &&
-          u.id !== user?.uid) || (u.username?.toUpperCase().includes(searchString.toUpperCase()) &&
+        u => (u.username?.toLowerCase().includes(searchString) &&
+          u.id !== user?.uid) || (u.username?.toUpperCase().includes(searchString) &&
             u.id !== user?.uid)
       ))
     );
