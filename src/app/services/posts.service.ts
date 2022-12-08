@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AggregateField, AggregateQuerySnapshot, collection, CollectionReference, DocumentData, DocumentReference, Firestore } from '@angular/fire/firestore';
-import { map, Observable, switchMap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { FIREBASE_COLLECTION_PATHS } from '../constants/firestore-collection-paths.constant';
 import { Post } from '../models/post.interface';
 import { FirestoreService } from './firestore.service';
@@ -37,25 +37,7 @@ export class PostsService {
     return this.firestoreService.update(FIREBASE_COLLECTION_PATHS.POSTS, post);
   }
 
-  public customUpdatePost(post: Post): Observable<Post> {
-    return this.firestoreService.customUpdate(FIREBASE_COLLECTION_PATHS.POSTS, post);
-  }
-
   public async countPosts(): Promise<AggregateQuerySnapshot<{ count: AggregateField<number> }>> {
     return await this.firestoreService.count(this.postsCollection);
-  }
-
-  public likePostById(postId: string, isLiked: boolean): Observable<Post> {
-    return this.getPostById(postId).pipe(
-      map(
-        post => ({
-          ...post,
-          likeCount: post.likeCount! + (isLiked ? 1 : -1)
-        })
-      ),
-      switchMap(
-        updatedPost => this.customUpdatePost(updatedPost)
-      )
-    );
   }
 }
