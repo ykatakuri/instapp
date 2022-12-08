@@ -43,7 +43,6 @@ export class SearchPageComponent implements OnInit {
   }
 
   goToUserProfile(otherUser: AppUser): void {
-    console.log('Other User Id: ' + otherUser.id);
     this.router.navigate(['/search', otherUser.id]);
   }
 }
