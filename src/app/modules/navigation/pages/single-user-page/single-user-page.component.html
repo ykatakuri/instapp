@@ -37,20 +37,20 @@
                 </mat-grid-list>
             </mat-card-content>
         </mat-card>
+
+
+        <mat-card class="button-card">
+            <button mat-raised-button [color]="followButtonColor" (click)="onFollow()">{{ followButtonLabel }}</button>
+        </mat-card>
+
+        <mat-card class="post-card">
+            <mat-grid-list cols="3" rowHeight="150px">
+                <mat-grid-tile *ngFor="let post of userPosts$ | async">
+                    <img [src]="post.imageUrl" [alt]="post.title">
+                </mat-grid-tile>
+            </mat-grid-list>
+        </mat-card>
     </ng-container>
-
-
-    <mat-card class="button-card">
-        <button mat-raised-button color="primary">Suivre</button>
-    </mat-card>
-
-    <mat-card class="post-card">
-        <mat-grid-list cols="3" rowHeight="150px">
-            <mat-grid-tile *ngFor="let post of userPosts$ | async">
-                <img [src]="post.imageUrl" [alt]="post.title">
-            </mat-grid-tile>
-        </mat-grid-list>
-    </mat-card>
 </cdk-virtual-scroll-viewport>
 
 <div class="utility-spacer"></div>
