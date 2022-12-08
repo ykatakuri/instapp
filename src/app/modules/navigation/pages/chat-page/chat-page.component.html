@@ -1,12 +1,35 @@
-<form class="search-form">
-    <mat-form-field [formGroup]="searchForm" appearance="outline" class="search-field">
-        <input matInput type="text" formControlName="search" placeholder="Rechercher" [matAutocomplete]="users">
-        <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
-    <mat-autocomplete #users="matAutocomplete">
-        <mat-option *ngFor="let user of users$|async" [value]="user" (click)="onCreateChat(user)">{{ user.username
-            }}
-        </mat-option>
-    </mat-autocomplete>
-</form>
+<cdk-virtual-scroll-viewport appendOnly itemSize="50" class="chat-page-viewport">
+    <app-appbar></app-appbar>
+
+    <form class="search-form" [formGroup]="searchForm">
+        <mat-form-field appearance="outline" class="search-field">
+            <input matInput type="text" formControlName="search" placeholder="Rechercher" [matAutocomplete]="users">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+        <mat-autocomplete #users="matAutocomplete">
+            <mat-option *ngFor="let user of users$|async" [value]="user" (click)="onCreateChat(user)">{{ user.username
+                }}
+            </mat-option>
+        </mat-autocomplete>
+    </form>
+
+    <ng-container *ngIf="currentUserChats$">
+        <mat-card class="chats-list">
+            <mat-selection-list #chats [multiple]="false">
+                <mat-list-option *ngFor="let chat of currentUserChats$ | async" [value]="chat.id">
+                    <img matListAvatar
+                        [src]="chat.chatPicture ? chat.chatPicture : 
+                    'https://toppng.com/uploads/preview/user-account-management-logo-user-icon-11562867145a56rus2zwu.png'" />
+                    <p mat-line class="chat-title">
+                        <span class="chat-name">{{ chat.chatName }}</span>
+                        <span class="chat-date">{{ chat.lastMessageDate }}</span>
+                    </p>
+                    <p mat-line>{{ chat.lastMessage }}</p>
+                    <mat-divider></mat-divider>
+                </mat-list-option>
+            </mat-selection-list>
+        </mat-card>
+    </ng-container>
+
+</cdk-virtual-scroll-viewport>
 <app-navbar></app-navbar>

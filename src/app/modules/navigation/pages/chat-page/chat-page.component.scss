@@ -1,3 +1,8 @@
+.chat-page-viewport {
+    height: 100%;
+    width: 100%;
+}
+
 .search-form {
     min-width: 60%;
     max-width: 80%;
@@ -7,4 +12,23 @@
 
 .search-field {
     width: 100%;
+}
+
+.chats-list {
+    margin-right: 20px;
+    margin-left: 20px;
+
+    .chat-title {
+        display: flex;
+        justify-content: space-between;
+
+        .chat-name {
+            font-weight: 500;
+        }
+
+        .chat-date {
+            font-size: 0.7rem;
+            color: rgba(116, 113, 113, 0.7)
+        }
+    }
 }

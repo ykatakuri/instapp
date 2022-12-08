@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { combineLatest, map, Observable, startWith } from 'rxjs';
 import { AppUser } from 'src/app/models/app.user.interface';
+import { Chat } from 'src/app/models/chat.interface';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ChatsService } from 'src/app/services/chats.service';
 import { UsersService } from 'src/app/services/users.service';
@@ -10,10 +11,12 @@ import { UsersService } from 'src/app/services/users.service';
 @Component({
   selector: 'app-chat-page',
   templateUrl: './chat-page.component.html',
-  styleUrls: ['./chat-page.component.scss']
+  styleUrls: ['./chat-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatPageComponent implements OnInit {
   currentUser$ = this.authService.user;
+  currentUserChats$!: Observable<Chat[]>;
   users$!: Observable<AppUser[]>;
 
   searchForm!: FormGroup;
@@ -28,7 +31,7 @@ export class ChatPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.searchForm = this.formBuilder.group({
-      search: [null],
+      search: [''],
     });
 
     this.users$ = combineLatest([
@@ -42,6 +45,8 @@ export class ChatPageComponent implements OnInit {
             u.id !== user?.uid)
       ))
     );
+
+    this.currentUserChats$ = this.chatsService.currentUserChats;
   }
 
   onCreateChat(otherUser: AppUser): void {
