@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { combineLatest, map, Observable, startWith } from 'rxjs';
 import { AppUser } from 'src/app/models/app.user.interface';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { ChatsService } from 'src/app/services/chats.service';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({
@@ -22,6 +23,7 @@ export class ChatPageComponent implements OnInit {
     private usersService: UsersService,
     private authService: AuthenticationService,
     private router: Router,
+    private chatsService: ChatsService,
   ) { }
 
   ngOnInit(): void {
@@ -42,9 +44,9 @@ export class ChatPageComponent implements OnInit {
     );
   }
 
-  onStartDiscussion(otherUser: AppUser): void {
-    console.log('Other User Id: ' + otherUser.id);
+  onCreateChat(otherUser: AppUser): void {
     // this.router.navigate(['/search', otherUser.id]);
+    this.chatsService.createChat(otherUser).subscribe();
   }
 
 }

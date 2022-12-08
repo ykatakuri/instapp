@@ -4,7 +4,7 @@
         <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
     <mat-autocomplete #users="matAutocomplete">
-        <mat-option *ngFor="let user of users$|async" [value]="user" (click)="onStartDiscussion(user)">{{ user.username
+        <mat-option *ngFor="let user of users$|async" [value]="user" (click)="onCreateChat(user)">{{ user.username
             }}
         </mat-option>
     </mat-autocomplete>
