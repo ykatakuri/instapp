@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AppUser } from 'src/app/models/app.user.interface';
 import { Post } from 'src/app/models/post.interface';
-import { AuthenticationService } from 'src/app/services/authentication.service';
+import { FriendsService } from 'src/app/services/friends.service';
 import { PostsService } from 'src/app/services/posts.service';
 import { UsersService } from 'src/app/services/users.service';
 @Component({
@@ -21,12 +21,14 @@ export class ProfilePageComponent implements OnInit {
 
   tempUserId: string = localStorage.getItem('userId')!;
 
+  friendsCount: number = 0;
+
   constructor(
-    private authService: AuthenticationService,
     private postService: PostsService,
     private usersService: UsersService,
     private router: Router,
-  ) { }
+    private friendsService: FriendsService,
+  ) { this.getFriendsCount(); }
 
   ngOnInit(): void {
     this.currentUser$ = this.usersService.currentUserProfile;
@@ -40,5 +42,16 @@ export class ProfilePageComponent implements OnInit {
 
   onInvitFriends(): void {
     this.router.navigateByUrl('invit-friends');
+  }
+
+  getFriendsCount(): void {
+    Promise.resolve(this.friendsService.countFriends())
+      .then(
+        (snapshot) => {
+          let count = snapshot.data().count;
+          localStorage.setItem('friendsCount', count.toString());
+        }
+      );
+    this.friendsCount = parseInt(localStorage.getItem('friendsCount')!);
   }
 }

@@ -1,9 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { collection, CollectionReference, DocumentData, Firestore } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { FIREBASE_COLLECTION_PATHS } from 'src/app/constants/firestore-collection-paths.constant';
 import { AppUser } from 'src/app/models/app.user.interface';
 import { Friend } from 'src/app/models/friend.interface';
 import { Post } from 'src/app/models/post.interface';
+import { FirestoreService } from 'src/app/services/firestore.service';
 import { FriendsService } from 'src/app/services/friends.service';
 import { PostsService } from 'src/app/services/posts.service';
 import { UsersService } from 'src/app/services/users.service';
@@ -15,6 +18,7 @@ import { UsersService } from 'src/app/services/users.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SingleUserPageComponent implements OnInit {
+  private friendsCollection: CollectionReference<DocumentData>;
   userPosts$!: Observable<Post[]>;
   user$!: Observable<AppUser>;
 
@@ -33,6 +37,8 @@ export class SingleUserPageComponent implements OnInit {
   friendUsername!: string;
   friendPhotoURL!: string;
   friend: Friend = { id: '', fullname: '', username: '', photoURL: '' };
+  otherFriend: Friend = { id: '', fullname: '', username: '', photoURL: '' };
+  friendsCount!: number;
 
   // FOLLOW BUTTON
   followButtonLabel!: string;
@@ -44,12 +50,18 @@ export class SingleUserPageComponent implements OnInit {
     private usersService: UsersService,
     private route: ActivatedRoute,
     private friendsService: FriendsService,
-  ) { }
+    private readonly firestore: Firestore,
+    private firestoreService: FirestoreService,
+  ) {
+    this.friendsCollection = collection(this.firestore, `${FIREBASE_COLLECTION_PATHS.USERS}/${this.id}/friends`);
+    this.getFriendsCount();
+  }
 
   ngOnInit(): void {
     this.followButtonLabel = 'Ajouter comme ami(e)';
     this.followButtonColor = 'primary';
     this.isFollowed = false;
+    this.friendsCount = 0;
 
     this.paramSub = this.route.paramMap.subscribe((params) => {
       this.id = params.get('id')!;
@@ -61,6 +73,8 @@ export class SingleUserPageComponent implements OnInit {
       this.friendUsername = friend.username!;
       this.friendPhotoURL = friend.photoURL!;
     });
+
+    this.otherFriend.id = this.currentUserId;
 
     this.userPosts$ = this.postsService.getUserPosts(this.id);
   }
@@ -83,14 +97,27 @@ export class SingleUserPageComponent implements OnInit {
       this.followButtonLabel = 'Supprimer de la liste des amis(es)';
       this.followButtonColor = 'secondary';
       this.friendsService.addFriend(this.friend)
-        .then()
+        .then(() => console.log('friend added'))
         .catch((error) => console.log(error));
+      this.friendsCollection = collection(this.firestore, `${FIREBASE_COLLECTION_PATHS.USERS}/${this.id}/friends`);
+      this.firestoreService.createWithCustomID(this.friendsCollection, this.otherFriend, this.currentUserId);
     } else {
       this.followButtonLabel = 'Ajouter comme ami(e)';
       this.followButtonColor = 'primary';
       this.friendsService.deleteFriend(this.id)
-        .then()
+        .then(() => console.log('friend deleted'))
         .catch((error) => console.log(error));
     }
+  }
+
+  getFriendsCount(): void {
+    Promise.resolve(this.friendsService.countFriends())
+      .then(
+        (snapshot) => {
+          let count = snapshot.data().count;
+          localStorage.setItem('friendsCount', count.toString());
+        }
+      );
+    this.friendsCount = parseInt(localStorage.getItem('friendsCount')!);
   }
 }
