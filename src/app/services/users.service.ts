@@ -29,11 +29,16 @@ export class UsersService {
     return this.firestoreService.fetchById<AppUser>(FIREBASE_COLLECTION_PATHS.USERS, id);
   }
 
+
   public updateUser(user: AppUser): Promise<void> {
     return this.firestoreService.update(FIREBASE_COLLECTION_PATHS.USERS, { id: user.id });
   }
 
   public updateUserWithPost(userId: string, post: Post): Promise<void> {
     return this.firestoreService.update(FIREBASE_COLLECTION_PATHS.USERS, { id: userId, post: post });
+  }
+
+  public fetchUserRef(userRef: DocumentReference): Observable<AppUser> {
+    return this.firestoreService.fetchByDocumentReference(userRef);
   }
 }

@@ -25,6 +25,8 @@ import { CreatePostCameraComponent } from './components/create-post-camera/creat
 import { CreatePostFileComponent } from './components/create-post-file/create-post-file.component';
 import { PostComponent } from './components/post/post.component';
 import { ListeChatComponent } from './pages/liste-chat/liste-chat.component';
+import { FormsModule } from '@angular/forms';
+import { GetUserPipe } from './pipes/get-user.pipe';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { ListeChatComponent } from './pages/liste-chat/liste-chat.component';
     CreatePostFileComponent,
     PostComponent,
     ListeChatComponent,
-    ChatPageComponent
+    ChatPageComponent,
+    GetUserPipe
   ],
   imports: [
     CommonModule,
@@ -55,6 +58,7 @@ import { ListeChatComponent } from './pages/liste-chat/liste-chat.component';
     MatBottomSheetModule,
     WebcamModule,
     ReactiveFormsModule,
+    FormsModule,
     NavigationRoutingModule,
   ],
   providers: [

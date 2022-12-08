@@ -12,21 +12,20 @@ import { LoaderService } from 'src/app/services/loader.service.service';
 export class ListeChatComponent implements OnInit {
   public chat: Chat[] = [];
 
-  // public ref: string= localStorage.getItem('userId')!;
-  public ref: string= "5Wkr8osqVmRaOJ4HisVV";
+  public ref: string= localStorage.getItem('userId')!;
+  // public ref: string= "5Wkr8osqVmRaOJ4HisVV";
 
   constructor(private route: ActivatedRoute, private router: Router, private loaderService: LoaderService, private chatService: ChatService) {
 
   }
 
   ngOnInit(): void {
+    console.log(localStorage.getItem('userId'));
 
     this.chatService.fetchChat("asc", this.ref).subscribe(data =>{
       //console.log(data[0].messages[0].content);
       console.log(data);
-      // data.forEach(d => {
-      //   console.log(d.messages[0])
-      // })
+
 
       this.chat = data;
     })

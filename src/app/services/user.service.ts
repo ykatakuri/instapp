@@ -39,18 +39,19 @@ export class UserService {
     return res;
     }
 
-private uuidv4(): any {
-  throw new Error("Function not implemented.");
-}
+  private uuidv4(): any {
+    throw new Error("Function not implemented.");
+  }
 
 
-public fetchUserById(id: string): Observable<AppUser> {
-  return this.genericFirestoreService.fetchById<AppUser>(FIREBASE_COLLECTION_PATHS.USERS, id);
-}
+  public fetchUserById(id: string): Observable<AppUser> {
+    return this.genericFirestoreService.fetchById<AppUser>(FIREBASE_COLLECTION_PATHS.USERS, id);
+  }
 
-public fetchUserByEmail(email: string): Observable<AppUser> {
-  return this.genericFirestoreService.fetchByEmail<AppUser>(FIREBASE_COLLECTION_PATHS.USERS, email);
-}
+  public fetchUserByEmail(email: string): Observable<AppUser> {
+    return this.genericFirestoreService.fetchByEmail<AppUser>(FIREBASE_COLLECTION_PATHS.USERS, email);
+  }
+
 
 
 }

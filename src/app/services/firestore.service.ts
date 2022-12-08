@@ -57,4 +57,8 @@ export class FirestoreService {
     const documentReference = doc(this.firestore, `${path}/${id}`);
     return deleteDoc(documentReference);
   }
+
+  public fetchByDocumentReference<T>(documentReference: DocumentReference): Observable<T> {
+    return docData(documentReference, { idField: "id" }) as Observable<T>;
+  }
 }

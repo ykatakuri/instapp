@@ -1,32 +1,24 @@
 <div class="container">
   <h1>Discussion</h1>
 
-  <div class="chat" *ngIf="chat.length > 0">
-    <div class="chat" *ngFor="let conv of chat">
-      <ng-container *ngFor="let mess of conv.messages">
-        <label>{{ mess.sender }}</label>
+  <div class="chat" *ngIf="chat">
+    <div class="chat" *ngFor="let message of chat.messages">
 
-        <div class="card-body msg_card_body">
-          <div class="d-flex justify-content-start mb-4">
-            <div class="msg_cotainer">
-              <label>{{ mess.content }}</label>
-              <span class="msg_time"><label>{{ mess.sentAt.toDate().toLocaleString() }}</label></span>
-            </div>
-          </div>
-        </div>
-
-      </ng-container>
+        <label>{{ message.sender | getUser | async }}</label>
+        <label>{{ message.content }}</label>
+        <label>{{ message.sentAt.toDate().toLocaleString() }}</label>
+        <button (click)="deleteMessage(message.sentAt)">Supprimer</button>
+        <button (click)="updateMessage()">Modifier</button>
     </div>
   </div>
 
-  <form action="">
-    <textarea name="" id="" cols="30" rows="10" placeholder="Type your message ...">
+    <textarea [(ngModel)]="message" id="" cols="30" rows="10" placeholder="Type your message ...">
 
     </textarea>
     <button (click)="sendMessage()" type="submit" mat-raised-buttoncolor="primary">
       Send message
     </button>
-  </form>
+
 
 </div>
 
