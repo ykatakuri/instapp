@@ -1,14 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { CollectionReference, DocumentData, Firestore } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
-import { collection } from '@firebase/firestore';
 import { Observable } from 'rxjs';
-import { FIREBASE_COLLECTION_PATHS } from 'src/app/constants/firestore-collection-paths.constant';
 import { AppUser } from 'src/app/models/app.user.interface';
 import { Friend } from 'src/app/models/friend.interface';
 import { Post } from 'src/app/models/post.interface';
-import { AuthenticationService } from 'src/app/services/authentication.service';
-import { FirestoreService } from 'src/app/services/firestore.service';
+import { FriendsService } from 'src/app/services/friends.service';
 import { PostsService } from 'src/app/services/posts.service';
 import { UsersService } from 'src/app/services/users.service';
 
@@ -19,7 +15,6 @@ import { UsersService } from 'src/app/services/users.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SingleUserPageComponent implements OnInit {
-  private userFriendsCollection: CollectionReference<DocumentData>;
   userPosts$!: Observable<Post[]>;
   user$!: Observable<AppUser>;
 
@@ -48,12 +43,8 @@ export class SingleUserPageComponent implements OnInit {
     private postsService: PostsService,
     private usersService: UsersService,
     private route: ActivatedRoute,
-    private readonly firestore: Firestore,
-    private firestoreService: FirestoreService,
-    private authService: AuthenticationService,
-  ) {
-    this.userFriendsCollection = collection(this.firestore, `${FIREBASE_COLLECTION_PATHS.USERS}/${this.currentUserId}/friends`);
-  }
+    private friendsService: FriendsService,
+  ) { }
 
   ngOnInit(): void {
     this.followButtonLabel = 'Ajouter comme ami(e)';
@@ -89,31 +80,22 @@ export class SingleUserPageComponent implements OnInit {
 
     if (this.isFollowed) {
       this.followButtonLabel = 'Supprimer de la liste des amis(es)';
-      this.followButtonColor = 'secondary';
-      this.firestoreService.create(this.userFriendsCollection, this.friend).then(
+      this.followButtonColor = '';
+      this.friendsService.addFriend(this.friend).then(
         (doc) => {
           this.friend.id = doc.id;
-          this.firestoreService.update(
-            `${FIREBASE_COLLECTION_PATHS.USERS}/${this.currentUserId}/friends`,
-            { id: this.friend.id }
-          ).then(
-            () => {
-              console.log(this.followButtonLabel);
-              console.log(this.followButtonColor);
-            }
-          )
+          this.friendsService.updateFriend(this.friend)
+            .then(() => console.log('updated succesfully'))
+            .catch(
+              (error) => console.log(error)
+            );
         })
         .catch((error) => console.log(error));
     } else {
       this.followButtonLabel = 'Ajouter comme ami(e)';
       this.followButtonColor = 'primary';
-      this.firestoreService.delete(
-        `${FIREBASE_COLLECTION_PATHS.USERS}/${this.currentUserId}/friends`,
-        this.friend.id!).then(
-          () => {
-            console.log(this.followButtonLabel);
-            console.log(this.followButtonColor);
-          })
+      this.friendsService.deleteFriend(this.friend.id!)
+        .then(() => console.log('updated succesfully'))
         .catch((error) => console.log(error));
     }
   }
