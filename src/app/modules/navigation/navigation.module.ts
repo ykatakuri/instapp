@@ -33,6 +33,7 @@ import { UserInfoPageComponent } from './pages/profile-page/pages/user-info-page
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { SingleUserPageComponent } from './pages/single-user-page/single-user-page.component';
+import { DiscussionPageComponent } from './pages/chat-page/pages/discussion-page/discussion-page.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { SingleUserPageComponent } from './pages/single-user-page/single-user-pa
     UserInfoPageComponent,
     InvitFriendsPageComponent,
     SingleUserPageComponent,
+    DiscussionPageComponent,
   ],
   imports: [
     CommonModule,
