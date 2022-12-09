@@ -11,29 +11,29 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class NotificationsServiceService {
+export class NotificationsService {
   public message$: Observable<any> = EMPTY;
   constructor(private messaging: Messaging) {
     this.init();
   }
   private async init() {
-    try {
-      const serviceWorkerRegistration = await navigator.serviceWorker.register(
-        'firebase-messaging-sw.js',
-        { type: 'module', scope: '__' }
-      );
-      const token = await getToken(this.messaging, {
-        serviceWorkerRegistration,
-        vapidKey: environment.publicVAPID,
-      });
-      console.log('TOKEN : ', { token });
-      this.message$ = new Observable((sub) =>
-        onMessage(this.messaging, (payload) => sub.next(payload))
-      ).pipe(tap((payload) => this.createNotification(payload)));
-      this.message$.subscribe();
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   const serviceWorkerRegistration = await navigator.serviceWorker.register(
+    //     'firebase-messaging-sw.js',
+    //     { type: 'module', scope: '__' }
+    //   );
+    //   const token = await getToken(this.messaging, {
+    //     serviceWorkerRegistration,
+    //     vapidKey: environment.publicVAPID,
+    //   });
+    //   console.log('TOKEN : ', { token });
+    //   this.message$ = new Observable((sub) =>
+    //     onMessage(this.messaging, (payload) => sub.next(payload))
+    //   ).pipe(tap((payload) => this.createNotification(payload)));
+    //   this.message$.subscribe();
+    // } catch (error) {
+    //   console.log(error);
+    // }
   }
   public async generateNotification(
     title: string,

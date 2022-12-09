@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NgxScannerQrcodeService } from 'ngx-scanner-qrcode';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'instapp';
+
+  public onError(e: any): void {
+    alert(e);
+  }
+
+  public handle(action: any, fn: string): void {
+    action[fn]().subscribe(console.log, console.error);
+  }
+
+  constructor(private qrcode: NgxScannerQrcodeService) {  }
 }

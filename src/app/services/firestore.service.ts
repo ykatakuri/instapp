@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { addDoc, AggregateField, AggregateQuerySnapshot, collectionData, CollectionReference, deleteDoc, doc, docData, DocumentData, DocumentReference, Firestore, getCountFromServer, limit, orderBy, query, startAfter, updateDoc, where, WithFieldValue } from '@angular/fire/firestore';
+import { addDoc, AggregateField, AggregateQuerySnapshot, collectionData, CollectionReference, deleteDoc, doc, docData, DocumentData, DocumentReference, enableIndexedDbPersistence, Firestore, getCountFromServer, limit, orderBy, query, startAfter, updateDoc, where, WithFieldValue } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -7,7 +7,13 @@ import { Observable } from 'rxjs';
 })
 export class FirestoreService {
 
-  constructor(private readonly firestore: Firestore) { }
+  constructor(private readonly firestore: Firestore) {
+    enableIndexedDbPersistence(this.firestore, {
+      forceOwnership: true,
+    }).catch((reason) => {
+      console.log('NO PERSISTENCE : ', reason);
+    });
+   }
 
   // Create a document
   public create<T>(collection: CollectionReference<T>, object: WithFieldValue<T>): Promise<DocumentReference<T>> {
@@ -33,10 +39,27 @@ export class FirestoreService {
     return collectionData(request, { idField: "id" }) as Observable<T[]>;
   }
 
+  // public fetchByPagination<T>(
+  //   collection: CollectionReference<DocumentData>,
+  //   propertyName: string,
+  //   startAfterProperty: string,
+  //   maxResult: number = 30,
+  //   direction: "asc" | "desc" = "asc"
+  // ) {
+  //   const request = query(collection, orderBy(propertyName, direction), limit(maxResult), startAfter(startAfterProperty));
+  //   return collectionData(request, { idField: "id" }) as Observable<T[]>;
+  // }
+
   // Fetch a document by ID
   public fetchById<T>(path: string, id: string): Observable<T> {
     const documentReference = doc(this.firestore, `${path}/${id}`);
     return docData(documentReference, { idField: "id" }) as Observable<T>;
+  }
+
+  public fetchConvById<T>(collection: CollectionReference<DocumentData>, propertyName: string, direction: "asc" | "desc" = "asc", referenceUser: string, path: string): Observable<T[]> {
+    const documentReference = doc(this.firestore, `${path}/${referenceUser}`);
+    const request = query(collection, where("users", "array-contains", documentReference), orderBy(propertyName, direction));
+    return collectionData(request, { idField: "id" }) as Observable<T[]>;
   }
 
   // Fetch a document list by property
@@ -44,6 +67,14 @@ export class FirestoreService {
     Observable<T[]> {
     const request = query(collection, where(propertyName, "==", propertyValue), limit(maxResult));
     return collectionData(request, { idField: "id" }) as Observable<T[]>;
+  }
+
+
+//  Fetch a document list by email
+  public fetchByEmail<T>(path: string, email: string): Observable<T> {
+    const documentReference = doc(this.firestore, `${path}/${email}`);
+
+    return docData(documentReference, { idField: "email" }) as Observable<T>;
   }
 
   // Update a document
@@ -61,4 +92,6 @@ export class FirestoreService {
   public fetchByDocumentReference<T>(documentReference: DocumentReference): Observable<T> {
     return docData(documentReference, { idField: "id" }) as Observable<T>;
   }
+
+
 }

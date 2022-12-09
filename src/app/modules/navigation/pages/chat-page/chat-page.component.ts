@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import { LoaderService } from 'src/app/services/loader.service.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DocumentReference, Timestamp } from 'firebase/firestore';
+import { NotificationsService } from 'src/app/services/notifications.service';
 
 
 @Component({
@@ -20,6 +21,8 @@ export class ChatPageComponent implements OnInit {
   public message:string = "";
 
   public RefUser!: DocumentReference;
+
+  public notifications!: NotificationsService;
 
 
   constructor(private route: ActivatedRoute, private router: Router, private loaderService: LoaderService, private chatService: ChatService) {
@@ -61,7 +64,7 @@ export class ChatPageComponent implements OnInit {
       this.chat.lastModification = Timestamp.fromDate(new Date());
       this.chat.messages.push(message);
       this.chatService.updateConv(this.chat);
-
+      this.notifications.generateNotification("test", "aze");
     }
 
   }

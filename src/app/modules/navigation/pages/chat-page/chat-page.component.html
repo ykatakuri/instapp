@@ -4,8 +4,8 @@
   <div class="chat" *ngIf="chat">
     <div class="chat" *ngFor="let message of chat.messages">
 
-        <label>{{ message.sender | getUser | async }}</label>
-        <label>{{ message.content }}</label>
+        <label>{{ message.sender | getUser | async }} : </label>
+        <label>{{ message.content }} </label> <br>
         <label>{{ message.sentAt.toDate().toLocaleString() }}</label>
         <button (click)="deleteMessage(message.sentAt)">Supprimer</button>
         <button (click)="updateMessage()">Modifier</button>

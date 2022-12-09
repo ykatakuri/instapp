@@ -2,7 +2,6 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { ReactiveFormsModule } from '@angular/forms';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -26,7 +25,10 @@ import { CreatePostFileComponent } from './components/create-post-file/create-po
 import { PostComponent } from './components/post/post.component';
 import { ListeChatComponent } from './pages/liste-chat/liste-chat.component';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { GetUserPipe } from './pipes/get-user.pipe';
+import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
+
 
 @NgModule({
   declarations: [
@@ -42,7 +44,7 @@ import { GetUserPipe } from './pipes/get-user.pipe';
     PostComponent,
     ListeChatComponent,
     ChatPageComponent,
-    GetUserPipe
+    GetUserPipe,
   ],
   imports: [
     CommonModule,
@@ -57,9 +59,9 @@ import { GetUserPipe } from './pipes/get-user.pipe';
     MatInputModule,
     MatBottomSheetModule,
     WebcamModule,
+    NavigationRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    NavigationRoutingModule,
   ],
   providers: [
     HomePageService
