@@ -77,12 +77,12 @@ export class SearchPageComponent implements OnInit {
     querySnapshot.forEach((doc) => {
       this.users[0] = (doc.data()) as AppUser;
       this.users[0].id = doc.id
-      this.checkIfFriendsExists(doc.id)
+      this.checkIfSubbed(doc.id)
 });
 
   }
 
-  private checkIfFriendsExists(id: string){
+  private checkIfSubbed(id: string){
 
     this.isSubbed = false;
     this.isSubbed = this.currentUser.subs.some(elem => elem.id == id);
@@ -129,7 +129,7 @@ export class SearchPageComponent implements OnInit {
     this.currentUser.subs.push(docdoc)
     const documentReference = doc(this.firestore, "user", this.currentUser.id);
     await updateDoc(documentReference, { ...this.currentUser });
-    this.checkIfFriendsExists(userId);
+    this.checkIfSubbed(userId);
 
     // let relation: Friends={
     //   asker: doc(this.firestore, "user", this.currentUser.id),
