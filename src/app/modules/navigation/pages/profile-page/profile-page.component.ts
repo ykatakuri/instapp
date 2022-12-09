@@ -35,7 +35,7 @@ export class ProfilePageComponent implements OnInit {
 
   public friends : AppUser[] = [];
 
-  public ownPosts : AppPost[] = []
+  public ownPosts : AppPost[] = [];
 
   public config: Object = {
     isAuto: true,
