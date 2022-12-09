@@ -83,9 +83,8 @@ export class SearchPageComponent implements OnInit {
   }
 
   private checkIfFriendsExists(id: string){
+
     this.isSubbed = false;
-    console.log("id in check", id)
-    console.log("this.currentUser.subs.some(elem => elem.id == id)", this.currentUser.subs.some(elem => elem.id == id))
     this.isSubbed = this.currentUser.subs.some(elem => elem.id == id);
     return this.currentUser.subs.some(elem => elem.id == id);
 
