@@ -8,6 +8,7 @@ import { FIREBASE_COLLECTION_PATHS } from "../modules/navigation/constants/fires
 import { FirestoreService } from "./firestore.service";
 import { GenericStorageService } from "./generic-storage.service";
 import { Firestore } from "@angular/fire/firestore";
+import { Router } from "@angular/router";
 @Injectable({
   providedIn: "root",
 })
@@ -22,14 +23,15 @@ export class AuthenticationService {
     lastname: "",
     email: "",
     picture: "",
-    friends: []
+    subs: []
   };
   public user: Observable<User | null> = EMPTY;
   constructor(
     private readonly auth: Auth,
     private readonly firestore: Firestore,
     private firestoreService: FirestoreService,
-    private readonly genericStorageService: GenericStorageService
+    private readonly genericStorageService: GenericStorageService,
+    private router: Router
     ) {
 
       this.usersCollection = collection(this.firestore, FIREBASE_COLLECTION_PATHS.USERS);
@@ -68,7 +70,7 @@ export class AuthenticationService {
         firstname : firstname,
         lastname : lastname,
         picture : "",
-        friends : []
+        subs : []
       };
       console.log("newUser" + newUser);
 
@@ -92,8 +94,7 @@ export class AuthenticationService {
 
   public async signOut(): Promise<void> {
     try {
-      await signOut(this.auth);
-
+      await signOut(this.auth)
     } catch (error) {
       console.log(error);
     }

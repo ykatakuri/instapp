@@ -30,7 +30,7 @@ export class ProfilePageComponent implements OnInit {
     firstname: "",
     lastname: "",
     picture: "",
-    friends: []
+    subs: []
   }
 
   public friends : AppUser[] = [];
@@ -73,13 +73,6 @@ export class ProfilePageComponent implements OnInit {
           this.firestoreService.fetchByProperty<AppUser>(this.usersCollection, "email", user.email).subscribe(res => {
             this.currentUser = res[0];
             console.log("Current User", this.currentUser)
-            for(var i = 0; i < res[0].friends.length; i++){
-              this.fetchByDocumentReference<AppUser>(res[0].friends[i]).subscribe(r=> {
-                this.friends.push(r);
-                console.log("REF", r)
-                console.log("FriendList", this.friends)
-              })
-            }
             this.fetchOwnPosts(res[0].id).subscribe(r => {
               this.ownPosts = r;
             })
