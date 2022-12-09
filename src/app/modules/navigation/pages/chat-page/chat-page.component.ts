@@ -32,6 +32,7 @@ export class ChatPageComponent implements OnInit {
   ngOnInit(): void {
 
     this.route.paramMap.subscribe((data) => {
+      console.log(data.get('docId'));
 
       this.idDoc = data.get('docId')!;
 
@@ -47,8 +48,7 @@ export class ChatPageComponent implements OnInit {
       // })
 
       console.log(data);
-      this.chat=data;
-
+      this.chat.push(data);
     })
   }
 

@@ -25,6 +25,7 @@ import { CreatePostFileComponent } from './components/create-post-file/create-po
 import { PostComponent } from './components/post/post.component';
 import { ListeChatComponent } from './pages/liste-chat/liste-chat.component';
 import { FormsModule } from '@angular/forms';
+import { QRCodeModule } from 'angularx-qrcode';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GetUserPipe } from './pipes/get-user.pipe';
 import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
@@ -60,8 +61,7 @@ import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
     MatBottomSheetModule,
     WebcamModule,
     NavigationRoutingModule,
-    ReactiveFormsModule,
-    FormsModule,
+    FormsModule
   ],
   providers: [
     HomePageService

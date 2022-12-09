@@ -29,14 +29,12 @@ export class ProfilePageComponent implements OnInit {
     firstname: "",
     lastname: "",
     picture: "",
-    friends: []
+    subs: []
   }
 
   public friends : AppUser[] = [];
 
-  public ownPosts : AppPost[] = []
-
-  public myAngularxQrCode: string;
+  public ownPosts : AppPost[] = [];
 
   public config: Object = {
     isAuto: true,
@@ -62,7 +60,6 @@ export class ProfilePageComponent implements OnInit {
       this.usersCollection = collection(this.firestore, FIREBASE_COLLECTION_PATHS.USERS);
       this.postsCollection = collection(this.firestore, FIREBASE_COLLECTION_PATHS.POSTS);
 
-      this.myAngularxQrCode = 'Your QR code data string';
     }
 
   ngOnInit(): void {
@@ -75,13 +72,6 @@ export class ProfilePageComponent implements OnInit {
           this.firestoreService.fetchByProperty<AppUser>(this.usersCollection, "email", user.email).subscribe(res => {
             this.currentUser = res[0];
             console.log("Current User", this.currentUser)
-            for(var i = 0; i < res[0].friends.length; i++){
-              this.fetchByDocumentReference<AppUser>(res[0].friends[i]).subscribe(r=> {
-                this.friends.push(r);
-                console.log("REF", r)
-                console.log("FriendList", this.friends)
-              })
-            }
             this.fetchOwnPosts(res[0].id).subscribe(r => {
               this.ownPosts = r;
             })

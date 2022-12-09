@@ -6,5 +6,5 @@ export interface AppUser {
     lastname: string;
     email: string;
     picture:string;
-    friends: DocumentReference[];
+    subs: DocumentReference[];
 }
