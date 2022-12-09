@@ -3,30 +3,40 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
+import { QRCodeModule } from 'angularx-qrcode';
 import { WebcamModule } from 'ngx-webcam';
+import { CommentComponent } from './components/comment/comment.component';
 import { HomePageService } from 'src/app/services/home-page.service';
+import { CreatePostFileComponent } from './components/create-post-file/create-post-file.component';
+import { CreatePostComponent } from './components/create-post/create-post.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { PostListComponent } from './components/post-list/post-list.component';
 import { NavigationRoutingModule } from './navigation-routing.module';
 import { ChatPageComponent } from './pages/chat-page/chat-page.component';
 import { AppBarComponent } from './pages/home-page/components/app-bar/app-bar.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
-import { NotificationsPageComponent } from './pages/notifications-page/notifications-page.component';
+import { InvitFriendsPageComponent } from './pages/profile-page/pages/invit-friends-page/invit-friends-page.component';
+import { UserInfoPageComponent } from './pages/profile-page/pages/user-info-page/user-info-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { CreatePostCameraComponent } from './components/create-post-camera/create-post-camera.component';
-import { CreatePostFileComponent } from './components/create-post-file/create-post-file.component';
+import { SingleUserPageComponent } from './pages/single-user-page/single-user-page.component';
 import { PostComponent } from './components/post/post.component';
 import { ListeChatComponent } from './pages/liste-chat/liste-chat.component';
 import { FormsModule } from '@angular/forms';
-import { QRCodeModule } from 'angularx-qrcode';
 import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
 
 
@@ -35,15 +45,21 @@ import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
     NavbarComponent,
     SearchPageComponent,
     ChatPageComponent,
-    NotificationsPageComponent,
     ProfilePageComponent,
     HomePageComponent,
     AppBarComponent,
+    CreatePostComponent,
     CreatePostCameraComponent,
     CreatePostFileComponent,
     PostComponent,
     ListeChatComponent,
-    ChatPageComponent
+    ChatPageComponent,
+    PostComponent,
+    PostListComponent,
+    CommentComponent,
+    UserInfoPageComponent,
+    InvitFriendsPageComponent,
+    SingleUserPageComponent,
   ],
   imports: [
     CommonModule,
@@ -59,6 +75,12 @@ import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
     MatBottomSheetModule,
     WebcamModule,
     ReactiveFormsModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
+    MatGridListModule,
+    MatDividerModule,
+    QRCodeModule,
+    MatAutocompleteModule,
     NavigationRoutingModule,
     FormsModule,
     QRCodeModule,

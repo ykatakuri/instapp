@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { addDoc, AggregateField, AggregateQuerySnapshot, collectionData, CollectionReference, deleteDoc, doc, docData, DocumentData, DocumentReference, Firestore, getCountFromServer, limit, orderBy, query, startAfter, updateDoc, where, WithFieldValue } from '@angular/fire/firestore';
+import { addDoc, AggregateField, AggregateQuerySnapshot, collectionData, CollectionReference, deleteDoc, doc, docData, DocumentData, DocumentReference, Firestore, getCountFromServer, limit, orderBy, query, setDoc, startAfter, updateDoc, where, WithFieldValue } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -12,6 +12,10 @@ export class FirestoreService {
   // Create a document
   public create<T>(collection: CollectionReference<T>, object: WithFieldValue<T>): Promise<DocumentReference<T>> {
     return addDoc(collection, object);
+  }
+
+  public createWithCustomID<T>(collection: CollectionReference<T>, object: WithFieldValue<T>, id: string): Promise<void> {
+    return setDoc(doc(collection, id), object);
   }
 
   // Get the documents count of a collection
@@ -76,7 +80,7 @@ export class FirestoreService {
   }
 
   // Update a document
-  public update<T extends { id: any }>(path: string, object: T): Promise<void> {
+  public async update<T extends { id: string }>(path: string, object: T): Promise<void> {
     const documentReference = doc(this.firestore, `${path}/${object.id}`);
     return updateDoc(documentReference, { ...object });
   }

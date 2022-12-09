@@ -1,4 +1,4 @@
-<mat-card class="example-card">
+<mat-card class="example-card" *ngIf="!displaySpinner">
     <mat-card-content>
         <form fxLayout="column" fxLayoutGap="20px" [formGroup]="loginForm" class="login-form" *ngIf="isLoginState()">
             <mat-card-header>
@@ -21,8 +21,7 @@
                 </mat-form-field>
 
                 <button (click)="onLogin()" [disabled]="loginForm.invalid" type="submit" mat-raised-button
-                    color="primary">Se
-                    connecter</button>
+                    color="primary">Se connecter</button>
             </div>
         </form>
 
@@ -79,7 +78,7 @@
                     </mat-error>
                 </mat-form-field>
 
-                <button (click)="onReset()" [disabled]="resetForm.invalid" mat-raised-button
+                <button (click)="onResetPassword()" [disabled]="resetForm.invalid" mat-raised-button
                     color="primary">Reinitialiser</button>
             </div>
         </form>
@@ -90,3 +89,4 @@
         <button (click)="onLoginClick()" mat-button color="primary">Connexion</button>
     </mat-card-actions>
 </mat-card>
+<mat-spinner *ngIf="displaySpinner" class="spinner"></mat-spinner>

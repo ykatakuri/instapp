@@ -1,14 +1,11 @@
-import { Injectable } from "@angular/core";
-import { collectionData } from "@angular/fire/firestore";
-import { CollectionReference, DocumentData, AggregateField, AggregateQuerySnapshot, query, orderBy, DocumentReference, collection } from "firebase/firestore";
-import { EMPTY, Observable, of } from "rxjs";
-import { FIREBASE_COLLECTION_PATHS } from "../modules/navigation/constants/firestore-collection-paths.constant";
-
-import { GenericStorageService } from "./generic-storage.service";
-import { AppPost } from "../models/app-post.interface";
+import { Injectable } from '@angular/core';
+import { AggregateField, AggregateQuerySnapshot, collection, CollectionReference, DocumentData, DocumentReference } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { FIREBASE_COLLECTION_PATHS } from '../constants/firestore-collection-paths.constant';
 import { Post } from '../models/post.interface';
 import { Firestore } from "@angular/fire/firestore";
 import { FirestoreService } from "./firestore.service";
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +17,7 @@ export class PostsService {
 
   constructor(
     private firestore: Firestore,
-    private genericStorageService: GenericStorageService,
+    private storageService: StorageService,
     private firestoreService: FirestoreService
     ) {
     this.postsCollection = collection(this.firestore, FIREBASE_COLLECTION_PATHS.POSTS);
@@ -43,12 +40,24 @@ export class PostsService {
     return this.firestoreService.create(this.postsCollection, post);
   }
 
-  public getAllPosts(direction: "asc" | "desc" = "asc"): Observable<Post[]> {
+  public getAllPosts(direction: "asc" | "desc" = "desc"): Observable<Post[]> {
     return this.firestoreService.fetchAll<Post>(this.postsCollection, "createAt", direction);
   }
 
-  public fetchPostByUserId(id: string): Observable<Post[]> {
-    return this.firestoreService.fetchByProperty<Post>(this.postsCollection, "userId", id);
+  public getUserPosts(id: string, maxResult?: 6): Observable<Post[]> {
+    return this.firestoreService.fetchByProperty<Post>(this.postsCollection, "creatorId", id, maxResult);
+  }
+
+  public getPostById(id: string): Observable<Post> {
+    return this.firestoreService.fetchById<Post>(FIREBASE_COLLECTION_PATHS.POSTS, id);
+  }
+
+  public updatePost(post: Post): Promise<void> {
+    return this.firestoreService.update(FIREBASE_COLLECTION_PATHS.POSTS, post);
+  }
+
+  public async countPosts(): Promise<AggregateQuerySnapshot<{ count: AggregateField<number> }>> {
+    return await this.firestoreService.count(this.postsCollection);
   }
 
 }

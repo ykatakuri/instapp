@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { NgxScannerQrcodeService } from 'ngx-scanner-qrcode';
 
 @Component({
@@ -6,8 +6,12 @@ import { NgxScannerQrcodeService } from 'ngx-scanner-qrcode';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
   title = 'instapp';
+
+  ngOnDestroy(): void {
+    localStorage.clear();
+  }
 
   public onError(e: any): void {
     alert(e);

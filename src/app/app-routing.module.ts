@@ -5,44 +5,51 @@ import { AuthenticationPageComponent } from './modules/authentication/pages/auth
 import { ChatPageComponent } from './modules/navigation/pages/chat-page/chat-page.component';
 import { HomePageComponent } from './modules/navigation/pages/home-page/home-page.component';
 import { ListeChatComponent } from './modules/navigation/pages/liste-chat/liste-chat.component';
-import { NotificationsPageComponent } from './modules/navigation/pages/notifications-page/notifications-page.component';
+import { InvitFriendsPageComponent } from './modules/navigation/pages/profile-page/pages/invit-friends-page/invit-friends-page.component';
+import { UserInfoPageComponent } from './modules/navigation/pages/profile-page/pages/user-info-page/user-info-page.component';
 import { ProfilePageComponent } from './modules/navigation/pages/profile-page/profile-page.component';
 import { SearchPageComponent } from './modules/navigation/pages/search-page/search-page.component';
+import { SingleUserPageComponent } from './modules/navigation/pages/single-user-page/single-user-page.component';
 
 const redirectUnauthorizedToAuth = () => redirectUnauthorizedTo(["authenticate"]);
 const redirectLoggedInToAppNavigator = () => redirectLoggedInTo([""]);
 
 const routes: Routes = [
   {
-
-    path: "",
+    component: InvitFriendsPageComponent,
+    path: "invit-friends",
     loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
   },
-  // {
-  //   component: ProfilePageComponent,
-  //   path: "profile",
-  //   loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
-  // },
-  // {
-  //   component: NotificationsPageComponent,
-  //   path: "notifications",
-  //   loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
-  // },
-  // {
-  //   component: ChatPageComponent,
-  //   path: "chat",
-  //   loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
-  // },
-  // {
-  //   component: SearchPageComponent,
-  //   path: "search",
-  //   loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
-  // },
-  // {
-  //   component: HomePageComponent,
-  //   path: "home",
-  //   loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
-  // },
+  {
+    component: UserInfoPageComponent,
+    path: "user-infos",
+    loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
+  },
+  {
+    component: SingleUserPageComponent,
+    path: "search/:id",
+    loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
+  },
+  {
+    component: ProfilePageComponent,
+    path: "profile",
+    loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
+  },
+  {
+    component: ChatPageComponent,
+    path: "chat",
+    loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
+  },
+  {
+    component: SearchPageComponent,
+    path: "search",
+    loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
+  },
+  {
+    component: HomePageComponent,
+    path: "home",
+    loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
+  },
   {
     component: AuthenticationPageComponent,
     path: "authenticate",

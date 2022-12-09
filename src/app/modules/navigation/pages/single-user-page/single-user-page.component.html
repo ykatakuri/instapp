@@ -1,0 +1,52 @@
+<cdk-virtual-scroll-viewport appendOnly itemSize="50" class="page-viewport">
+    <app-appbar></app-appbar>
+    <ng-container *ngIf="user$ | async as user">
+        <mat-card class="user-info-card">
+            <mat-card-content>
+                <mat-grid-list cols="4" rowHeight="50px">
+
+                    <mat-grid-tile colspan="1" rowspan="1" [style.background]="''">
+                        <img [src]="user.photoURL" [alt]="user.fullname" class="avatar">
+                    </mat-grid-tile>
+
+                    <mat-grid-tile colspan="3" rowspan="2" [style.background]="''">
+                        <mat-card class="stat-card">
+                            <mat-card-header>
+                                <mat-card-title *ngIf="userPosts$ | async as posts">{{ posts.length }}</mat-card-title>
+                                <mat-card-subtitle>Publications</mat-card-subtitle>
+                            </mat-card-header>
+                        </mat-card>
+                        <mat-card class="stat-card">
+                            <mat-card-header>
+                                <mat-card-title>{{ friendsCount }}</mat-card-title>
+                                <mat-card-subtitle>Amis</mat-card-subtitle>
+                            </mat-card-header>
+                        </mat-card>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile colspan="1" rowspan="1" [style.background]="''">
+                        {{ user.fullname }}
+                    </mat-grid-tile>
+
+                </mat-grid-list>
+            </mat-card-content>
+        </mat-card>
+
+
+        <mat-card class="button-card">
+            <button mat-raised-button [color]="followButtonColor" (click)="onFollow()">{{ followButtonLabel }}</button>
+        </mat-card>
+
+        <mat-card class="post-card">
+            <mat-grid-list cols="3" rowHeight="150px">
+                <mat-grid-tile *ngFor="let post of userPosts$ | async">
+                    <img [src]="post.imageUrl" [alt]="post.title">
+                </mat-grid-tile>
+            </mat-grid-list>
+        </mat-card>
+    </ng-container>
+</cdk-virtual-scroll-viewport>
+
+<div class="utility-spacer"></div>
+
+<app-navbar></app-navbar>

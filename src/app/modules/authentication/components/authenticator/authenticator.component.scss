@@ -1,5 +1,8 @@
-example-card {
+.example-card {
     max-width: 400px;
+    margin-top: 200px;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .login-form,
@@ -8,4 +11,10 @@ example-card {
     min-width: 150px;
     max-width: 500px;
     width: 100%;
+}
+
+.spinner {
+    margin-top: 200px;
+    margin-right: auto;
+    margin-left: auto;
 }

@@ -1,116 +1,57 @@
-import { ThisReceiver } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
-import { firebaseApp$ } from '@angular/fire/app';
-import { collection, CollectionReference, docData, DocumentData, DocumentReference, Firestore } from '@angular/fire/firestore';
-import { keyValuesToMap } from '@angular/flex-layout/extended/style/style-transforms';
-import { Auth, getAuth, onAuthStateChanged } from 'firebase/auth';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AppPost } from 'src/app/models/app-post.interface';
-import { AppUser } from 'src/app/models/app-user.interface';
-import { AuthenticationService } from 'src/app/services/authentication.service';
+import { AppUser } from 'src/app/models/app.user.interface';
+import { Post } from 'src/app/models/post.interface';
+import { FriendsService } from 'src/app/services/friends.service';
 import { PostsService } from 'src/app/services/posts.service';
-import { FIREBASE_COLLECTION_PATHS } from '../../constants/firestore-collection-paths.constant';
-
-import { NgxScannerQrcodeService } from 'ngx-scanner-qrcode';
-import { FirestoreService } from 'src/app/services/firestore.service';
-
+import { UsersService } from 'src/app/services/users.service';
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
-  styleUrls: ['./profile-page.component.scss']
+  styleUrls: ['./profile-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfilePageComponent implements OnInit {
+  currentUserPosts$!: Observable<Post[]>;
+  currentUserFullname: any;
+  currentUserId: any;
 
-  private usersCollection: CollectionReference<DocumentData>;
-  private postsCollection: CollectionReference<DocumentData>;
+  currentUser$!: Observable<AppUser | null>;
 
-  public currentUser : AppUser = {
-    id: "",
-    email: "",
-    firstname: "",
-    lastname: "",
-    picture: "",
-    subs: []
-  }
+  tempUserId: string = localStorage.getItem('userId')!;
 
-  public friends : AppUser[] = [];
-
-  public ownPosts : AppPost[] = [];
-
-  public config: Object = {
-    isAuto: true,
-    text: { font: '25px serif' }, // Hiden { font: '0px' },
-    frame: { lineWidth: 8 },
-    medias: {
-      audio: false,
-      video: {
-        facingMode: 'environment', // Pour la caméra frontale go check : https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia, faut mettre user au lieu de environment
-        width: { ideal: 1280 },
-        height: { ideal: 720 }
-      }
-    }
-  };
+  friendsCount: number = 0;
 
   constructor(
     private postService: PostsService,
-    private authenticationService: AuthenticationService,
-    private firestore: Firestore,
-    private firestoreService: FirestoreService,
-    private qrcode: NgxScannerQrcodeService
-    ) {
-      this.usersCollection = collection(this.firestore, FIREBASE_COLLECTION_PATHS.USERS);
-      this.postsCollection = collection(this.firestore, FIREBASE_COLLECTION_PATHS.POSTS);
-
-    }
+    private usersService: UsersService,
+    private router: Router,
+    private friendsService: FriendsService,
+  ) { this.getFriendsCount(); }
 
   ngOnInit(): void {
+    this.currentUser$ = this.usersService.currentUserProfile;
 
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const uid = user.uid;
-        if(user.email != null && user.uid != null){
-          this.firestoreService.fetchByProperty<AppUser>(this.usersCollection, "email", user.email).subscribe(res => {
-            this.currentUser = res[0];
-            console.log("Current User", this.currentUser)
-            this.fetchOwnPosts(res[0].id).subscribe(r => {
-              this.ownPosts = r;
-            })
-          })
-          console.log("Friends in profile", this.friends)
+    this.currentUserPosts$ = this.postService.getUserPosts(this.tempUserId);
+  }
+
+  onPersonalInformation(): void {
+    this.router.navigateByUrl('user-infos');
+  }
+
+  onInvitFriends(): void {
+    this.router.navigateByUrl('invit-friends');
+  }
+
+  getFriendsCount(): void {
+    Promise.resolve(this.friendsService.countFriends())
+      .then(
+        (snapshot) => {
+          let count = snapshot.data().count;
+          localStorage.setItem('friendsCount', count.toString());
         }
-      } else {
-      }
-    });
-
+      );
+    this.friendsCount = parseInt(localStorage.getItem('friendsCount')!);
   }
-
-  logOut(){
-    this.authenticationService.signOut()
-  }
-
-  public fetchByDocumentReference<T>(documentReference: DocumentReference): Observable<T> {
-    return docData(documentReference, { idField: "id" }) as Observable<T>;
-  }
-
-  public fetchUserById(id: string): Observable<AppUser> {
-    return this.firestoreService.fetchById<AppUser>(FIREBASE_COLLECTION_PATHS.USERS, id);
-  }
-
-  public fetchUserByEmail(email: string): Observable<AppUser> {
-    return this.firestoreService.fetchByEmail<AppUser>(FIREBASE_COLLECTION_PATHS.USERS, email);
-  }
-
-  private fetchOwnPosts(idUser: string): Observable<AppPost[]>{
-    return this.firestoreService.fetchByProperty<AppPost>(this.postsCollection, "idUser",idUser, 10);
-  }
-
-  public onError(e: any): void {
-    alert(e);
-  }
-
-  public handle(action: any, fn: string): void {
-    action[fn]().subscribe(console.log, console.error);
-  }
-
 }

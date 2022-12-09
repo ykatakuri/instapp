@@ -8,3 +8,4 @@ export interface AppUser {
     picture:string;
     subs: DocumentReference[];
 }
+

@@ -25,10 +25,6 @@ export class HomePageComponent implements OnInit {
   private postsCollection: CollectionReference<DocumentData>;
   private friendsCollection: CollectionReference<DocumentData>;
 
-  posts$!: Observable<Post[]>;
-  user$!: Observable<AppUser>;
-  userId!: string;
-  username!: string;
   friends: string[] = [];
   posts: AppPost[] = [];
   public currentUser : AppUser = {

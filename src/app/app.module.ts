@@ -19,6 +19,7 @@ import { AuthenticationModule } from './modules/authentication/authentication.mo
 import { HomePageService } from './services/home-page.service';
 import { NavigationModule } from './modules/navigation/navigation.module';
 
+
 @NgModule({
   declarations: [
     AppComponent,

@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
-import { Auth, authState, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile, User, UserCredential } from "@angular/fire/auth";
+import { Auth, authState, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile, User, UserCredential, UserInfo } from "@angular/fire/auth";
 import { uuidv4 } from "@firebase/util";
 import { DocumentReference, DocumentData, CollectionReference, collection } from "firebase/firestore";
-import { EMPTY, first, last, Observable, of, retryWhen } from "rxjs";
+import { sendPasswordResetEmail } from '@firebase/auth';
+import { concatMap, EMPTY, first, last, Observable, of, retryWhen } from "rxjs";
 import { AppUser } from "../models/app-user.interface";
 import { FIREBASE_COLLECTION_PATHS } from "../modules/navigation/constants/firestore-collection-paths.constant";
 import { FirestoreService } from "./firestore.service";
@@ -56,7 +57,18 @@ export class AuthenticationService {
     }
   }
 
-  public async signUp(email: string, password: string, firstname: string, lastname: string): Promise<UserCredential | null> {
+  updateProfile(profileData: Partial<UserInfo>): Observable<any> {
+    const user = this.auth.currentUser;
+    return of(user).pipe(
+      concatMap((user) => {
+        if (!user) throw new Error('Not Authenticated');
+
+        return updateProfile(user, profileData);
+      })
+    );
+  }
+
+  public async signUp(email: string, password: string, firstname: string, lastname: string, photoUrL: string): Promise<UserCredential | null> {
     try {
       const data: UserCredential = await createUserWithEmailAndPassword(this.auth, email, password);
 
@@ -95,6 +107,7 @@ export class AuthenticationService {
   public async signOut(): Promise<void> {
     try {
       await signOut(this.auth)
+      localStorage.clear();
     } catch (error) {
       console.log(error);
     }

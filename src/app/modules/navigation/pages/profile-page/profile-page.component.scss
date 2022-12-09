@@ -1,0 +1,29 @@
+.profile-page-viewport {
+    height: 100%;
+    width: 100%;
+}
+
+.avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.stat-card {
+    max-width: 100px;
+    margin-right: 10px;
+}
+
+.menu-card,
+.post-card {
+    margin-top: 30px;
+}
+
+.user-info-card {
+    margin-top: 30px;
+}
+
+.utility-spacer {
+    height: 100px;
+}

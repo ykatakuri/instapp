@@ -1,0 +1,13 @@
+<app-appbar></app-appbar>
+<button mat-mini-fab color="" class="back_button" (click)="onBack()">
+    <mat-icon color="">arrow_back</mat-icon>
+</button>
+<mat-card class="content-container">
+    <div class="qrcodeImage">
+        <qrcode [qrdata]="'https://github.com/Cordobo/angularx-qrcode'" [allowEmptyString]="true"
+            [ariaLabel]="'Inviter vos amis sur Instvgrvm...'" [cssClass]="'center'" [colorDark]="'#3a0ca3'"
+            [colorLight]="'#ffffffff'" [elementType]="'canvas'" [errorCorrectionLevel]="'M'" [imageHeight]="100"
+            [imageWidth]="100" [margin]="4" [scale]="1" [title]="'Instvgrvm'" [width]="300">
+        </qrcode>
+    </div>
+</mat-card>
