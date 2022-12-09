@@ -82,6 +82,17 @@ export class SearchPageComponent implements OnInit {
 
   }
 
+  async searchById(){
+    this.users = [];
+    const querySnapshot = await getDocs(query(this.usersCollection, where("id", "==", this.searchElem)));
+    querySnapshot.forEach((doc) => {
+      this.users[0] = (doc.data()) as AppUser;
+      this.users[0].id = doc.id
+      this.checkIfFriendsExists(doc.id)
+});
+
+  }
+
   private checkIfFriendsExists(id: string){
     this.isSubbed = false;
     console.log("id in check", id)
@@ -118,6 +129,10 @@ export class SearchPageComponent implements OnInit {
 
   public fetchUserByEmail(email: string): Observable<AppUser> {
     return this.firestoreService.fetchByEmail<AppUser>(FIREBASE_COLLECTION_PATHS.USERS, email);
+  }
+
+  public fetchUserById(id: string): Observable<AppUser> {
+    return this.firestoreService.fetchById<AppUser>(FIREBASE_COLLECTION_PATHS.USERS, id);
   }
 
   public fetchByDocumentReference<T>(documentReference: DocumentReference): Observable<T> {

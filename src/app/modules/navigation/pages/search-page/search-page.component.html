@@ -1,6 +1,6 @@
 <form class="search-form">
   <mat-form-field appearance="outline" class="search-field">
-      <input matInput  class="search" type="text" name="search" placeholder="Rechercher" (change)="search()" [(ngModel)]="searchElem"/>
+      <input matInput  class="search" type="text" name="search" placeholder="Rechercher" (input)="search()" (input)="searchById()" [(ngModel)]="searchElem"/>
       <mat-icon matSuffix>search</mat-icon>
 
   </mat-form-field>
