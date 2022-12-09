@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NotificationsPageComponent } from '../../pages/notifications-page/notifications-page.component';
+// import { NotificationsPageComponent } from '../../pages/notifications-page/notifications-page.component';
 import { CreatePostComponent } from './create-post.component';
-describe('NotificationsComponent', () => {
-  let component: NotificationsPageComponent;
-  let fixture: ComponentFixture<NotificationsPageComponent>;
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [NotificationsPageComponent]
-    })
-      .compileComponents();
+// describe('NotificationsComponent', () => {
+//   let component: NotificationsPageComponent;
+//   let fixture: ComponentFixture<NotificationsPageComponent>;
+//   beforeEach(async () => {
+//     await TestBed.configureTestingModule({
+//       declarations: [NotificationsPageComponent]
+//     })
+//       .compileComponents();
 
-    fixture = TestBed.createComponent(NotificationsPageComponent);
+//     fixture = TestBed.createComponent(NotificationsPageComponent);
 
-  });
-});
+//   });
+// });
 describe('CreatePostComponent', () => {
   let component: CreatePostComponent;
   let fixture: ComponentFixture<CreatePostComponent>;

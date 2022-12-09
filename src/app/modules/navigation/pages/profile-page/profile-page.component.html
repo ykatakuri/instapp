@@ -1,17 +1,8 @@
-<cdk-virtual-scroll-viewmat-card class="examport appendOnly itemSize="50" class="profile-page-viewport"le-card">
-    <a
+<mat-card class="example-card">
   <mat-card-header>
-    <img mat-card-avatar src="{{currentUser.pp-appbaictur></app-appbar>
-    <mat-card *ngIf="currentUser$|async as user" class="user-infe}}" alt="Photo o-card">
-        <mat-card-content>
-            <mat-grid-list cols="4" rowHeight="50px">
-                <mat-grid-tile colspan="1" rowspan="1" [style.background]="''">
-                    <img [src]="user.photoURL" [alt]="user.fullname" class="avatar">
-                </mat-grid-t a Shiba Inu">
-    <mat-card-title>
-
->{{currentUser.firstname}}</mat-card-title>
-                <mat-grid-tile colspan="3" ro   <mat-card-subtitle>{{currentUser.lastname}}</mat-card-subtitle>
+    <img mat-card-avatar src="{{currentUser.picture}}">
+    <mat-card-title>{{currentUser.firstname}}</mat-card-title>
+    <mat-card-subtitle>{{currentUser.lastname}}</mat-card-subtitle>
     <button (click)="logOut()">Log out</button>
   </mat-card-header>
 
@@ -21,59 +12,14 @@
 
   <mat-card-actions>
     <!-- qrcode generator -->
-    <qrcode [qrdata]="currentUser.id" [wspan="2" [style.backgridth]="64" [erround]="''">
-                    <mat-card class="stat-card">
-                        <mat-card-header>
-                            <mat-card-title *ngIf="currentUserPosts$|async as posts">{{ posts.length }}</mat-card-title>
-                            <mat-card-subtitle>Publications</mat-card-subtitle>
-                        </mat-card-header>
-                    </mat-card>
-                    <mat-card class="stat-card">
-                        <mat-card-header>
-                            <mat-card-title>{{ friendsCount }}</mat-card-title>
-                            <mat-card-subtitle>Amis</mat-card-subtitle>
-                        </mat-card-header>
-                    </mat-card>
-                </mat-grid-tile>
+    <qrcode [qrdata]="currentUser.id" [width]="64" [errorCorrectionLevel]="'M'" [allowEmptyString]="true"></qrcode>
 
-                <mat-grid-tile colspan="1" rowspan="1" [style.bacCorrectionLevel]="'M'" [allowEmptyString]="true"></qrcode>
-
-    <div claground]="''">{{ uss="container">
-      <er.fullname }}
-                -- ngx-scanner-qrcode -->
-      <ngx-scanner-qrcode #action="scanner" [config]="config" (error)="onError($event)"></mat-grid-tile>
-            </mat-grid-list>
-        </mat-card-content>
-    </mat-card>
-
-    <mat-card class="menu-card">
-        <mat-list>
-            <a tyngx-scanner-qrcode>
+    <div class="container">
+      <!-- ngx-scanner-qrcode -->
+      <ngx-scanner-qrcode #action="scanner" [config]="config" (error)="onError($event)"></ngx-scanner-qrcode>
 
       <!-- data  -->
-      <pe="button" (click)="onPersonalInformation()" class="data">{{ action.data | async }}</p>
-                <mat-list-item>Informations Personnelles</mat-list-item>
-            </a>
-            <mat-divider></mat-divider>
-            <a type="button" (click)="onInvitFriends()">
-                <mat-list-item>Inviter Des Amis</mat-list-item>
-            </a>
-
-        </mat-list>
-    </mat-card>
-
-    <mat-card class="post-card">
-        <mat-grid-list cols="3" rowHeight="150px">
-            <mat-grid-tile *ngFor="let post of currentUserPosts$|async">
-                <img [src]="post.imageUrl" [alt]="post.title">
-            </mat-grid-tile>
-        </mat-grid-list>
-    </mat-card>
-
-</cdk-virtual-scroll-viewport>
-
-<div class="utility-spacer"></div>
-
+      <p class="data">{{ action.data | async }}</p>
 
       <!-- Loading -->
       <p *ngIf="action.isLoading">⌛ Loading...</p>
@@ -100,7 +46,7 @@
     <mat-card-content>
         <p>{{p.date.toDate().toLocaleString()}}</p>
     </mat-card-content>
-    <mat-card-actions>
+    <!-- <mat-card-actions>
         <button mat-icon-button>
             <mat-icon>favorite</mat-icon>
         </button>
@@ -111,8 +57,64 @@
         <button mat-icon-button>
             <mat-icon>share</mat-icon>
         </button>
-    </mat-card-actions>
+    </mat-card-actions> -->
 </mat-card>
 </div>
+
+<app-navbar></app-navbar>
+<cdk-virtual-scroll-viewport appendOnly itemSize="50" class="profile-page-viewport">
+    <app-appbar></app-appbar>
+    <mat-card *ngIf="currentUser as user" class="user-info-card">
+        <mat-card-content>
+            <mat-grid-list cols="4" rowHeight="50px">
+                <mat-grid-tile colspan="1" rowspan="1" [style.background]="''">
+                    <img [src]="user.picture" [alt]="user.firstname" class="avatar">
+                </mat-grid-tile>
+
+                <mat-grid-tile colspan="3" rowspan="2" [style.background]="''">
+                    <mat-card class="stat-card">
+                        <mat-card-header>
+                            <mat-card-title *ngIf="currentUserPosts$|async as posts">{{ posts.length }}</mat-card-title>
+                            <mat-card-subtitle>Publications</mat-card-subtitle>
+                        </mat-card-header>
+                    </mat-card>
+                    <mat-card class="stat-card">
+                        <mat-card-header>
+                            <mat-card-title>{{ friendsCount }}</mat-card-title>
+                            <mat-card-subtitle>Amis</mat-card-subtitle>
+                        </mat-card-header>
+                    </mat-card>
+                </mat-grid-tile>
+
+                <mat-grid-tile colspan="1" rowspan="1" [style.background]="''">{{ user.firstname }}
+                </mat-grid-tile>
+            </mat-grid-list>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="menu-card">
+        <mat-list>
+            <a type="button" (click)="onPersonalInformation()">
+                <mat-list-item>Informations Personnelles</mat-list-item>
+            </a>
+            <mat-divider></mat-divider>
+            <a type="button" (click)="onInvitFriends()">
+                <mat-list-item>Inviter Des Amis</mat-list-item>
+            </a>
+
+        </mat-list>
+    </mat-card>
+
+    <mat-card class="post-card">
+        <mat-grid-list cols="3" rowHeight="150px">
+            <mat-grid-tile *ngFor="let post of currentUserPosts$|async">
+                <img [src]="post.imageUrl" [alt]="post.title">
+            </mat-grid-tile>
+        </mat-grid-list>
+    </mat-card>
+
+</cdk-virtual-scroll-viewport>
+
+<div class="utility-spacer"></div>
 
 <app-navbar></app-navbar>

@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+// import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Observable } from 'rxjs';
 import { FIREBASE_COLLECTION_PATHS } from 'src/app/constants/firestore-collection-paths.constant';
 import { AppUser } from 'src/app/models/app.user.interface';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { UsersService } from 'src/app/services/users.service';
-@UntilDestroy()
+// @UntilDestroy()
 @Component({
   selector: 'app-user-info-page',
   templateUrl: './user-info-page.component.html',
@@ -43,7 +43,7 @@ export class UserInfoPageComponent implements OnInit {
     });
 
     this.usersService.currentUserProfile
-      .pipe(untilDestroyed(this))
+      // .pipe(untilDestroyed(this))
       .subscribe((user) => {
         this.userInfosForm.patchValue({ ...(user as object) });
       });

@@ -3,7 +3,6 @@ import { deleteObject, FullMetadata, getDownloadURL, getMetadata, list, listAll,
 import { Observable } from 'rxjs';
 import { Firestore } from "@angular/fire/firestore";
 
-@Injectable()
 @Injectable({
   providedIn: "root",
 })

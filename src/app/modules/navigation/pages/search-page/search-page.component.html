@@ -1,13 +1,21 @@
 <form class="search-form">
-  <mat-form-field [formGroup]="searchForm" appearance="outline" class="search-field">
-      <input matInput  class="search" type="text" formControlName="search" name="search" placeholder="Rechercher" [matAutocomplete]="users" (change)="search()" [(ngModel)]="searchElem"/>
+  <mat-form-field appearance="outline" class="search-field">
+      <input matInput  class="search" type="text" name="search" placeholder="Rechercher" (change)="search()" [(ngModel)]="searchElem"/>
       <mat-icon matSuffix>search</mat-icon>
 
   </mat-form-field>
-    <mat-autocomplete #users="matAutocomplete">
-        <mat-option *ngFor="let user of users$|async" [value]="user" (click)="goToUserProfile(user)">{{ user.username }}
-        </mat-option>
-    </mat-autocomplete>
 </form>
+<p [style]="{margin:'5%'}" *ngIf="users.length == 0">Veuillez entrer l'adressse mail de la personne que vous recherchez</p>
+
+<div class="post-container" *ngFor="let user of users">
+<mat-card class="example-card">
+  <img mat-card-avatar src="{{user.picture}}">
+  <mat-card-title>{{user.firstname}}</mat-card-title>
+  <mat-card-subtitle>{{user.lastname}}</mat-card-subtitle>
+  <button *ngIf="!isSubbed" (click)="sub(user.id)">Suivre</button>
+  <small *ngIf="isSubbed">Vous suivez déjà</small>
+</mat-card>
+</div>
+
 
 <app-navbar></app-navbar>

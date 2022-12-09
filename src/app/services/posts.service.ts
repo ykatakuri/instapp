@@ -23,16 +23,16 @@ export class PostsService {
     this.postsCollection = collection(this.firestore, FIREBASE_COLLECTION_PATHS.POSTS);
   }
 
-  public fetchPosts(direction: "asc" | "desc" = "asc"): Observable<AppPost[]> {
-    return this.firestoreService.fetchAll<AppPost>(this.postsCollection, "title", direction);
+  public fetchPosts(direction: "asc" | "desc" = "asc"): Observable<Post[]> {
+    return this.firestoreService.fetchAll<Post>(this.postsCollection, "title", direction);
   }
 
-  // public fetchFriendsPosts(direction: "asc" | "desc" = "asc"): Observable<AppPost[]> {
-  public fetchPostsById(id : string, direction: "asc" | "desc" = "asc"): Observable<AppPost[]> {
-    return this.firestoreService.fetchAll<AppPost>(this.postsCollection, "title", direction);
+  // public fetchFriendsPosts(direction: "asc" | "desc" = "asc"): Observable<Post[]> {
+  public fetchPostsById(id : string, direction: "asc" | "desc" = "asc"): Observable<Post[]> {
+    return this.firestoreService.fetchAll<Post>(this.postsCollection, "title", direction);
   }
 
-  public fetchPostsByUserId(id : string, direction: "asc" | "desc" = "asc"): Observable<AppPost[]> {
+  public fetchPostsByUserId(id : string, direction: "asc" | "desc" = "asc"): Observable<Post[]> {
     return this.firestoreService.fetchByProperty(this.postsCollection, "idUser", id, 10);
   }
 

@@ -26,7 +26,7 @@ export class HomePageComponent implements OnInit {
   private friendsCollection: CollectionReference<DocumentData>;
 
   friends: string[] = [];
-  posts: AppPost[] = [];
+  posts: Post[] = [];
   public currentUser : AppUser = {
     id: "",
     email: "",
