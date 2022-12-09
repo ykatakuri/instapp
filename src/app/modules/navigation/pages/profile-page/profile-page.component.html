@@ -1,5 +1,6 @@
 <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="profile-page-viewport">
     <app-appbar></app-appbar>
+
     <mat-card *ngIf="currentUser$|async as user" class="user-info-card">
         <mat-card-content>
             <mat-grid-list cols="4" rowHeight="50px">
@@ -40,6 +41,14 @@
 
         </mat-list>
     </mat-card>
+
+    <div class="post-container">
+        <div class="flex-container" fxLayout="row">
+            <mat-card class="child-1">1. One</mat-card>
+            <mat-card class="child-2">2. Two</mat-card>
+            <mat-card class="child-3">3. Three</mat-card>
+        </div>
+    </div>
 
     <mat-card class="post-card">
         <mat-grid-list cols="3" rowHeight="150px">
