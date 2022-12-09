@@ -23,6 +23,7 @@ export class ProfilePageComponent implements OnInit {
 
   private usersCollection: CollectionReference<DocumentData>;
   private postsCollection: CollectionReference<DocumentData>;
+  public myAngularQrCodeData: string = "";
 
   public currentUser : AppUser = {
     id: "",
@@ -55,12 +56,10 @@ export class ProfilePageComponent implements OnInit {
     private postService: PostsService,
     private authenticationService: AuthenticationService,
     private firestore: Firestore,
-    private firestoreService: FirestoreService,
-    private qrcode: NgxScannerQrcodeService
+    private firestoreService: FirestoreService
     ) {
       this.usersCollection = collection(this.firestore, FIREBASE_COLLECTION_PATHS.USERS);
       this.postsCollection = collection(this.firestore, FIREBASE_COLLECTION_PATHS.POSTS);
-
     }
 
   ngOnInit(): void {
@@ -72,6 +71,7 @@ export class ProfilePageComponent implements OnInit {
         if(user.email != null && user.uid != null){
           this.firestoreService.fetchByProperty<AppUser>(this.usersCollection, "email", user.email).subscribe(res => {
             this.currentUser = res[0];
+            this.myAngularQrCodeData = this.currentUser.id;
             console.log("Current User", this.currentUser)
             this.fetchOwnPosts(res[0].id).subscribe(r => {
               this.ownPosts = r;
