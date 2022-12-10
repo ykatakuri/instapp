@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { combineLatest, map, Observable, startWith } from 'rxjs';
+import { combineLatest, map, Observable, of, startWith, switchMap } from 'rxjs';
 import { AppUser } from 'src/app/models/app.user.interface';
 import { Chat, Message } from 'src/app/models/chat.interface';
 import { AuthenticationService } from 'src/app/services/authentication.service';
@@ -56,7 +56,18 @@ export class ChatPageComponent implements OnInit {
   }
 
   onCreateChat(otherUser: AppUser): void {
-    this.chatsService.createChat(otherUser).subscribe();
+    this.chatsService
+      .isExistingChat(otherUser.id)
+      .pipe(
+        switchMap((chatId) => {
+          if (!chatId) {
+            return this.chatsService.createChat(otherUser);
+          } else {
+            return of(chatId);
+          }
+        })
+      )
+      .subscribe();
   }
 
   onSendMessage(chatId: string): void {
