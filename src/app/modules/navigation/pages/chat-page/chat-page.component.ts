@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
 import { combineLatest, map, Observable, startWith } from 'rxjs';
 import { AppUser } from 'src/app/models/app.user.interface';
-import { Chat } from 'src/app/models/chat.interface';
+import { Chat, Message } from 'src/app/models/chat.interface';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ChatsService } from 'src/app/services/chats.service';
 import { UsersService } from 'src/app/services/users.service';
@@ -20,16 +19,16 @@ export class ChatPageComponent implements OnInit {
   currentUserChats$!: Observable<Chat[]>;
   users$!: Observable<AppUser[]>;
   selectedChat$!: Observable<Chat | undefined>;
+  messages$: Observable<Message[]> | undefined;
 
   searchForm!: FormGroup;
 
-  chatListControl = new FormControl('');
+  messageControl = new FormControl('');
 
   constructor(
     private formBuilder: FormBuilder,
     private usersService: UsersService,
     private authService: AuthenticationService,
-    private router: Router,
     private chatsService: ChatsService,
   ) { }
 
@@ -51,16 +50,25 @@ export class ChatPageComponent implements OnInit {
     );
 
     this.currentUserChats$ = this.chatsService.currentUserChats;
-
-    // this.selectedChat$ = combineLatest([
-    //   this.panelOpenState.valueOf,
-    //   this.currentUserChats$,
-    // ]).pipe(map(([value, chats]) => chats.find((c) => c.id === value![0])));
   }
 
   onCreateChat(otherUser: AppUser): void {
-    // this.router.navigate(['/search', otherUser.id]);
     this.chatsService.createChat(otherUser).subscribe();
+  }
+
+  onSendMessage(chatId: string): void {
+    const message = this.messageControl.value;
+
+    if (message && chatId) {
+      this.chatsService.addChatMessage(chatId, message).subscribe();
+      this.messageControl.setValue('');
+    }
+  }
+
+  setMessages(chatId: string): void {
+    this.panelOpenState = true;
+
+    this.messages$ = this.chatsService.getChatMessages$(chatId);
   }
 
 }
