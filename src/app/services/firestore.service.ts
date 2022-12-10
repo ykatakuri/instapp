@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { addDoc, AggregateField, AggregateQuerySnapshot, collectionData, CollectionReference, deleteDoc, doc, docData, DocumentData, DocumentReference, Firestore, getCountFromServer, limit, orderBy, query, setDoc, startAfter, updateDoc, where, WithFieldValue } from '@angular/fire/firestore';
+import { addDoc, AggregateField, AggregateQuerySnapshot, collectionData, CollectionReference, deleteDoc, doc, docData, DocumentData, DocumentReference, enableIndexedDbPersistence, Firestore, getCountFromServer, limit, orderBy, query, setDoc, startAfter, updateDoc, where, WithFieldValue } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -7,7 +7,14 @@ import { Observable } from 'rxjs';
 })
 export class FirestoreService {
 
-  constructor(private readonly firestore: Firestore) { }
+  constructor(private readonly firestore: Firestore) {
+    enableIndexedDbPersistence(this.firestore, {
+      forceOwnership: true,
+      }).catch((reason) => {
+      console.log('NO PERSISTENCE : ', reason);
+      });
+
+  }
 
   // Create a document
   public create<T>(collection: CollectionReference<T>, object: WithFieldValue<T>): Promise<DocumentReference<T>> {

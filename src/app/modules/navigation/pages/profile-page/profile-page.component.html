@@ -44,7 +44,7 @@
     <mat-card class="post-card">
         <mat-grid-list cols="3" rowHeight="150px">
             <mat-grid-tile *ngFor="let post of currentUserPosts$|async">
-                <img [src]="post.imageUrl" [alt]="post.title">
+                <img [src]="post.imageUrl" [alt]="post.title" (click)="getPost(post.id)">
             </mat-grid-tile>
         </mat-grid-list>
     </mat-card>

@@ -54,4 +54,12 @@ export class ProfilePageComponent implements OnInit {
       );
     this.friendsCount = parseInt(localStorage.getItem('friendsCount')!);
   }
+
+  goToEditPost(post: Post){
+    this.router.navigate(['/post', post.id]);
+  }
+
+  getPost(postId: string){
+    this.router.navigateByUrl(`/post/${postId}`)
+  }
 }

@@ -33,6 +33,8 @@ import { UserInfoPageComponent } from './pages/profile-page/pages/user-info-page
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { SingleUserPageComponent } from './pages/single-user-page/single-user-page.component';
+import { SinglePostPageComponent } from './pages/single-post-page/single-post-page.component';
+import { DeleteDialogComponent } from './pages/single-post-page/delete-dialog/delete-dialog.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,8 @@ import { SingleUserPageComponent } from './pages/single-user-page/single-user-pa
     UserInfoPageComponent,
     InvitFriendsPageComponent,
     SingleUserPageComponent,
+    SinglePostPageComponent,
+    DeleteDialogComponent,
   ],
   imports: [
     CommonModule,
