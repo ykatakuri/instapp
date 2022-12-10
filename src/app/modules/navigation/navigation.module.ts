@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -26,6 +27,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { PostListComponent } from './components/post-list/post-list.component';
 import { PostComponent } from './components/post/post.component';
 import { ChatPageComponent } from './pages/chat-page/chat-page.component';
+import { DiscussionPageComponent } from './pages/chat-page/pages/discussion-page/discussion-page.component';
 import { AppBarComponent } from './pages/home-page/components/app-bar/app-bar.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { InvitFriendsPageComponent } from './pages/profile-page/pages/invit-friends-page/invit-friends-page.component';
@@ -51,6 +53,7 @@ import { SingleUserPageComponent } from './pages/single-user-page/single-user-pa
     UserInfoPageComponent,
     InvitFriendsPageComponent,
     SingleUserPageComponent,
+    DiscussionPageComponent,
   ],
   imports: [
     CommonModule,
@@ -72,6 +75,7 @@ import { SingleUserPageComponent } from './pages/single-user-page/single-user-pa
     MatDividerModule,
     QRCodeModule,
     MatAutocompleteModule,
+    MatExpansionModule,
   ],
   exports: [
 
