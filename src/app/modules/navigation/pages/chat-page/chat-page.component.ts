@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { combineLatest, map, Observable, startWith } from 'rxjs';
 import { AppUser } from 'src/app/models/app.user.interface';
@@ -15,11 +15,15 @@ import { UsersService } from 'src/app/services/users.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatPageComponent implements OnInit {
+  panelOpenState = false;
   currentUser$ = this.authService.user;
   currentUserChats$!: Observable<Chat[]>;
   users$!: Observable<AppUser[]>;
+  selectedChat$!: Observable<Chat | undefined>;
 
   searchForm!: FormGroup;
+
+  chatListControl = new FormControl('');
 
   constructor(
     private formBuilder: FormBuilder,
@@ -47,6 +51,11 @@ export class ChatPageComponent implements OnInit {
     );
 
     this.currentUserChats$ = this.chatsService.currentUserChats;
+
+    // this.selectedChat$ = combineLatest([
+    //   this.panelOpenState.valueOf,
+    //   this.currentUserChats$,
+    // ]).pipe(map(([value, chats]) => chats.find((c) => c.id === value![0])));
   }
 
   onCreateChat(otherUser: AppUser): void {

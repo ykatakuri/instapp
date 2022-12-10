@@ -15,9 +15,6 @@
 }
 
 .chats-list {
-    margin-right: 20px;
-    margin-left: 20px;
-
     .chat-title {
         display: flex;
         justify-content: space-between;
@@ -31,4 +28,37 @@
             color: rgba(116, 113, 113, 0.7)
         }
     }
+}
+
+.avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.spacer {
+    height: 10px;
+}
+
+mat-expansion-panel {
+    margin-right: 20px;
+    margin-left: 20px;
+    padding: 10px;
+}
+
+.chat-area {
+    background-color: blanchedalmond;
+    height: calc(70vh - 270px);
+    width: 100%;
+}
+
+.input-area>mat-form-field {
+    width: 100%;
+}
+
+.input-area {
+    padding-top: 16px;
+    padding-bottom: 8px;
 }

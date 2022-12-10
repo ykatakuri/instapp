@@ -14,8 +14,42 @@
     </form>
 
     <ng-container *ngIf="currentUserChats$">
-        <mat-card class="chats-list">
-            <mat-selection-list #chats [multiple]="false">
+
+        <ng-container *ngFor="let chat of currentUserChats$ | async" class="chats-list">
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+
+                <mat-expansion-panel-header>
+                    <mat-panel-title class="chats-list">
+                        <img class="avatar"
+                            [src]="chat.chatPicture ? chat.chatPicture : 
+                    'https://toppng.com/uploads/preview/user-account-management-logo-user-icon-11562867145a56rus2zwu.png'" />
+                        <p mat-line class="chat-title">
+                            <span class="chat-name">{{ chat.chatName }}</span>
+                            <span class="chat-date">{{ chat.lastMessageDate }}</span>
+                        </p>
+                        <p mat-line>{{ chat.lastMessage }}</p>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="chat-area">
+
+                </div>
+
+                <div class="input-area">
+                    <mat-form-field appearance="outline">
+                        <input matInput placeholder="Entrer votre message..." />
+                        <button mat-icon-button matSuffix>
+                            <mat-icon>send</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </div>
+
+            </mat-expansion-panel>
+            <div class="spacer"></div>
+        </ng-container>
+
+        <!-- <mat-card class="chats-list">
+            <mat-selection-list #chats [multiple]="false" [formControl]="chatListControl">
                 <mat-list-option *ngFor="let chat of currentUserChats$ | async" [value]="chat.id">
                     <img matListAvatar
                         [src]="chat.chatPicture ? chat.chatPicture : 
@@ -28,7 +62,7 @@
                     <mat-divider></mat-divider>
                 </mat-list-option>
             </mat-selection-list>
-        </mat-card>
+        </mat-card> -->
     </ng-container>
 
 </cdk-virtual-scroll-viewport>
