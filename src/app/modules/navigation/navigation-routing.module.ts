@@ -23,19 +23,19 @@ const routes: Routes = [
         path: "profile",
         component: ProfilePageComponent,
       },
-        {
-          component: SearchPageComponent,
-          path: "search",
+      {
+        component: SearchPageComponent,
+        path: "search",
 
-        },
-        {
-          component: ChatPageComponent,
-          path: "chat/:docId",
-        },
-        {
-          component: ListeChatComponent,
-          path: "liste-chat",
-        },
+      },
+      {
+        component: ChatPageComponent,
+        path: "chat/:docId",
+      },
+      {
+        component: ListeChatComponent,
+        path: "liste-chat",
+      },
 
     ]
 

@@ -1,3 +1,4 @@
+<app-appbar></app-appbar>
 <mat-card class="example-card">
   <mat-card-header>
     <img mat-card-avatar src="{{currentUser.picture}}">
@@ -63,7 +64,7 @@
 
 <app-navbar></app-navbar>
 <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="profile-page-viewport">
-    <app-appbar></app-appbar>
+
     <mat-card *ngIf="currentUser as user" class="user-info-card">
         <mat-card-content>
             <mat-grid-list cols="4" rowHeight="50px">
