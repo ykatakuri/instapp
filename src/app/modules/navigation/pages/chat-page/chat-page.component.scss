@@ -14,19 +14,15 @@
     width: 100%;
 }
 
-.chats-list {
-    .chat-title {
-        display: flex;
-        justify-content: space-between;
+.chat-title {
 
-        .chat-name {
-            font-weight: 500;
-        }
+    .chat-name {
+        font-weight: 500;
+    }
 
-        .chat-date {
-            font-size: 0.7rem;
-            color: rgba(116, 113, 113, 0.7)
-        }
+    .chat-date {
+        font-size: 0.7rem;
+        color: rgba(116, 113, 113, 0.7)
     }
 }
 
@@ -49,16 +45,61 @@ mat-expansion-panel {
 }
 
 .chat-area {
-    background-color: blanchedalmond;
     height: calc(70vh - 270px);
-    width: 100%;
-}
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 
-.input-area>mat-form-field {
-    width: 100%;
+    overflow: auto;
+
+    > :first-child {
+        margin-top: auto;
+    }
+
+    .chat-bubble-container {
+
+        display: flex;
+        width: 100%;
+        justify-content: flex-start;
+
+        >.chat-bubble {
+            background: aqua;
+            padding-top: 8px;
+            padding-bottom: 18px;
+            padding-left: 8px;
+            padding-right: 100px;
+            margin-bottom: 16px;
+            border-radius: 8px;
+            width: fit-content;
+
+            position: relative;
+
+            >.chat-date {
+                position: absolute;
+                bottom: 2px;
+                right: 8px;
+                font-size: 0.7rem;
+                color: rgba(0, 0, 0, 0.6);
+            }
+        }
+
+    }
+
+    .chat-bubble-container.sender {
+        justify-content: flex-end;
+
+        >.chat-bubble {
+            background: #c5cae9;
+        }
+    }
+
 }
 
 .input-area {
     padding-top: 16px;
     padding-bottom: 8px;
+}
+
+mat-form-field {
+    width: 100%;
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { combineLatest, map, Observable, startWith } from 'rxjs';
 import { AppUser } from 'src/app/models/app.user.interface';
@@ -14,6 +14,9 @@ import { UsersService } from 'src/app/services/users.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatPageComponent implements OnInit {
+  @ViewChild('endOfChat')
+  endOfChat!: ElementRef;
+
   panelOpenState = false;
   currentUser$ = this.authService.user;
   currentUserChats$!: Observable<Chat[]>;
@@ -65,10 +68,18 @@ export class ChatPageComponent implements OnInit {
     }
   }
 
-  setMessages(chatId: string): void {
+  getMessages(chatId: string): void {
     this.panelOpenState = true;
 
     this.messages$ = this.chatsService.getChatMessages$(chatId);
+  }
+
+  scrollToBottom() {
+    setTimeout(() => {
+      if (this.endOfChat) {
+        this.endOfChat.nativeElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
   }
 
 }
