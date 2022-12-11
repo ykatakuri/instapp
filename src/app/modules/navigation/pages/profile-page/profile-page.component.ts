@@ -11,7 +11,6 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { PostsService } from 'src/app/services/posts.service';
 import { FIREBASE_COLLECTION_PATHS } from '../../constants/firestore-collection-paths.constant';
 
-import { NgxScannerQrcodeService } from 'ngx-scanner-qrcode';
 import { FirestoreService } from 'src/app/services/firestore.service';
 
 @Component({
@@ -37,20 +36,6 @@ export class ProfilePageComponent implements OnInit {
   public friends : AppUser[] = [];
 
   public ownPosts : AppPost[] = [];
-
-  public config: Object = {
-    isAuto: true,
-    text: { font: '25px serif' }, // Hiden { font: '0px' },
-    frame: { lineWidth: 8 },
-    medias: {
-      audio: false,
-      video: {
-        facingMode: 'environment', // Pour la caméra frontale go check : https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia, faut mettre user au lieu de environment
-        width: { ideal: 1280 },
-        height: { ideal: 720 }
-      }
-    }
-  };
 
   constructor(
     private postService: PostsService,
@@ -103,14 +88,6 @@ export class ProfilePageComponent implements OnInit {
 
   private fetchOwnPosts(idUser: string): Observable<AppPost[]>{
     return this.firestoreService.fetchByProperty<AppPost>(this.postsCollection, "idUser",idUser, 10);
-  }
-
-  public onError(e: any): void {
-    alert(e);
-  }
-
-  public handle(action: any, fn: string): void {
-    action[fn]().subscribe(console.log, console.error);
   }
 
 }

@@ -9,6 +9,7 @@ import { AppUser } from 'src/app/models/app-user.interface';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { GenericStorageService } from 'src/app/services/generic-storage.service';
 import { FIREBASE_COLLECTION_PATHS } from '../../constants/firestore-collection-paths.constant';
+import { NgxScannerQrcodeService } from 'ngx-scanner-qrcode';
 
 @Component({
   selector: 'app-search-page',
@@ -32,12 +33,30 @@ export class SearchPageComponent implements OnInit {
       picture: "",
       subs: []
     }
+
+    public config: Object = {
+      isAuto: false,
+      isAlwaysEmit: false,
+      isDraw: false,
+      text: { font: '0px' }, // Hidden
+      frame: { lineWidth: 8 },
+      medias: {
+        audio: false,
+        video: {
+          facingMode: 'environment', // Pour la caméra frontale go check : https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia, faut mettre user au lieu de environment
+          width: { ideal: 1280 },
+          height: { ideal: 720 }
+        }
+      }
+    };
+
     users: AppUser[] = [];
     searchedUser : any;
     searchElem: string = "";
     private usersCollection: CollectionReference<DocumentData>;
     private friendsCollection: CollectionReference<DocumentData>;
     private notifCollection: CollectionReference<DocumentData>;
+    private isClicked!: boolean;
 
   constructor(
     private firestoreService: FirestoreService,
@@ -69,6 +88,8 @@ export class SearchPageComponent implements OnInit {
       } else {
       }
     });
+
+    this.isClicked = false;
   }
 
   async search(){
@@ -82,9 +103,11 @@ export class SearchPageComponent implements OnInit {
 
   }
 
-  async searchById(){
+  async searchById(action : any, fn: string, id: string){
+    this.isClicked =! this.isClicked;
+    action[fn]().subscribe(console.log, console.error);
     this.users = [];
-    const querySnapshot = await getDocs(query(this.usersCollection, where("id", "==", this.searchElem)));
+    const querySnapshot = await getDocs(query(this.usersCollection, where("id", "==", id)));
     querySnapshot.forEach((doc) => {
       this.users[0] = (doc.data()) as AppUser;
       this.users[0].id = doc.id
@@ -137,6 +160,14 @@ export class SearchPageComponent implements OnInit {
 
   public fetchByDocumentReference<T>(documentReference: DocumentReference): Observable<T> {
     return docData(documentReference, { idField: "id" }) as Observable<T>;
+  }
+
+  public onError(e: any): void {
+    alert(e);
+  }
+
+  public handle(action: any, fn: string): void {
+    action[fn]().subscribe(console.log, console.error);
   }
 
   async sub(userId: string){
