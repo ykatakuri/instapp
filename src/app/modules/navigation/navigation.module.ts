@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -35,6 +36,7 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { SingleUserPageComponent } from './pages/single-user-page/single-user-page.component';
 import { SinglePostPageComponent } from './pages/single-post-page/single-post-page.component';
 import { DeleteDialogComponent } from './pages/single-post-page/delete-dialog/delete-dialog.component';
+import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
 
 @NgModule({
   declarations: [
@@ -76,6 +78,8 @@ import { DeleteDialogComponent } from './pages/single-post-page/delete-dialog/de
     MatDividerModule,
     QRCodeModule,
     MatAutocompleteModule,
+    MatExpansionModule,
+    NgxScannerQrcodeModule
   ],
   exports: [
 

@@ -40,4 +40,5 @@ export class PostsService {
   public async countPosts(): Promise<AggregateQuerySnapshot<{ count: AggregateField<number> }>> {
     return await this.firestoreService.count(this.postsCollection);
   }
+
 }

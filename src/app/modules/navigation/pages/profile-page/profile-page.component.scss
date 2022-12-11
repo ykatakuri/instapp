@@ -18,12 +18,62 @@
 .menu-card,
 .post-card {
     margin-top: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .user-info-card {
     margin-top: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .utility-spacer {
     height: 100px;
+}
+
+.post-container {
+    margin: 20px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.post-photo {
+    object-fit: cover;
+    width: 100px;
+    height: 100px;
+}
+
+.a-post-card {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    width: 100px;
+    height: 100px;
+}
+
+.user-stats-container {
+    margin: 20px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.user-infos-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.posts-count-container {
+    background-color: white;
+    width: 100px;
+    height: 100px;
+}
+
+.friends-count-container {
+    background-color: white;
+    width: 100px;
+    height: 100px;
+}
+
+.username-container {
+    margin-top: 10px;
 }

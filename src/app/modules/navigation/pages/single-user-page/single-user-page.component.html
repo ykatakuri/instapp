@@ -1,49 +1,46 @@
 <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="page-viewport">
     <app-appbar></app-appbar>
     <ng-container *ngIf="user$ | async as user">
-        <mat-card class="user-info-card">
-            <mat-card-content>
-                <mat-grid-list cols="4" rowHeight="50px">
-
-                    <mat-grid-tile colspan="1" rowspan="1" [style.background]="''">
+        <div class="user-stats-container">
+            <div fxLayout="row" fxLayoutAlign="space-evenly center">
+                <div class="user-infos-container" fxLayout="column" fxLayoutAlign="center center">
+                    <div class="user-photo-container">
                         <img [src]="user.photoURL" [alt]="user.fullname" class="avatar">
-                    </mat-grid-tile>
+                    </div>
+                    <div class="username-container">{{ user.fullname }}</div>
+                </div>
 
-                    <mat-grid-tile colspan="3" rowspan="2" [style.background]="''">
-                        <mat-card class="stat-card">
-                            <mat-card-header>
-                                <mat-card-title *ngIf="userPosts$ | async as posts">{{ posts.length }}</mat-card-title>
-                                <mat-card-subtitle>Publications</mat-card-subtitle>
-                            </mat-card-header>
-                        </mat-card>
-                        <mat-card class="stat-card">
-                            <mat-card-header>
-                                <mat-card-title>{{ friendsCount }}</mat-card-title>
-                                <mat-card-subtitle>Amis</mat-card-subtitle>
-                            </mat-card-header>
-                        </mat-card>
-                    </mat-grid-tile>
+                <ng-container *ngIf="userPosts$ | async as posts">
+                    <mat-card class="posts-count-container" fxLayout="column" fxLayoutAlign="center center">
+                        <mat-card-header>
+                            <mat-card-title>{{ posts.length }}</mat-card-title>
+                            <mat-card-subtitle>Publications</mat-card-subtitle>
+                        </mat-card-header>
+                    </mat-card>
+                </ng-container>
 
-                    <mat-grid-tile colspan="1" rowspan="1" [style.background]="''">
-                        {{ user.fullname }}
-                    </mat-grid-tile>
-
-                </mat-grid-list>
-            </mat-card-content>
-        </mat-card>
-
+                <mat-card class="friends-count-container" fxLayout="column" fxLayoutAlign="center center">
+                    <mat-card-header>
+                        <mat-card-title>{{ friendsCount }}</mat-card-title>
+                        <mat-card-subtitle>Amis</mat-card-subtitle>
+                    </mat-card-header>
+                </mat-card>
+            </div>
+        </div>
 
         <mat-card class="button-card">
             <button mat-raised-button [color]="followButtonColor" (click)="onFollow()">{{ followButtonLabel }}</button>
         </mat-card>
 
-        <mat-card class="post-card">
-            <mat-grid-list cols="3" rowHeight="150px">
-                <mat-grid-tile *ngFor="let post of userPosts$ | async">
-                    <img [src]="post.imageUrl" [alt]="post.title">
-                </mat-grid-tile>
-            </mat-grid-list>
-        </mat-card>
+        <div class="post-container">
+            <div fxLayout="row" fxLayoutAlign="space-evenly center">
+                <ng-container *ngFor="let post of userPosts$|async">
+                    <mat-card class="a-post-card">
+                        <img class="post-photo" [src]="post.imageUrl" [alt]="post.title">
+                    </mat-card>
+                </ng-container>
+            </div>
+        </div>
     </ng-container>
 </cdk-virtual-scroll-viewport>
 

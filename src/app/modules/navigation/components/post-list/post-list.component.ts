@@ -17,14 +17,13 @@ export class PostListComponent implements OnInit, OnChanges {
   posts$!: Observable<Post[]>;
   userPosts$!:Observable<{user: AppUser, posts : Post[]}[]>
   postCount!: number;
+  currentUserId = window.localStorage.getItem('userId');
+  postsTest!: Post[];
 
   private friendsCollection: CollectionReference<DocumentData>;
   private postsCollection: CollectionReference<DocumentData>;
-
-  friends: AppUser[]=[];
   postsObv!: Observable<Post[]>;
   posts:Post[]=[];
-  currentUserId: string = localStorage.getItem('userId')!;
   postSub!: Observable<Post>;
 
   constructor(

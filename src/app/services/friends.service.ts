@@ -24,7 +24,7 @@ export class FriendsService {
   }
 
   public getAllFriends(direction: "asc" | "desc" = "desc"): Observable<Friend[]> {
-    return this.firestoreService.fetchAll<Friend>(this.friendsCollection, "createAt", direction);
+    return this.firestoreService.fetchAll<Friend>(this.friendsCollection, "id", direction);
   }
 
   // public getUserFriends(id: string, maxResult?: 6): Observable<Friend[]> {
