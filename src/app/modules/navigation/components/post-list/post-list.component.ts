@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Firestore, collection, CollectionReference, DocumentData } from '@angular/fire/firestore';
-import { forkJoin, map, Observable, switchMap } from 'rxjs';
+import { combineLatest, forkJoin, map, Observable, switchMap } from 'rxjs';
 import { FIREBASE_COLLECTION_PATHS } from 'src/app/constants/firestore-collection-paths.constant';
 import { AppUser } from 'src/app/models/app.user.interface';
 import { Post } from 'src/app/models/post.interface';
@@ -46,8 +46,6 @@ export class PostListComponent implements OnInit, OnChanges {
     })
   }
 
-
-
   ngOnDestroy(): void {
     localStorage.removeItem('postCount');
   }
@@ -70,43 +68,10 @@ export class PostListComponent implements OnInit, OnChanges {
   }
 
   getFriendsPosts(){
-    // const posts: Post[]= [];
-    // this.firestoreService.fetchAll<AppUser>(this.friendsCollection,"id","asc").pipe(
-    //   for(var i = 0; i < user.length; i++){
-    //   map((user) => {
-
-    //       this.posts$.psipe(
-    //         map((post) => {})
-    //       )
-    //       this.firestoreService.fetchByProperty<Post>(this.postsCollection,"creatorId", user[i].id).pipe(
-    //         map((post) => {
-
-    //           this.posts.push(...post)
-    //           console.log("Post in Map", post)
-    //           console.log("this.posts", this.posts)
-    //         })
-    //       ).subscribe()
-    //     }
-    //     //
-
-    //   })
-    // ).subscribe()
-    // this.firestoreService.fetchAll<AppUser>(this.friendsCollection,"id","asc").subscribe(friends => {
-
-    // })
-
-    // this.posts$ = this.firestoreService.fetchAll<AppUser>(this.friendsCollection,"id","asc").pipe(
-    //   map(users => users.map(user => this.postService.getUserPosts(user.id))),
-    //   switchMap(this.posts$ => forkJoin(...this.posts$))
-    //   )
-
-      this.userPosts$ = this.firestoreService.fetchAll<AppUser>(this.friendsCollection,"id","asc").pipe(
-        map(users => users.map(user => this.getPostsForUser(user))),
-        switchMap(userPosts$ => forkJoin(...userPosts$))
-      );
-      console.log("this.userPosts$", this.userPosts$)
-
-      console.log("ET BEN ?")
+    this.userPosts$ = this.firestoreService.fetchAll<AppUser>(this.friendsCollection,"id","asc").pipe(
+      map(users => users.map(user => this.getPostsForUser(user))),
+      switchMap(userPosts$ => combineLatest(...userPosts$))
+    );
   }
 
   private getPostsForUser(user: AppUser): Observable<{ user: AppUser, posts: Post[] }> {
@@ -114,24 +79,4 @@ export class PostListComponent implements OnInit, OnChanges {
       map(posts => ({user, posts}))
     );
   }
-
-  // friendToPost(): Observable<Post[]>{
-  //   return this.firestoreService.fetchAll<AppUser>(this.friendsCollection,"id","asc").pipe(
-  //     map((user: AppUser) => this.getUserPosts(user.id))
-  //   )
-  // }
-
-  // async getUserPosts(id: string): Post[]{
-  //   let result : Post[]
-  //   this.postService.getUserPosts(id).subscribe(res => {result = res})
-  //   console.log("result getuserPosts", result)
-  //   return result;
-  // }
-
-
-
-  // this.usersWithOrders$ = this.userService.getUsers().pipe(
-  //   map(users => users.map(this.getOrdersForUser)),
-  //   switchMap(userWithOrders$ => forkJoin(...userWithOrders$))
-  // );
 }
