@@ -7,6 +7,7 @@ import { HomePageComponent } from './modules/navigation/pages/home-page/home-pag
 import { NotificationsPageComponent } from './modules/navigation/pages/notifications-page/notifications-page.component';
 import { ProfilePageComponent } from './modules/navigation/pages/profile-page/profile-page.component';
 import { SearchPageComponent } from './modules/navigation/pages/search-page/search-page.component';
+import { ConversationPageComponent } from './modules/navigation/pages/conversation-page/conversation-page.component';
 
 const redirectUnauthorizedToAuth = () => redirectUnauthorizedTo(["authenticate"]);
 const redirectLoggedInToAppNavigator = () => redirectLoggedInTo([""]);
@@ -25,7 +26,12 @@ const routes: Routes = [
   },
   {
     component: ChatPageComponent,
-    path: "chat",
+    path: "chat/:docId",
+    loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
+  },
+  {
+    component: ConversationPageComponent,
+    path: "conversation",
     loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
   },
   {

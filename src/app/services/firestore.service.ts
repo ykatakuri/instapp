@@ -1,13 +1,21 @@
 import { Injectable } from '@angular/core';
-import { addDoc, AggregateField, AggregateQuerySnapshot, collectionData, CollectionReference, deleteDoc, doc, docData, DocumentData, DocumentReference, Firestore, getCountFromServer, limit, orderBy, query, startAfter, updateDoc, where, WithFieldValue } from '@angular/fire/firestore';
+import { addDoc, AggregateField, AggregateQuerySnapshot, collectionData, CollectionReference, deleteDoc, doc, docData, DocumentData, DocumentReference, enableIndexedDbPersistence, Firestore, getCountFromServer, getDoc, limit, orderBy, query, startAfter, updateDoc, where, WithFieldValue, Timestamp } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { Chat } from '../models/chat.interface';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirestoreService {
 
-  constructor(private readonly firestore: Firestore) { }
+  constructor(private readonly firestore: Firestore) {
+    enableIndexedDbPersistence(this.firestore, {
+      forceOwnership: true,
+    }).catch((reason) => {
+      console.log('NO PERSISTENCE : ', reason);
+    });
+  }
 
   // Create a document
   public create<T>(collection: CollectionReference<T>, object: WithFieldValue<T>): Promise<DocumentReference<T>> {
@@ -56,5 +64,35 @@ export class FirestoreService {
   public delete(path: string, id: string) {
     const documentReference = doc(this.firestore, `${path}/${id}`);
     return deleteDoc(documentReference);
+  }
+
+  public fetchByDocumentReference<T>(documentReference: DocumentReference): Observable<T> {
+    return docData(documentReference, { idField: "id" }) as Observable<T>;
+  }
+
+  public async updateMess<T extends { id: any }>(path: string, object: T, content: string, sentAt: Timestamp) {
+    const documentReference = doc(this.firestore, `${path}/${object.id}`) as DocumentReference<Chat>;
+    const donnee = await getDoc(documentReference)
+    if (donnee.exists()) {
+      const chat = donnee.data();
+      const c = [...chat.messages]
+      const index = c.findIndex((u) => u.sentAt.toDate().getTime() === sentAt.toDate().getTime());
+      if(index !== -1) {
+        const mess = c[index];
+        mess.content = content
+      }
+      updateDoc(documentReference, { messages: c });
+    }
+  }
+
+  public fetchConvById<T>(collection: CollectionReference<DocumentData>, propertyName: string, direction: "asc" | "desc" = "asc", referenceUser: string, path: string): Observable<T[]> {
+    const documentReference = doc(this.firestore, `${path}/${referenceUser}`);
+    const request = query(collection, where("users", "array-contains", documentReference), orderBy(propertyName, direction));
+    return collectionData(request, { idField: "id" }) as Observable<T[]>;
+  }
+
+  getUserRef(referenceUser: string) {
+    const documentReference = doc(this.firestore, `users/${referenceUser}`);
+    return documentReference
   }
 }

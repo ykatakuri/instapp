@@ -2,7 +2,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -22,6 +22,9 @@ import { NotificationsPageComponent } from './pages/notifications-page/notificat
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { CreatePostFileComponent } from './components/create-post-file/create-post-file.component';
+import { ConversationPageComponent } from './pages/conversation-page/conversation-page.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { GetUserPipe } from './pipes/get-user.pipe';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,9 @@ import { CreatePostFileComponent } from './components/create-post-file/create-po
     AppBarComponent,
     PostComponent,
     CreatePostCameraComponent,
-    CreatePostFileComponent
+    CreatePostFileComponent,
+    ConversationPageComponent,
+    GetUserPipe,
   ],
   imports: [
     CommonModule,
@@ -50,6 +55,8 @@ import { CreatePostFileComponent } from './components/create-post-file/create-po
     MatBottomSheetModule,
     WebcamModule,
     ReactiveFormsModule,
+    FormsModule,
+    MatMenuModule
   ],
   exports: [
 
