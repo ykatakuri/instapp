@@ -39,7 +39,6 @@ import { DeleteDialogComponent } from './pages/single-post-page/delete-dialog/de
 import { ConversationPageComponent } from './pages/conversation-page/conversation-page.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { GetUserPipe } from './pipes/get-user.pipe';
-import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
 
 @NgModule({
   declarations: [
@@ -87,7 +86,6 @@ import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
     QRCodeModule,
     MatAutocompleteModule,
     MatExpansionModule,
-    NgxScannerQrcodeModule
   ],
   exports: [
 
