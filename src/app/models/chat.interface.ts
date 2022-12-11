@@ -1,19 +1,15 @@
-import { Timestamp } from '@angular/fire/firestore';
-import { AppUser } from './app.user.interface';
+import { DocumentReference, Timestamp } from "@angular/fire/firestore";
 
 export interface Chat {
-    id: string;
-    lastMessage?: string;
-    lastMessageDate?: Date & Timestamp;
-    userIds: string[];
-    users: AppUser[];
-
-    chatPicture?: string;
-    chatName?: string;
+  id: string;
+  lastModification: Timestamp;
+  name: string;
+  messages: Message[];
+  users: DocumentReference[];
 }
 
-export interface Message {
-    text: string;
-    senderId: string;
-    sentDate: Date & Timestamp;
+export interface Message{
+  content: string;
+  sender: DocumentReference;
+  sentAt: Timestamp;
 }

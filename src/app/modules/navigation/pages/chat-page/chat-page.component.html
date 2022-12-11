@@ -1,73 +1,35 @@
-<cdk-virtual-scroll-viewport appendOnly itemSize="50" class="chat-page-viewport">
-    <app-appbar></app-appbar>
+<div class="container">
+    <h1>Discussion</h1>
 
-    <form class="search-form" [formGroup]="searchForm">
-        <mat-form-field appearance="outline" class="search-field">
-            <input matInput type="text" formControlName="search" placeholder="Rechercher" [matAutocomplete]="users">
-            <mat-icon matSuffix>search</mat-icon>
-        </mat-form-field>
-        <mat-autocomplete #users="matAutocomplete">
-            <mat-option *ngFor="let user of users$|async" [value]="user" (click)="onCreateChat(user)">{{ user.username
-                }}
-            </mat-option>
-        </mat-autocomplete>
-    </form>
+    <div class="chat" *ngIf="chat">
+      <div class="chat" *ngFor="let message of chat.messages">
 
-    <ng-container *ngIf="currentUserChats$">
+          <div class="message">
+            <label class="sender">{{ message.sender | getUser | async }}</label><br>
+            <label class="message-content">{{ message.content }} </label> <br>
+            <label class="message-timestamp">{{ message.sentAt.toDate().toLocaleString() }}</label>
+          </div>
 
-        <ng-container *ngFor="let chat of currentUserChats$ | async">
+          <div class="button menu">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button (click)="deleteMessage(message.sentAt)" mat-menu-item>Supprimer</button>
+              <button (click)="updateMessage(message.sentAt)" mat-menu-item>Modifier</button>
+            </mat-menu>
+          </div>
 
-            <mat-expansion-panel (opened)="getMessages(chat.id)" (closed)="panelOpenState = false">
 
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        <img class="avatar"
-                            [src]="chat.chatPicture ? chat.chatPicture : 
-                        'https://toppng.com/uploads/preview/user-account-management-logo-user-icon-11562867145a56rus2zwu.png'" />
-                        <p mat-line class="chat-title">
-                            <span class="chat-name">{{ chat.chatName }}</span>
-                        </p>
-                    </mat-panel-title>
+      </div>
+    </div>
 
-                    <mat-panel-description>
-                        <span class="chat-date">{{ chat.lastMessageDate?.toDate() | date:'dd/MM/yyyy à HH:mm'
-                            }}</span>
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
+      <textarea [(ngModel)]="message" id="" cols="30" rows="10" placeholder="Type your message ...">
 
-                <div class="chat-area">
-                    <ng-container *ngIf="currentUser$ | async as currentUser">
-                        <ng-container *ngIf="messages$ | async as messages">
-                            <div class="chat-bubble-container"
-                                [ngClass]="{ sender: message.senderId === currentUser.uid }"
-                                *ngFor="let message of messages">
-                                <div class="chat-bubble">
-                                    {{ message.text }}
-                                    <span class="chat-date">{{ message.sentDate.toDate() | date:'dd/MM/yyyy, HH:mm'
-                                        }}</span>
-                                </div>
-                            </div>
-                        </ng-container>
-                    </ng-container>
-                    <div #endOfChat></div>
-                </div>
+      </textarea>
+      <button (click)="sendMessage()" type="submit" mat-raised-buttoncolor="primary">
+        Send message
+      </button>
 
-                <div class="input-area">
-                    <mat-form-field appearance="outline">
-                        <input [formControl]="messageControl" matInput placeholder="Entrer votre message..."
-                            (keydown.enter)="onSendMessage(chat.id)" />
-                        <button mat-icon-button matSuffix (click)="onSendMessage(chat.id)">
-                            <mat-icon>send</mat-icon>
-                        </button>
-                    </mat-form-field>
-                </div>
-            </mat-expansion-panel>
+  </div>
 
-            <div class="spacer"></div>
-
-        </ng-container>
-
-    </ng-container>
-
-</cdk-virtual-scroll-viewport>
-<app-navbar></app-navbar>

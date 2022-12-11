@@ -8,6 +8,7 @@ import { InvitFriendsPageComponent } from './modules/navigation/pages/profile-pa
 import { UserInfoPageComponent } from './modules/navigation/pages/profile-page/pages/user-info-page/user-info-page.component';
 import { ProfilePageComponent } from './modules/navigation/pages/profile-page/profile-page.component';
 import { SearchPageComponent } from './modules/navigation/pages/search-page/search-page.component';
+import { ConversationPageComponent } from './modules/navigation/pages/conversation-page/conversation-page.component';
 import { SinglePostPageComponent } from './modules/navigation/pages/single-post-page/single-post-page.component';
 import { SingleUserPageComponent } from './modules/navigation/pages/single-user-page/single-user-page.component';
 
@@ -36,13 +37,23 @@ const routes: Routes = [
     loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
   },
   {
-    component: ProfilePageComponent,
-    path: "profile",
+    component: SinglePostPageComponent,
+    path: "post/:id",
     loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
   },
   {
     component: ChatPageComponent,
-    path: "chat",
+    path: "chat/:docId",
+    loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
+  },
+  {
+    component: ConversationPageComponent,
+    path: "conversation",
+    loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
+  },
+  {
+    component: ProfilePageComponent,
+    path: "profile",
     loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
   },
   {

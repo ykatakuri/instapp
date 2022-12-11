@@ -1,8 +1,13 @@
 import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { DocumentReference, Firestore, Timestamp } from '@angular/fire/firestore';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Chat, Message } from 'src/app/models/chat.interface';
+import { ChatService } from 'src/app/services/chat.service';
+import { LoaderService } from 'src/app/services/loader.service';
+import { NotificationsService } from 'src/app/services/notifications.service';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { combineLatest, map, Observable, of, startWith, switchMap } from 'rxjs';
 import { AppUser } from 'src/app/models/app.user.interface';
-import { Chat, Message } from 'src/app/models/chat.interface';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ChatsService } from 'src/app/services/chats.service';
 import { UsersService } from 'src/app/services/users.service';
@@ -14,83 +19,79 @@ import { UsersService } from 'src/app/services/users.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatPageComponent implements OnInit {
-  @ViewChild('endOfChat')
-  endOfChat!: ElementRef;
+  public chat: Chat | undefined ;
 
-  panelOpenState = false;
-  currentUser$ = this.authService.user;
-  currentUserChats$!: Observable<Chat[]>;
-  users$!: Observable<AppUser[]>;
-  selectedChat$!: Observable<Chat | undefined>;
-  messages$: Observable<Message[]> | undefined;
+  public idDoc: string = "";
 
-  searchForm!: FormGroup;
+  public message:string = "";
 
-  messageControl = new FormControl('');
+  public RefUser!: DocumentReference;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private usersService: UsersService,
-    private authService: AuthenticationService,
-    private chatsService: ChatsService,
-  ) { }
+  public notifications!: NotificationsService;
+
+
+
+  constructor(private route: ActivatedRoute, private router: Router, private loaderService: LoaderService, private chatService: ChatService) {
+    this.RefUser = this.chatService.getUserRef(localStorage.getItem('userId')!)
+  }
 
   ngOnInit(): void {
-    this.searchForm = this.formBuilder.group({
-      search: [''],
-    });
 
-    this.users$ = combineLatest([
-      this.usersService.getAllUsers(),
-      this.currentUser$,
-      this.searchForm.controls['search'].valueChanges.pipe(startWith(''))
-    ]).pipe(
-      map(([users, user, searchString]) => users.filter(
-        u => (u.username?.toLowerCase().includes(searchString) &&
-          u.id !== user?.uid) || (u.username?.toUpperCase().includes(searchString) &&
-            u.id !== user?.uid)
-      ))
-    );
+    this.route.paramMap.subscribe((data) => {
+      console.log(data.get('docId'));
 
-    this.currentUserChats$ = this.chatsService.currentUserChats;
+      this.idDoc = data.get('docId')!;
+
+    })
+
+
+
+    this.chatService.fetchConvById(this.idDoc).subscribe(data => {
+      // this.RefUser = data.messages[0].sender;
+
+
+      // this.chatService.fetchUser(data.messages[0].sender).subscribe(user => {
+      //   console.log(user.firstname);
+      // })
+
+      console.log(data);
+      this.chat = data;
+    })
   }
 
-  onCreateChat(otherUser: AppUser): void {
-    this.chatsService
-      .isExistingChat(otherUser.id)
-      .pipe(
-        switchMap((chatId) => {
-          if (!chatId) {
-            return this.chatsService.createChat(otherUser);
-          } else {
-            return of(chatId);
-          }
-        })
-      )
-      .subscribe();
+  sendMessage(): void {
+
+    if (this.chat) {
+      const message: Message = {
+        content: this.message,
+        sender: this.RefUser,
+        sentAt: Timestamp.fromDate(new Date()),
+      }
+
+      this.chat.lastModification = Timestamp.fromDate(new Date());
+      this.chat.messages.push(message);
+      this.chatService.updateConv(this.chat);
+      this.notifications.generateNotification("test", "aze");
+    }
+
   }
 
-  onSendMessage(chatId: string): void {
-    const message = this.messageControl.value;
+  deleteMessage(sentAt: Timestamp): void {
+    if (this.chat) {
 
-    if (message && chatId) {
-      this.chatsService.addChatMessage(chatId, message).subscribe();
-      this.messageControl.setValue('');
+      this.chat.messages.splice(this.chat.messages.findIndex(m => {
+        m.sentAt.toMillis()===sentAt.toMillis();
+      }), 1)
+
+      this.chat.lastModification = Timestamp.fromDate(new Date());
+      this.chatService.updateConv(this.chat);
     }
   }
 
-  getMessages(chatId: string): void {
-    this.panelOpenState = true;
+  updateMessage(sentAt: Timestamp): void {
+    if (this.chat) {
+      this.chatService.updateMessage(this.chat, this.message, sentAt);
+    }
 
-    this.messages$ = this.chatsService.getChatMessages$(chatId);
   }
-
-  scrollToBottom() {
-    setTimeout(() => {
-      if (this.endOfChat) {
-        this.endOfChat.nativeElement.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 100);
-  }
-
 }

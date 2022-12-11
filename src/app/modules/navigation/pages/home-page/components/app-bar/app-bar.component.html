@@ -1,7 +1,8 @@
 <mat-toolbar color="primary">
     <span>Instvgrvm</span>
     <span class="home-toolbar-spacer"></span>
-    <button mat-mini-fab color="secondary" (click)="onLogout()">
-        <mat-icon color="">logout</mat-icon>
-    </button>
+    <a routerLink="/conversation">
+        <mat-icon aria-hidden="false" aria-label="Home toolbar chat icon" fontIcon="chat">
+        </mat-icon>
+    </a>
 </mat-toolbar>
