@@ -36,6 +36,7 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { SingleUserPageComponent } from './pages/single-user-page/single-user-page.component';
 import { SinglePostPageComponent } from './pages/single-post-page/single-post-page.component';
 import { DeleteDialogComponent } from './pages/single-post-page/delete-dialog/delete-dialog.component';
+import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { DeleteDialogComponent } from './pages/single-post-page/delete-dialog/de
     QRCodeModule,
     MatAutocompleteModule,
     MatExpansionModule,
+    NgxScannerQrcodeModule
   ],
   exports: [
 
