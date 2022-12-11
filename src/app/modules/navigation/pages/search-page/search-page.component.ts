@@ -12,7 +12,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { CollectionReference, DocumentData, collection, query, where, getDocs, Query, DocumentReference, doc, orderBy, setDoc, updateDoc } from 'firebase/firestore';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { FIREBASE_COLLECTION_PATHS } from 'src/app/constants/firestore-collection-paths.constant';
-import { NgxScannerQrcodeService } from 'ngx-scanner-qrcode';
+// import { NgxScannerQrcodeService } from 'ngx-scanner-qrcode';
 
 @Component({
   selector: 'app-search-page',
