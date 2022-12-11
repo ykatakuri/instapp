@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 import { FIREBASE_COLLECTION_PATHS } from '../constants/firestore-collection-paths.constant';
 import { Chat } from '../models/chat.interface';
 import { FormControl, FormGroup } from '@angular/forms';
-import { AppUser } from '../models/app-user.interface';
+import { AppUser } from '../models/app.user.interface';
 import { FirestoreService } from './firestore.service';
 
 @Injectable({

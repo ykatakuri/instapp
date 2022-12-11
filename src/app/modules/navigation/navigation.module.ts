@@ -79,7 +79,7 @@ import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
     WebcamModule,
     ReactiveFormsModule,
     FormsModule,
-    MatMenuModule
+    MatMenuModule,
     MatDialogModule,
     MatProgressSpinnerModule,
     MatGridListModule,

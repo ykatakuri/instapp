@@ -9,7 +9,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { combineLatest, map, Observable, of, startWith, switchMap } from 'rxjs';
 import { AppUser } from 'src/app/models/app.user.interface';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { ChatsService } from 'src/app/services/chats.service';
+// import { ChatsService } from 'src/app/services/chats.service';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({

@@ -47,6 +47,11 @@ const routes: Routes = [
     loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
   },
   {
+    component: ChatPageComponent,
+    path: "chat",
+    loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
+  },
+  {
     component: ConversationPageComponent,
     path: "conversation",
     loadChildren: () => import("./modules/navigation/navigation.module").then((module) => module.NavigationModule), ...canActivate(redirectUnauthorizedToAuth),
