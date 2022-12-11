@@ -33,7 +33,7 @@ export class PostComponent implements OnInit {
     this.color = '';
     this.isLiked = false;
     this.user$ = this.userService.getUserById(this.post.creatorId);
-
+    console.log("post in single", this.post)
   }
 
 
