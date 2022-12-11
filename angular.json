@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "instapp": {
+    "instvgrvm": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/instapp",
+            "outputPath": "dist/instvgrvm",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -39,7 +39,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -70,10 +70,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "instapp:build:production"
+              "browserTarget": "instvgrvm:build:production"
             },
             "development": {
-              "browserTarget": "instapp:build:development"
+              "browserTarget": "instvgrvm:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -81,7 +81,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "instapp:build"
+            "browserTarget": "instvgrvm:build"
           }
         },
         "test": {
@@ -108,7 +108,7 @@
           "options": {
             "prerender": false,
             "ssr": false,
-            "browserTarget": "instapp:build:production",
+            "browserTarget": "instvgrvm:build:production",
             "firebaseProject": "instvgrvm-742ef",
             "firebaseHostingSite": "instvgrvm"
           }
