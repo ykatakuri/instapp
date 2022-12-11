@@ -8,6 +8,7 @@ import { DocumentReference, Timestamp } from 'firebase/firestore';
 import { NotificationsService } from 'src/app/services/notifications.service';
 
 
+
 @Component({
   selector: 'app-chat-page',
   templateUrl: './chat-page.component.html',
@@ -23,6 +24,7 @@ export class ChatPageComponent implements OnInit {
   public RefUser!: DocumentReference;
 
   public notifications!: NotificationsService;
+
 
 
   constructor(private route: ActivatedRoute, private router: Router, private loaderService: LoaderService, private chatService: ChatService) {
@@ -48,7 +50,7 @@ export class ChatPageComponent implements OnInit {
       // })
 
       console.log(data);
-      this.chat.push(data);
+      this.chat = data;
     })
   }
 
@@ -81,7 +83,10 @@ export class ChatPageComponent implements OnInit {
     }
   }
 
-  updateMessage(): void {
+  updateMessage(sentAt: Timestamp): void {
+    if (this.chat) {
+      this.chatService.updateMessage(this.chat, this.message, sentAt);
+    }
 
   }
 }

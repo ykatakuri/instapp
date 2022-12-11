@@ -4,11 +4,23 @@
   <div class="chat" *ngIf="chat">
     <div class="chat" *ngFor="let message of chat.messages">
 
-        <label>{{ message.sender | getUser | async }} : </label>
-        <label>{{ message.content }} </label> <br>
-        <label>{{ message.sentAt.toDate().toLocaleString() }}</label>
-        <button (click)="deleteMessage(message.sentAt)">Supprimer</button>
-        <button (click)="updateMessage()">Modifier</button>
+        <div class="message">
+          <label class="sender">{{ message.sender | getUser | async }}</label><br>
+          <label class="message-content">{{ message.content }} </label> <br>
+          <label class="message-timestamp">{{ message.sentAt.toDate().toLocaleString() }}</label>
+        </div>
+
+        <div class="button menu">
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+          <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button (click)="deleteMessage(message.sentAt)" mat-menu-item>Supprimer</button>
+            <button (click)="updateMessage(message.sentAt)" mat-menu-item>Modifier</button>
+          </mat-menu>
+        </div>
+
+
     </div>
   </div>
 
@@ -19,40 +31,6 @@
       Send message
     </button>
 
-
 </div>
 
 
-<!-- <div class="card-body msg_card_body">
-  <div class="d-flex justify-content-start mb-4">
-    <div class="img_cont_msg">
-      <img src="https://therichpost.com/wp-content/uploads/2020/06/avatar2.png" class="rounded-circle user_img_msg">
-    </div>
-    <div class="msg_cotainer">
-      Hi, how are you samim?
-      <span class="msg_time">8:40 AM, Today</span>
-    </div>
-  </div>
-  <div class="d-flex justify-content-end mb-4">
-    <div class="msg_cotainer_send">
-      Hi jassa i am good tnx how about you?
-      <span class="msg_time_send">8:55 AM, Today</span>
-    </div>
-    <div class="img_cont_msg">
-      <img src="https://therichpost.com/wp-content/uploads/2020/06/avatar2.png" class="rounded-circle user_img_msg">
-    </div>
-  </div>
-</div> -->
-
-<!--
-<div class="card-footer">
-  <div class="input-group">
-    <div class="input-group-append">
-      <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
-    </div>
-    <textarea name="" class="form-control type_msg" placeholder="Type your message..."></textarea>
-    <div class="input-group-append">
-      <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
-    </div>
-  </div>
-</div> -->

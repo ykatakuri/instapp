@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { addDoc, AggregateField, AggregateQuerySnapshot, collectionData, CollectionReference, deleteDoc, doc, docData, DocumentData, DocumentReference, enableIndexedDbPersistence, Firestore, getCountFromServer, limit, orderBy, query, startAfter, updateDoc, where, WithFieldValue } from '@angular/fire/firestore';
+import { addDoc, AggregateField, AggregateQuerySnapshot, collectionData, CollectionReference, deleteDoc, doc, docData, DocumentData, DocumentReference, enableIndexedDbPersistence, Firestore, getCountFromServer, limit, orderBy, query, startAfter, Timestamp, updateDoc, where, WithFieldValue } from '@angular/fire/firestore';
+import { getDoc } from 'firebase/firestore';
 import { Observable } from 'rxjs';
+import { Chat, Message } from '../models/chat.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -93,5 +95,18 @@ export class FirestoreService {
     return docData(documentReference, { idField: "id" }) as Observable<T>;
   }
 
-
+  public async updateMess<T extends { id: any }>(path: string, object: T, content: string, sentAt: Timestamp) {
+    const documentReference = doc(this.firestore, `${path}/${object.id}`) as DocumentReference<Chat>;
+    const donnee = await getDoc(documentReference)
+    if (donnee.exists()) {
+      const chat = donnee.data();
+      const c = [...chat.messages]
+      const i = c.findIndex((u) => u.sentAt.toDate().getTime() === sentAt.toDate().getTime());
+      if(i !== -1) {
+        const mess = c[i];
+        mess.content = content
+      }
+      updateDoc(documentReference, { messages: c });
+    }
+  }
 }

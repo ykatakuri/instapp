@@ -20,8 +20,6 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { NotificationsPageComponent } from './pages/notifications-page/notifications-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
-import { CreatePostCameraComponent } from './components/create-post-camera/create-post-camera.component';
-import { CreatePostFileComponent } from './components/create-post-file/create-post-file.component';
 import { PostComponent } from './components/post/post.component';
 import { ListeChatComponent } from './pages/liste-chat/liste-chat.component';
 import { FormsModule } from '@angular/forms';
@@ -29,6 +27,7 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GetUserPipe } from './pipes/get-user.pipe';
 import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
+import {MatMenuModule} from '@angular/material/menu';
 
 
 @NgModule({
@@ -40,8 +39,6 @@ import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
     ProfilePageComponent,
     HomePageComponent,
     AppBarComponent,
-    CreatePostCameraComponent,
-    CreatePostFileComponent,
     PostComponent,
     ListeChatComponent,
     ChatPageComponent,
@@ -61,7 +58,10 @@ import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
     MatBottomSheetModule,
     WebcamModule,
     NavigationRoutingModule,
-    FormsModule
+    FormsModule,
+    QRCodeModule,
+    NgxScannerQrcodeModule,
+    MatMenuModule
   ],
   providers: [
     HomePageService

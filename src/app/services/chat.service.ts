@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { doc, Firestore, getDoc, getDocs } from "@angular/fire/firestore";
-import { AggregateField, AggregateQuerySnapshot, collection, CollectionReference, DocumentData, DocumentReference } from "firebase/firestore";
+import { AggregateField, AggregateQuerySnapshot, collection, CollectionReference, DocumentData, DocumentReference, Timestamp } from "firebase/firestore";
 import { Observable } from "rxjs";
 import { FIREBASE_COLLECTION_PATHS } from '../core/constants/firestore-collection-paths.constant';
 import { Chat } from '../models/chat.interface';
@@ -33,5 +33,9 @@ export class ChatService {
 
   public fetchUser(RefUser: DocumentReference): Observable<AppUser> {
     return this.firestoreService.fetchByDocumentReference<AppUser>(RefUser);
+  }
+
+  public updateMessage(chat: Chat, content: string, sentAt: Timestamp): Promise<void> {
+    return this.firestoreService.updateMess(FIREBASE_COLLECTION_PATHS.MSN, chat,content, sentAt);
   }
 }

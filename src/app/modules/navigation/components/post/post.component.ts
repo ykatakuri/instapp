@@ -4,8 +4,6 @@ import { WebcamImage } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
 import { FIREBASE_COLLECTION_PATHS } from 'src/app/constants/firestore-collection-paths.constant';
 import { StorageService } from 'src/app/services/storage.service';
-import { CreatePostCameraComponent } from '../create-post-camera/create-post-camera.component';
-import { CreatePostFileComponent } from '../create-post-file/create-post-file.component';
 
 @Component({
   selector: 'app-post',
@@ -30,7 +28,7 @@ export class PostComponent implements OnInit {
   }
 
   openFileForm(): void {
-    this.bottomSheet.open(CreatePostFileComponent);
+    // this.bottomSheet.open(CreatePostFileComponent);
   }
 
   openCamera(event: MouseEvent): void {
@@ -86,7 +84,7 @@ export class PostComponent implements OnInit {
         }
       ).catch(error => console.log(error));
 
-    this.bottomSheet.open(CreatePostCameraComponent);
+    // this.bottomSheet.open(CreatePostCameraComponent);
   }
 
 }
