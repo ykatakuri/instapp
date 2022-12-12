@@ -101,6 +101,7 @@ export class SingleUserPageComponent implements OnInit {
         .catch((error) => console.log(error));
       this.friendsCollection = collection(this.firestore, `${FIREBASE_COLLECTION_PATHS.USERS}/${this.id}/friends`);
       this.firestoreService.createWithCustomID(this.friendsCollection, this.otherFriend, this.currentUserId);
+      this.firestoreService.createWithCustomID(this.friendsCollection, this.friend, this.otherFriend.id);
     } else {
       this.followButtonLabel = 'Ajouter comme ami(e)';
       this.followButtonColor = 'primary';
