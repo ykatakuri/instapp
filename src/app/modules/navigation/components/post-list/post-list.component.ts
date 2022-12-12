@@ -26,6 +26,7 @@ export class PostListComponent implements OnInit, OnChanges {
   posts:Post[]=[];
   postSub!: Observable<Post>;
 
+  emptyPostsMessage: string = "";
   constructor(
     private postService: PostsService,
     private readonly firestore: Firestore,
