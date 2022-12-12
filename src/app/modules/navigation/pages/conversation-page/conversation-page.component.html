@@ -2,10 +2,15 @@
 <div class="container">
     <h1>Discussion</h1>
     <mat-list>
-        <div class="listeChats" *ngIf="chat.length > 0">
-      <div class="listeChat" *ngFor="let chat of chat" (click)="openChat(chat)">
+      <div class="conversation" *ngIf="chat.length > 0">
+      <div class="conversation" *ngFor="let chat of chat" (click)="openChat(chat)">
 
-        <mat-list-item><span>{{chat.name}}</span></mat-list-item>
+        <!-- <mat-list-item><span>{{chat.name}}</span></mat-list-item> -->
+        <div class="conv">
+          <label class="conv-name">{{chat.name}}</label>
+          <label class="conv-date">dernière modification :{{chat.lastModification.toDate().toLocaleString()}}</label>
+        </div>
+
 
       </div>
       </div>

@@ -90,6 +90,23 @@ export class FirestoreService {
     }
   }
 
+  public async deleteMess<T extends {id: any}>(path: string, object: T, sentAt: Timestamp) {
+    const documentReference = doc(this.firestore, `${path}/${object.id}`) as DocumentReference<Chat>;
+    const donnee = await getDoc(documentReference)
+    if (donnee.exists()) {
+      const chat = donnee.data();
+      const c = [...chat.messages]
+      const index = c.findIndex((u) => u.sentAt.toDate().getTime() === sentAt.toDate().getTime());
+      if(index !== -1) {
+        const mess = c[index];
+        mess.content = "[Message supprimé]";
+
+      }
+      updateDoc(documentReference, { messages: c });
+    }
+  }
+
+
   public fetchConvById<T>(collection: CollectionReference<DocumentData>, propertyName: string, direction: "asc" | "desc" = "asc", referenceUser: string, path: string): Observable<T[]> {
     const documentReference = doc(this.firestore, `${path}/${referenceUser}`);
     const request = query(collection, where("users", "array-contains", documentReference), orderBy(propertyName, direction));

@@ -12,6 +12,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 // import { ChatsService } from 'src/app/services/chats.service';
 import { UsersService } from 'src/app/services/users.service';
 
+
 @Component({
   selector: 'app-chat-page',
   templateUrl: './chat-page.component.html',
@@ -70,7 +71,7 @@ export class ChatPageComponent implements OnInit {
 
       this.chat.lastModification = Timestamp.fromDate(new Date());
       this.chat.messages.push(message);
-      this.chatService.updateConv(this.chat);
+      this.chatService.sendMessage(this.chat);
       this.notifications.generateNotification("test", "aze");
     }
 
@@ -79,12 +80,12 @@ export class ChatPageComponent implements OnInit {
   deleteMessage(sentAt: Timestamp): void {
     if (this.chat) {
 
-      this.chat.messages.splice(this.chat.messages.findIndex(m => {
-        m.sentAt.toMillis()===sentAt.toMillis();
-      }), 1)
+      // this.chat.messages.splice(this.chat.messages.findIndex(m => {
+      //   m.sentAt.toDate().getTime()===sentAt.toDate().getTime();
+      // }), 1)
 
       this.chat.lastModification = Timestamp.fromDate(new Date());
-      this.chatService.updateConv(this.chat);
+      this.chatService.deleteMessage(this.chat, sentAt);
     }
   }
 

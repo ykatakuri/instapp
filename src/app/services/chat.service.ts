@@ -19,12 +19,15 @@ export class ChatService {
 
   }
 
-  public updateConv(chat: Chat): Promise<void> {
+  public deleteMessage(chat: Chat, sentAt: Timestamp): Promise<void> {
+    return this.firestoreService.deleteMess(FIREBASE_COLLECTION_PATHS.MSN, chat, sentAt);
+  }
+  public sendMessage(chat: Chat): Promise<void> {
     return this.firestoreService.update(FIREBASE_COLLECTION_PATHS.MSN, chat);
   }
 
   public fetchChat(direction: "asc" | "desc" = "asc", referenceUser: string): Observable<Chat[]> {
-    return this.firestoreService.fetchConvById<Chat>(this.msnCollection, "lastModification", direction, referenceUser, "user");
+    return this.firestoreService.fetchConvById<Chat>(this.msnCollection, "lastModification", direction, referenceUser, "users");
   }
 
   public fetchConvById(idDoc: string): Observable<Chat> {
