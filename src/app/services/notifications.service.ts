@@ -9,7 +9,7 @@ import { EMPTY, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NotificationsService {
   public message$: Observable<any> = EMPTY;

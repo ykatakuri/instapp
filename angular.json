@@ -27,11 +27,7 @@
               "src/favicon.ico",
               "src/assets",
               "src/manifest.webmanifest",
-              "src/manifest.webmanifest",
-              "src/manifest.webmanifest",
-              "src/manifest.webmanifest",
-              "src/manifest.webmanifest",
-              "src/manifest.webmanifest"
+              "src/firebase-messaging-sw.js"
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",

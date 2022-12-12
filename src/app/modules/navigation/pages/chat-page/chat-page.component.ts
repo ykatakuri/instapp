@@ -5,12 +5,6 @@ import { Chat, Message } from 'src/app/models/chat.interface';
 import { ChatService } from 'src/app/services/chat.service';
 import { LoaderService } from 'src/app/services/loader.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { combineLatest, map, Observable, of, startWith, switchMap } from 'rxjs';
-import { AppUser } from 'src/app/models/app.user.interface';
-import { AuthenticationService } from 'src/app/services/authentication.service';
-// import { ChatsService } from 'src/app/services/chats.service';
-import { UsersService } from 'src/app/services/users.service';
 
 
 @Component({
@@ -28,15 +22,17 @@ export class ChatPageComponent implements OnInit {
 
   public RefUser!: DocumentReference;
 
-  public notifications!: NotificationsService;
+  // public notifications!: NotificationsService = "";
 
 
 
-  constructor(private route: ActivatedRoute, private router: Router, private loaderService: LoaderService, private chatService: ChatService) {
+  constructor(private route: ActivatedRoute, private router: Router, private loaderService: LoaderService, private chatService: ChatService, private readonly notif: NotificationsService) {
     this.RefUser = this.chatService.getUserRef(localStorage.getItem('userId')!)
+
   }
 
   ngOnInit(): void {
+
 
     this.route.paramMap.subscribe((data) => {
       console.log(data.get('docId'));
@@ -48,12 +44,6 @@ export class ChatPageComponent implements OnInit {
 
 
     this.chatService.fetchConvById(this.idDoc).subscribe(data => {
-      // this.RefUser = data.messages[0].sender;
-
-
-      // this.chatService.fetchUser(data.messages[0].sender).subscribe(user => {
-      //   console.log(user.firstname);
-      // })
 
       console.log(data);
       this.chat = data;
@@ -72,9 +62,16 @@ export class ChatPageComponent implements OnInit {
       this.chat.lastModification = Timestamp.fromDate(new Date());
       this.chat.messages.push(message);
       this.chatService.sendMessage(this.chat);
-      this.notifications.generateNotification("test", "aze");
+
+      this.sendNotification();
+
+
     }
 
+  }
+
+  private sendNotification(): void {
+    this.notif.generateNotification("test", "aze");
   }
 
   deleteMessage(sentAt: Timestamp): void {
