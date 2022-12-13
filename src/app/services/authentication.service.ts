@@ -62,7 +62,7 @@ export class AuthenticationService {
   public async signOut(): Promise<void> {
     try {
       await signOut(this.auth);
-      localStorage.clear();
+      window.localStorage.clear();
     } catch (error) {
       console.log(error);
     }

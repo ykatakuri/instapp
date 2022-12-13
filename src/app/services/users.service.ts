@@ -33,6 +33,10 @@ export class UsersService {
     return this.firestoreService.fetchById<AppUser>(FIREBASE_COLLECTION_PATHS.USERS, id);
   }
 
+  public getUserByEmail(email: string): Observable<AppUser[]>{
+    return this.firestoreService.fetchByProperty<AppUser>(this.usersCollection,"email",email)
+  }
+
   public updateUser(user: AppUser): Promise<void> {
     return this.firestoreService.update(FIREBASE_COLLECTION_PATHS.USERS, user);
   }

@@ -37,11 +37,9 @@ export class PostListComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.getPostsCount();
-    console.log("this.posts$ in postList",this.posts)
     this.getFriendsPosts();
     this.userPosts$.subscribe(res => {
       res.forEach(r => {console.log("rrr", r)})
-      console.log("res truck truck", res)
     })
   }
 

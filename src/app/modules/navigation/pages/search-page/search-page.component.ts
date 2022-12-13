@@ -12,6 +12,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { CollectionReference, DocumentData, collection, query, where, getDocs, Query, DocumentReference, doc, orderBy, setDoc, updateDoc } from 'firebase/firestore';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { FIREBASE_COLLECTION_PATHS } from 'src/app/constants/firestore-collection-paths.constant';
+import { DialogConfig } from '@angular/cdk/dialog';
 // import { NgxScannerQrcodeService } from 'ngx-scanner-qrcode';
 
 @Component({
@@ -128,5 +129,11 @@ export class SearchPageComponent implements OnInit {
 
   public handle(action: any, fn: string): void {
     action[fn]().subscribe(console.log, console.error);
+  }
+
+  search(){
+      this.firestoreService.fetchByProperty<AppUser>(this.usersCollection, "email",(<HTMLInputElement>document.getElementById("searchInput")).value).subscribe(res => {
+        this.goToUserProfile(res[0])
+      })
   }
 }

@@ -21,7 +21,7 @@ export class ProfilePageComponent implements OnInit {
 
   tempUserId: string = localStorage.getItem('userId')!;
 
-  friendsCount: number = 0;
+  friendsCount: string = "0";
 
   constructor(
     private postService: PostsService,
@@ -45,15 +45,15 @@ export class ProfilePageComponent implements OnInit {
   }
 
   getFriendsCount(): void {
-    this.friendsCount = 0
     Promise.resolve(this.friendsService.countFriends())
       .then(
         (snapshot) => {
           let count = snapshot.data().count;
+          this.friendsCount = snapshot.data().count.toString();
           localStorage.setItem('friendsCount', count.toString());
         }
       );
-        this.friendsCount = parseInt(localStorage.getItem('friendsCount')!);
+        // this.friendsCount = (localStorage.getItem('friendsCount')!);
 
   }
 
