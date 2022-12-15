@@ -27,8 +27,8 @@
 
     </cdk-virtual-scroll-viewport>
   </div>
-    <div class="textarea">
-      <input [(ngModel)]="message" id="" cols="30" rows="10" placeholder="Type your message ...">
+    <div class="input">
+      <input [(ngModel)]="message" name="inputMess" id="" cols="30" rows="10" placeholder="Type your message ...">
     </div>
     <div class="submit">
       <button class="submit" (click)="sendMessage()" type="submit" mat-raised-buttoncolor="primary">

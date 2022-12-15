@@ -26,9 +26,10 @@ export class ChatPageComponent implements OnInit {
 
 
 
-  constructor(private route: ActivatedRoute, private router: Router, private loaderService: LoaderService, private chatService: ChatService, private readonly notif: NotificationsService) {
-    this.RefUser = this.chatService.getUserRef(localStorage.getItem('userId')!)
 
+
+  constructor(private route: ActivatedRoute, private router: Router, private loaderService: LoaderService, private chatService: ChatService, private readonly notif: NotificationsService) {
+    this.RefUser = this.chatService.getUserRef(localStorage.getItem('userId')!);
   }
 
   ngOnInit(): void {

@@ -98,8 +98,9 @@ export class FirestoreService {
       const c = [...chat.messages]
       const index = c.findIndex((u) => u.sentAt.toDate().getTime() === sentAt.toDate().getTime());
       if(index !== -1) {
-        const mess = c[index];
-        mess.content = "[Message supprimé]";
+        // const mess = c[index];
+        // mess.content = "[Message supprimé]";
+        c.splice(index, 1)
 
       }
       updateDoc(documentReference, { messages: c });
@@ -107,7 +108,7 @@ export class FirestoreService {
   }
 
 
-  public fetchConvById<T>(collection: CollectionReference<DocumentData>, propertyName: string, direction: "asc" | "desc" = "asc", referenceUser: string, path: string): Observable<T[]> {
+  public fetchConvById<T>(collection: CollectionReference<DocumentData>, propertyName: string, direction: "asc" | "desc" = "asc", referenceUser: string | undefined, path: string): Observable<T[]> {
     const documentReference = doc(this.firestore, `${path}/${referenceUser}`);
     const request = query(collection, where("users", "array-contains", documentReference), orderBy(propertyName, direction));
     return collectionData(request, { idField: "id" }) as Observable<T[]>;
