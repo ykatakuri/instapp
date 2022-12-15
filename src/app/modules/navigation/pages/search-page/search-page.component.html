@@ -2,7 +2,7 @@
 <form class="search-form">
     <mat-form-field [formGroup]="searchForm" appearance="outline" class="search-field">
         <input matInput type="text" id="searchInput" formControlName="search" placeholder="Rechercher" [matAutocomplete]="users">
-        <mat-icon matSuffix (click)="search()">search</mat-icon>
+        <mat-icon matSuffix (click)="searchByEmail()">search</mat-icon>
     </mat-form-field>
     <mat-autocomplete #users="matAutocomplete">
         <mat-option *ngFor="let user of users$|async" [value]="user" (click)="goToUserProfile(user)">{{ user.username }}

@@ -131,7 +131,7 @@ export class SearchPageComponent implements OnInit {
     action[fn]().subscribe(console.log, console.error);
   }
 
-  search(){
+  searchByEmail(){
       this.firestoreService.fetchByProperty<AppUser>(this.usersCollection, "email",(<HTMLInputElement>document.getElementById("searchInput")).value).subscribe(res => {
         this.goToUserProfile(res[0])
       })
