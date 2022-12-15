@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 })
 export class InvitFriendsPageComponent implements OnInit {
 
+  myAngularQrCodeData: string = localStorage.getItem('userId')!;
+
   constructor(private router: Router) { }
 
   ngOnInit(): void {
