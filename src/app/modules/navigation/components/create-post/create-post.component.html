@@ -1,5 +1,5 @@
 <mat-nav-list>
-    <div *ngIf="stream">
+    <!-- <div *ngIf="stream">
         <webcam [trigger]="$trigger" (imageCapture)="snapshot($event)" [imageQuality]="1" [allowCameraSwitch]="true"
             [width]="360">
         </webcam>
@@ -10,11 +10,29 @@
         <div mat-list-item>
             <button mat-raised-button (click)="onNext()" color="primary">Suivant</button>
         </div>
+    </div> -->
+
+    <div mat-list-item class="container">
+        <input #cameraInput type="file" accept="image/*" capture="environment" (change)="getPhoto($event)" />
+        <ng-container *ngIf="photo !== ''">
+            <img [src]="photo" alt="fail" />
+            <div mat-list-item>
+                <button mat-raised-button (click)="onNext()" color="primary">Suivant</button>
+            </div>
+        </ng-container>
+
     </div>
+
+    <!-- <div class="container">
+        <input #cameraInput type="file" accept="image/*" capture="environment" (change)="getPhoto($event)" />
+        <img [src]="photo" alt="fail" *ngIf="photo !== ''" />
+    </div> -->
 
     <a href="#" mat-list-item (click)="openCamera($event)">
         <span mat-line (click)="onCaptureImage()">{{takeSnapButtonLabel}}</span>
     </a>
+
+    <!-- <app-native-camera></app-native-camera> -->
 
     <button mat-raised-button (click)="openFileForm()" color="primary">Choisir une photo</button>
 </mat-nav-list>

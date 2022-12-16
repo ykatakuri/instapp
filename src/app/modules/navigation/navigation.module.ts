@@ -39,6 +39,7 @@ import { DeleteDialogComponent } from './pages/single-post-page/delete-dialog/de
 import { ConversationPageComponent } from './pages/conversation-page/conversation-page.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { GetUserPipe } from './pipes/get-user.pipe';
+import { NativeCameraComponent } from './components/native-camera/native-camera.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { GetUserPipe } from './pipes/get-user.pipe';
     SingleUserPageComponent,
     SinglePostPageComponent,
     DeleteDialogComponent,
+    NativeCameraComponent,
   ],
   imports: [
     CommonModule,

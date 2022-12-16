@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { WebcamImage } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
-import { FIREBASE_COLLECTION_PATHS } from 'src/app/constants/firestore-collection-paths.constant';
 import { StorageService } from 'src/app/services/storage.service';
-import { CreatePostCameraComponent } from '../create-post-camera/create-post-camera.component';
 import { CreatePostFileComponent } from '../create-post-file/create-post-file.component';
 
 @Component({
@@ -12,7 +11,7 @@ import { CreatePostFileComponent } from '../create-post-file/create-post-file.co
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.scss']
 })
-export class CreatePostComponent implements OnInit {
+export class CreatePostComponent implements OnInit, AfterViewInit {
   trigger: Subject<void> = new Subject();
   stream: any = null;
   previewImage: string = '';
@@ -21,20 +20,41 @@ export class CreatePostComponent implements OnInit {
   photoTakenName!: string;
   imageFormat: string = 'image.jpeg';
 
+  @ViewChild("cameraInput") cameraInput!: ElementRef;
+  public photo: SafeUrl = "";
+
   constructor(
     private storageService: StorageService,
-    private bottomSheet: MatBottomSheet
+    private bottomSheet: MatBottomSheet,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void {
+    // this.cameraInput.nativeElement.click();
+  }
+
+  public getPhoto(event: Event): void {
+    const target: HTMLInputElement = event.target as HTMLInputElement;
+    if (target && target.files && target.files.length > 0) {
+      const objectURL = URL.createObjectURL(target.files[0]);
+      this.photo = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+    }
   }
 
   openFileForm(): void {
     this.bottomSheet.open(CreatePostFileComponent);
   }
 
+  // openCamera(event: MouseEvent): void {
+  //   this.checkPermissions();
+  //   event.preventDefault();
+  // }
+
   openCamera(event: MouseEvent): void {
-    this.checkPermissions();
+    this.cameraInput.nativeElement.click();
     event.preventDefault();
   }
 
@@ -64,29 +84,46 @@ export class CreatePostComponent implements OnInit {
   }
 
   onNext(): void {
-    const imagePath = `${FIREBASE_COLLECTION_PATHS.POSTS}_${this.photoTakenName}`;
+    // const imagePath = `${FIREBASE_COLLECTION_PATHS.POSTS}_${this.photoTakenName}`;
 
-    const arr = this.previewImage.split(",");
-    const bstr = window.atob(arr[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
+    // const arr = this.previewImage.split(",");
+    // const bstr = window.atob(arr[1]);
+    // let n = bstr.length;
+    // const u8arr = new Uint8Array(n);
+    // while (n--) {
+    //   u8arr[n] = bstr.charCodeAt(n);
+    // }
 
-    this.photoTaken = new File([u8arr], this.photoTakenName, { type: this.imageFormat });
 
-    this.storageService.uploadFile(this.photoTaken, imagePath).then(
-      () => {
-        let downloadUrl = this.storageService.getFileDownloadUrl(imagePath);
-        return downloadUrl;
-      }).then(
-        (response) => {
-          localStorage.setItem('photoTakenUrl', response);
-        }
-      ).catch(error => console.log(error));
+    // this.photoTaken = new File([u8arr], this.photoTakenName, { type: this.imageFormat });
 
-    this.bottomSheet.open(CreatePostCameraComponent);
+    // this.storageService.uploadFile(this.photoTaken, imagePath).then(
+    //   () => {
+    //     let downloadUrl = this.storageService.getFileDownloadUrl(imagePath);
+    //     return downloadUrl;
+    //   }).then(
+    //     (response) => {
+    //       localStorage.setItem('photoTakenUrl', response);
+    //     }
+    //   ).catch(error => console.log(error));
+
+    console.log('photo: ', this.photo);
+
+    // const imagePath = `${FIREBASE_COLLECTION_PATHS.POSTS}_${this.photoTakenName}`;
+
+    // this.photoTaken = new File([u8arr], this.photo.toString(), { type: this.imageFormat });
+
+    // this.storageService.uploadFile(this.photoTaken, imagePath).then(
+    //   () => {
+    //     let downloadUrl = this.storageService.getFileDownloadUrl(imagePath);
+    //     return downloadUrl;
+    //   }).then(
+    //     (response) => {
+    //       localStorage.setItem('photoTakenUrl', response);
+    //     }
+    //   ).catch(error => console.log(error));
+
+    // this.bottomSheet.open(CreatePostCameraComponent);
   }
 
 }
