@@ -1,41 +1,44 @@
-<app-appbar></app-appbar>
-<div class="container">
-    <h1>Discussion</h1>
-    <div class="chat" *ngIf="chat">
-      <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="example-viewport">
-        <div class="chat" *ngFor="let message of chat.messages">
-          <div id="boxes">
+<cdk-virtual-scroll-viewport appendOnly itemSize="50" class="example-viewport">
+  <app-appbar></app-appbar>
+  <div class="container">
+      <h1>Discussion</h1>
+      <div class="chat" *ngIf="chat">
 
-            <div class="message">
-              <label class="sender">{{ message.sender | getUser | async }}</label><br>
-              <label class="message-content">{{ message.content }} </label> <br>
-              <label class="message-timestamp">{{ message.sentAt.toDate().toLocaleString() }}</label>
+          <div class="chat" *ngFor="let message of chat.messages">
+            <div id="boxes">
+
+              <div class="message">
+                <label class="sender">{{ message.sender | getUser | async }}</label><br>
+                <label class="message-content">{{ message.content }} </label> <br>
+                <label class="message-timestamp">{{ message.sentAt.toDate().toLocaleString() }}</label>
+              </div>
+
+              <div class="button menu">
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button (click)="deleteMessage(message.sentAt)" mat-menu-item>Supprimer</button>
+                  <button (click)="updateMessage(message.sentAt)" mat-menu-item>Modifier</button>
+                </mat-menu>
+              </div>
+
             </div>
-
-            <div class="button menu">
-              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-              <mat-icon>more_vert</mat-icon>
-              </button>
-              <mat-menu #menu="matMenu">
-                <button (click)="deleteMessage(message.sentAt)" mat-menu-item>Supprimer</button>
-                <button (click)="updateMessage(message.sentAt)" mat-menu-item>Modifier</button>
-              </mat-menu>
-            </div>
-
           </div>
-        </div>
-
-    </cdk-virtual-scroll-viewport>
-  </div>
-    <div class="textarea">
-      <input [(ngModel)]="message" id="" cols="30" rows="10" placeholder="Type your message ...">
-    </div>
-    <div class="submit">
-      <button class="submit" (click)="sendMessage()" type="submit" mat-raised-buttoncolor="primary">
-        Send
-      </button>
 
     </div>
-
   </div>
+  </cdk-virtual-scroll-viewport>
+      <div class="input">
+        <input [(ngModel)]="message" name="inputMess" id="" cols="30" rows="10" placeholder="Type your message ...">
+      </div>
+      <div class="submit">
+        <button class="submit" (click)="sendMessage()" type="submit" mat-raised-buttoncolor="primary">
+          Send
+        </button>
+      </div>
+
+
+
+
   <app-navbar></app-navbar>
