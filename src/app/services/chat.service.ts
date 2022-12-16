@@ -26,7 +26,7 @@ export class ChatService {
     return this.firestoreService.update(FIREBASE_COLLECTION_PATHS.MSN, chat);
   }
 
-  public fetchChat(direction: "asc" | "desc" = "asc", referenceUser: string): Observable<Chat[]> {
+  public fetchChat(direction: "asc" | "desc" = "asc", referenceUser: string | undefined): Observable<Chat[]> {
     return this.firestoreService.fetchConvById<Chat>(this.msnCollection, "lastModification", direction, referenceUser, "users");
   }
 

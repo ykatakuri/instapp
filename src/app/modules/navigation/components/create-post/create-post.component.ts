@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { WebcamImage } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
@@ -6,13 +6,17 @@ import { FIREBASE_COLLECTION_PATHS } from 'src/app/constants/firestore-collectio
 import { StorageService } from 'src/app/services/storage.service';
 import { CreatePostCameraComponent } from '../create-post-camera/create-post-camera.component';
 import { CreatePostFileComponent } from '../create-post-file/create-post-file.component';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-create-post',
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.scss']
 })
-export class CreatePostComponent implements OnInit {
+export class CreatePostComponent implements OnInit, AfterViewInit {
+  @ViewChild("cameraInput") cameraInput!: ElementRef;
+  public photo: SafeUrl = "";
+
   trigger: Subject<void> = new Subject();
   stream: any = null;
   previewImage: string = '';
@@ -23,10 +27,15 @@ export class CreatePostComponent implements OnInit {
 
   constructor(
     private storageService: StorageService,
-    private bottomSheet: MatBottomSheet
+    private bottomSheet: MatBottomSheet,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void {
+      this.cameraInput.nativeElement.click();
   }
 
   openFileForm(): void {
@@ -57,22 +66,35 @@ export class CreatePostComponent implements OnInit {
 
   onCaptureImage(): void { this.trigger.next(); }
 
-  snapshot(event: WebcamImage): void {
-    this.previewImage = event.imageAsDataUrl;
-    this.photoTakenName = Date.now().toString();
-    this.takeSnapButtonLabel = 'Reprendre la photo';
+  public getPhoto(event: Event) : void {
+    const target: HTMLInputElement = event.target as HTMLInputElement;
+
+    if (target && target.files && target.files.length > 0) {
+      const objectURL = URL.createObjectURL(target.files[0]);
+      this.photo = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+      this.previewImage = objectURL;
+      this.photoTakenName = Date.now().toString();
+      this.takeSnapButtonLabel = 'Reprendre la photo';
+      console.log("objectUrl : " + objectURL);
+      console.log("photo : " + this.photo);
+      console.log("previewImage : " + this.previewImage);
+    }
+
   }
 
-  onNext(): void {
-    const imagePath = `${FIREBASE_COLLECTION_PATHS.POSTS}_${this.photoTakenName}`;
+  snapshot(event: WebcamImage): void {
+    this.previewImage = event.imageAsDataUrl;
+    console.log("event.imageAsDataUrl : " + event.imageAsDataUrl);
+      this.photoTakenName = Date.now().toString();
+      this.takeSnapButtonLabel = 'Reprendre la photo';
+  }
 
-    const arr = this.previewImage.split(",");
-    const bstr = window.atob(arr[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
+  async onNext(): Promise<void> {
+    const imagePath = `${FIREBASE_COLLECTION_PATHS.POSTS}_${this.photoTakenName}`;
+    let response = await fetch(this.previewImage);
+    console.log(response);
+    const u8arr = await response.blob();
+    console.log(u8arr);
 
     this.photoTaken = new File([u8arr], this.photoTakenName, { type: this.imageFormat });
 
