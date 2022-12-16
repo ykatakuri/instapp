@@ -1,9 +1,10 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { map, Observable, take } from 'rxjs';
-import { Friend } from 'src/app/models/friend.interface';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Firestore, collection, CollectionReference, DocumentData } from '@angular/fire/firestore';
+import { combineLatest, forkJoin, map, Observable, switchMap } from 'rxjs';
+import { FIREBASE_COLLECTION_PATHS } from 'src/app/constants/firestore-collection-paths.constant';
+import { AppUser } from 'src/app/models/app.user.interface';
 import { Post } from 'src/app/models/post.interface';
-import { AuthenticationService } from 'src/app/services/authentication.service';
-import { FriendsService } from 'src/app/services/friends.service';
+import { FirestoreService } from 'src/app/services/firestore.service';
 import { PostsService } from 'src/app/services/posts.service';
 
 @Component({
@@ -12,26 +13,34 @@ import { PostsService } from 'src/app/services/posts.service';
   styleUrls: ['./post-list.component.scss']
 })
 export class PostListComponent implements OnInit, OnChanges {
+
   posts$!: Observable<Post[]>;
+  userPosts$!:Observable<{user: AppUser, posts : Post[]}[]>
   postCount!: number;
-  friends$!: Observable<Friend[]>;
-  currentUser$ = this.authService.user;
   currentUserId = window.localStorage.getItem('userId');
-  friends!: Observable<Friend[]>;
   postsTest!: Post[];
+
+  private friendsCollection: CollectionReference<DocumentData>;
+  private postsCollection: CollectionReference<DocumentData>;
+  postsObv!: Observable<Post[]>;
+  posts:Post[]=[];
+  postSub!: Observable<Post>;
 
   constructor(
     private postService: PostsService,
-    private friendsService: FriendsService,
-    private authService: AuthenticationService,
-  ) { }
+    private readonly firestore: Firestore,
+    private firestoreService: FirestoreService,
+  ) {
+    this.friendsCollection = collection(this.firestore, `${FIREBASE_COLLECTION_PATHS.USERS}/${this.currentUserId}/friends`);
+    this.postsCollection = collection(this.firestore, FIREBASE_COLLECTION_PATHS.POSTS);
+}
 
   ngOnInit(): void {
     this.getPostsCount();
-
     this.getFriendsPosts();
-
-    this.posts$ = this.postService.getUserPosts(this.currentUserId!);
+    this.userPosts$.subscribe(res => {
+      res.forEach(r => {console.log("rrr", r)})
+    })
   }
 
   ngOnDestroy(): void {
@@ -55,20 +64,16 @@ export class PostListComponent implements OnInit, OnChanges {
     this.postCount = parseInt(localStorage.getItem('postCount')!);
   }
 
-  getFriendsPosts(): void {
-    this.friendsService.getAllFriends().subscribe((friends) => {
-      for (const friend of friends) {
-        console.log('User Friend: ', friend.fullname);
-        this.postService.getUserPosts(friend.id).pipe(
-          take(1),
-          map((posts) => {
-            console.log('Friends Posts: ', posts);
-            this.postsTest = posts;
-            console.log('Friends Posts: ', this.postsTest);
-            return posts;
-          })
-        ).subscribe();
-      }
-    });
+  getFriendsPosts(){
+    this.userPosts$ = this.firestoreService.fetchAll<AppUser>(this.friendsCollection,"id","asc").pipe(
+      map(users => users.map(user => this.getPostsForUser(user))),
+      switchMap(userPosts$ => combineLatest(...userPosts$))
+    );
+  }
+
+  private getPostsForUser(user: AppUser): Observable<{ user: AppUser, posts: Post[] }> {
+    return this.postService.getUserPosts(user.id).pipe(
+      map(posts => ({user, posts}))
+    );
   }
 }

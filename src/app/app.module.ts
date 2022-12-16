@@ -16,6 +16,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
 import { NavigationModule } from './modules/navigation/navigation.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+
 
 
 @NgModule({
@@ -34,7 +36,13 @@ import { NavigationModule } from './modules/navigation/navigation.module';
     provideFunctions(() => getFunctions()),
     provideStorage(() => getStorage()),
     BrowserAnimationsModule,
-    provideMessaging(() => getMessaging())
+    provideMessaging(() => getMessaging()),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [
     ScreenTrackingService, UserTrackingService,

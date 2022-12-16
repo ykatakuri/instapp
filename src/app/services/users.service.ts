@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CollectionReference, doc, docData, DocumentData, Firestore } from '@angular/fire/firestore';
+import { CollectionReference, doc, docData, DocumentData, DocumentReference, Firestore } from '@angular/fire/firestore';
 import { collection } from '@firebase/firestore';
 import { Observable, of, switchMap } from 'rxjs';
 import { FIREBASE_COLLECTION_PATHS } from '../constants/firestore-collection-paths.constant';
@@ -33,12 +33,20 @@ export class UsersService {
     return this.firestoreService.fetchById<AppUser>(FIREBASE_COLLECTION_PATHS.USERS, id);
   }
 
+  public getUserByEmail(email: string): Observable<AppUser[]>{
+    return this.firestoreService.fetchByProperty<AppUser>(this.usersCollection,"email",email)
+  }
+
   public updateUser(user: AppUser): Promise<void> {
     return this.firestoreService.update(FIREBASE_COLLECTION_PATHS.USERS, user);
   }
 
   public updateUserWithPost(userId: string, post: Post): Promise<void> {
     return this.firestoreService.update(FIREBASE_COLLECTION_PATHS.USERS, { id: userId, post: post });
+  }
+
+  public fetchUserRef(userRef: DocumentReference): Observable<AppUser> {
+    return this.firestoreService.fetchByDocumentReference(userRef);
   }
 
   get currentUserProfile(): Observable<AppUser | null> {
@@ -53,4 +61,5 @@ export class UsersService {
       })
     );
   }
+
 }

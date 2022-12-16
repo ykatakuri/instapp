@@ -1,0 +1,27 @@
+<app-appbar></app-appbar>
+<mat-card class="home-post-card">
+    <mat-card-header>
+        <mat-card-title>{{ post.creatorName }}</mat-card-title>
+        <mat-card-subtitle>Mis en ligne le {{ post.createAt!.toDate() | date:'dd/MM/yyyy à HH:mm' }}</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image [src]="post.imageUrl" [alt]="post.title">
+    <mat-card-content *ngIf="!this.editMode">
+        <p>{{ post.title }}</p>
+    </mat-card-content>
+    <mat-card-content *ngIf="editMode">
+        <input matInput type="text" value="{{post.title}}" id="postTitle">
+    </mat-card-content>
+    <mat-card-actions>
+        <button class="ed-button" mat-icon-button (click)="edit()" *ngIf="!editMode">
+            <mat-icon>edit</mat-icon>
+        </button>
+        <button class="ed-button" mat-icon-button (click)="save(post)" *ngIf="editMode">
+            <mat-icon>save</mat-icon>
+        </button>
+        <button class="ed-button" mat-icon-button (click)="delete(post)">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </mat-card-actions>
+
+</mat-card>
+<app-navbar></app-navbar>

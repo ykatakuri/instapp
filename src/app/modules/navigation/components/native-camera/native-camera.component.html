@@ -1,0 +1,4 @@
+<div class="container">
+    <input #cameraInput type="file" accept="image/*" capture="environment" (change)="getPhoto($event)" />
+    <img [src]="photo" alt="fail" *ngIf="photo !== ''" />
+</div>

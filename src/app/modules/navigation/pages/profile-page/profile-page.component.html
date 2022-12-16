@@ -43,15 +43,13 @@
         </mat-list>
     </mat-card>
 
-    <div class="post-container">
-        <div fxLayout="row" fxLayoutAlign="space-evenly center">
-            <ng-container *ngFor="let post of currentUserPosts$|async">
-                <mat-card class="a-post-card">
-                    <img class="post-photo" [src]="post.imageUrl" [alt]="post.title">
-                </mat-card>
-            </ng-container>
-        </div>
-    </div>
+    <mat-card class="post-card">
+        <mat-grid-list cols="3" rowHeight="150px">
+            <mat-grid-tile *ngFor="let post of currentUserPosts$|async">
+                <img [src]="post.imageUrl" [alt]="post.title" (click)="getPost(post.id)">
+            </mat-grid-tile>
+        </mat-grid-list>
+    </mat-card>
 
 </cdk-virtual-scroll-viewport>
 

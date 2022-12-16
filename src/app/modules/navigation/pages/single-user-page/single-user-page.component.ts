@@ -85,7 +85,7 @@ export class SingleUserPageComponent implements OnInit {
     if (this.friendSub) this.friendSub.unsubscribe();
   }
 
-  async onFollow(): Promise<void> {
+  onFollow(): void {
     this.friend.id = this.id;
     this.friend.fullname = this.friendName;
     this.friend.username = this.friendUsername;
@@ -100,7 +100,8 @@ export class SingleUserPageComponent implements OnInit {
         .then(() => console.log('friend added'))
         .catch((error) => console.log(error));
       this.friendsCollection = collection(this.firestore, `${FIREBASE_COLLECTION_PATHS.USERS}/${this.id}/friends`);
-      this.firestoreService.createWithCustomID(this.friendsCollection, this.otherFriend, this.currentUserId);
+      this.firestoreService.createWithCustomID(this.friendsCollection, this.friend, this.currentUserId);
+      this.firestoreService.createWithCustomID(this.friendsCollection, this.otherFriend, this.friend.id);
     } else {
       this.followButtonLabel = 'Ajouter comme ami(e)';
       this.followButtonColor = 'primary';
@@ -115,9 +116,9 @@ export class SingleUserPageComponent implements OnInit {
       .then(
         (snapshot) => {
           let count = snapshot.data().count;
-          localStorage.setItem('friendsCount', count.toString());
+          localStorage.setItem('searchFriendCount', count.toString());
         }
       );
-    this.friendsCount = parseInt(localStorage.getItem('friendsCount')!);
+    this.friendsCount = parseInt(localStorage.getItem('searchFriendCount')!);
   }
 }

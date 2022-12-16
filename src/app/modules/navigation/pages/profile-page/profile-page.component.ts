@@ -21,7 +21,7 @@ export class ProfilePageComponent implements OnInit {
 
   tempUserId: string = localStorage.getItem('userId')!;
 
-  friendsCount: number = 0;
+  friendsCount: string = "0";
 
   constructor(
     private postService: PostsService,
@@ -32,7 +32,7 @@ export class ProfilePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser$ = this.usersService.currentUserProfile;
-
+    console.log("current user in profile", this.currentUser$)
     this.currentUserPosts$ = this.postService.getUserPosts(this.tempUserId);
   }
 
@@ -49,9 +49,15 @@ export class ProfilePageComponent implements OnInit {
       .then(
         (snapshot) => {
           let count = snapshot.data().count;
+          this.friendsCount = snapshot.data().count.toString();
           localStorage.setItem('friendsCount', count.toString());
         }
       );
-    this.friendsCount = parseInt(localStorage.getItem('friendsCount')!);
+        // this.friendsCount = (localStorage.getItem('friendsCount')!);
+
+  }
+
+  getPost(postId: string){
+    this.router.navigateByUrl(`/post/${postId}`)
   }
 }

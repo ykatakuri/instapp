@@ -2,7 +2,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
@@ -34,6 +34,12 @@ import { UserInfoPageComponent } from './pages/profile-page/pages/user-info-page
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { SingleUserPageComponent } from './pages/single-user-page/single-user-page.component';
+import { SinglePostPageComponent } from './pages/single-post-page/single-post-page.component';
+import { DeleteDialogComponent } from './pages/single-post-page/delete-dialog/delete-dialog.component';
+import { ConversationPageComponent } from './pages/conversation-page/conversation-page.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { GetUserPipe } from './pipes/get-user.pipe';
+import { NativeCameraComponent } from './components/native-camera/native-camera.component';
 
 @NgModule({
   declarations: [
@@ -46,12 +52,18 @@ import { SingleUserPageComponent } from './pages/single-user-page/single-user-pa
     CreatePostComponent,
     CreatePostCameraComponent,
     CreatePostFileComponent,
+    ConversationPageComponent,
+    GetUserPipe,
+    CreatePostFileComponent,
     PostComponent,
     PostListComponent,
     CommentComponent,
     UserInfoPageComponent,
     InvitFriendsPageComponent,
     SingleUserPageComponent,
+    SinglePostPageComponent,
+    DeleteDialogComponent,
+    NativeCameraComponent,
   ],
   imports: [
     CommonModule,
@@ -67,6 +79,8 @@ import { SingleUserPageComponent } from './pages/single-user-page/single-user-pa
     MatBottomSheetModule,
     WebcamModule,
     ReactiveFormsModule,
+    FormsModule,
+    MatMenuModule,
     MatDialogModule,
     MatProgressSpinnerModule,
     MatGridListModule,

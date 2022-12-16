@@ -1,8 +1,8 @@
 <app-appbar></app-appbar>
 <form class="search-form">
     <mat-form-field [formGroup]="searchForm" appearance="outline" class="search-field">
-        <input matInput type="text" formControlName="search" placeholder="Rechercher" [matAutocomplete]="users">
-        <mat-icon matSuffix>search</mat-icon>
+        <input matInput type="text" id="searchInput" formControlName="search" placeholder="Rechercher" [matAutocomplete]="users">
+        <mat-icon matSuffix (click)="searchByEmail()">search</mat-icon>
     </mat-form-field>
     <mat-autocomplete #users="matAutocomplete">
         <mat-option *ngFor="let user of users$|async" [value]="user" (click)="goToUserProfile(user)">{{ user.username }}
@@ -10,4 +10,15 @@
     </mat-autocomplete>
 </form>
 
+  <!-- <mat-card-actions>
+    <div class="container">
+      <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart" [disabled]="action.isLoading">
+        <img *ngIf="!action.isStart" (click)="handle(action, 'start')" src="https://img.icons8.com/ios/50/000000/no-camera--v2.png" width="30px"/>
+        <img *ngIf="action.isStart" (click)="handle(action, 'stop')" src="https://img.icons8.com/ios/50/000000/no-camera--v1.png" width="30px"/>
+      </button>
+      <ng-container >
+        <ngx-scanner-qrcode #action="scanner" [config]="config" (error)="onError($event)" (event)="searchById(action, 'stop', action.data.value)"></ngx-scanner-qrcode>
+      </ng-container>
+    </div>
+  </mat-card-actions> -->
 <app-navbar></app-navbar>
